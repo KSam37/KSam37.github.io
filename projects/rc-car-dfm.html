@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RC Car Steering — Design for Manufacturing — Samuel Kirschner</title>
+  <meta name="description" content="Re-engineering an RC car steering system for batch manufacturing: waterjet 2D profiles, minimal toleranced machining, simple fasteners.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2316211c'/><text x='50' y='68' font-size='52' font-family='monospace' fill='%23e8590c' text-anchor='middle'>SK</text></svg>">
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="../index.html">SAMUEL&nbsp;KIRSCHNER <span class="tick">//</span> MECH&nbsp;E</a>
+    <div class="nav__links">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#publications" class="hide-sm">Publications</a>
+      <a href="https://scholar.google.com/citations?user=mxpmhYYAAAAJ&hl=en" class="ext hide-sm" target="_blank" rel="noopener">Scholar</a>
+      <a href="../assets/Samuel_Kirschner_Resume.pdf" class="btn-resume" target="_blank" rel="noopener">Résumé&nbsp;↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-header">
+  <div class="wrap">
+    <div class="crumbs"><a href="../index.html#projects">← All Projects</a> &nbsp;/&nbsp; <span style="color:var(--accent)">SPK-005</span></div>
+    <h1>RC Car Steering — Design for Manufacturing</h1>
+    <p class="lede">A working prototype and a manufacturable product are different objects. For MIT's 2.810,
+    our team re-engineered an RC car's steering system to be built repeatably from aluminum — collapsing 3D
+    geometries into waterjet-cut 2D profiles and spending tolerance only where the mechanism demands it.</p>
+    <div class="proj-hero-img">
+      <img src="../assets/img/rccar-steering-assembly.png" alt="CAD assembly of the redesigned RC car steering mechanism">
+    </div>
+  </div>
+</header>
+
+<div class="proj-body">
+  <div class="wrap proj-layout">
+
+    <div class="proj-content">
+      <h2><span class="h-index">1.0</span>Design Review → Manufacturing Review</h2>
+      <p>The inherited steering design worked, but it was a manufacturing liability: it leaned on expensive
+      components, 3D-printed or complex-machined geometries, and unreliable press fits and adhesives. The
+      assignment was to take it from "prints on a desktop" to "produces consistently in a shop."</p>
+
+      <h2><span class="h-index">2.0</span>DFM Principles Applied</h2>
+      <p>Across the eight unique components — plate mount, rigid linkage, C-joint, steer bars, bushings,
+      shaft collars, wire, and servo — we applied a consistent manufacturing philosophy:</p>
+      <ul>
+        <li><strong>Flatten to 2D.</strong> Re-modeled complex 3D geometries as flat profiles cut on the waterjet, then assembled into 3D form with simple fasteners.</li>
+        <li><strong>Machine only the critical features.</strong> Tolerance and machining time spent only on functional surfaces — bushing bores, mating faces — not cosmetic ones.</li>
+        <li><strong>Standardize joining.</strong> Replaced press fits and adhesives with simple bolted connections wherever the mechanism allowed.</li>
+        <li><strong>One material.</strong> Consolidated to aluminum plate stock for predictable, repeatable machining.</li>
+      </ul>
+
+      <h2><span class="h-index">3.0</span>Process Planning</h2>
+      <p>Each part got an explicit operation sequence. The rigid plate mount: waterjet the profile and holes,
+      drill the top holes to tolerance, face the back edge on the mill, then drill and thread it. The C-joint
+      is the showcase part — waterjet profile, face front/back, drill-and-ream the bushing bore, face
+      interior surfaces, press-fit and ream the bushing to final ID — sequenced so that each datum is
+      established before the features that depend on it. The Ackermann steering geometry
+      (R = √((r+W)² + B²), r = B/tan θ) set the functional dimensions the process plan had to hit.</p>
+
+      <div class="gallery">
+        <figure class="figure reveal">
+          <img src="../assets/img/rccar-cjoint.png" alt="C-joint component model">
+          <figcaption><span class="fig-no">FIG. 01</span>C-joint — multi-op part: waterjet, face, drill/ream, press-fit bushing.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/rccar-drawing.png" alt="Engineering drawing of a steering component">
+          <figcaption><span class="fig-no">FIG. 02</span>Toleranced engineering drawing for shop fabrication.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/rccar-wheel-assembly.png" alt="Wheel and steering linkage assembly render">
+          <figcaption><span class="fig-no">FIG. 03</span>Steering linkage and wheel sub-assembly.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/rccar-closeup.jpg" alt="Photograph of the machined aluminum RC car">
+          <figcaption><span class="fig-no">FIG. 04</span>Built hardware — machined aluminum on the physical car.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/rccar-army.jpg" alt="Multiple RC car units">
+          <figcaption><span class="fig-no">FIG. 05</span>Batch context — designed to be reproduced, not one-off.</figcaption>
+        </figure>
+      </div>
+
+      <h2><span class="h-index">4.0</span>Takeaway</h2>
+      <p>The exercise is the discipline at the heart of mechanical engineering practice: respecting that every
+      feature on a drawing is a real operation with real cost, and that good design moves cost off the part by
+      choosing processes — waterjet, mill, drill-and-tap, bend — deliberately. It pairs directly with the
+      precision metrology and tolerance-analysis side of my toolkit.</p>
+    </div>
+
+    <aside class="proj-aside">
+      <div class="aside-block reveal">
+        <h3>Title Block</h3>
+        <dl>
+          <dt>Role</dt><dd>Steering Team — Design &amp; Process Planning</dd>
+          <dt>Course</dt><dd>MIT 2.810 — Manufacturing Processes &amp; Systems</dd>
+          <dt>When</dt><dd>2025</dd>
+          <dt>Focus</dt><dd>Design for Manufacturing</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Processes</h3>
+        <dl>
+          <dt>Cut</dt><dd>Waterjet (2D profiles)</dd>
+          <dt>Machine</dt><dd>Mill — facing, drilling, reaming</dd>
+          <dt>Thread</dt><dd>Drill &amp; tap critical holes</dd>
+          <dt>Form</dt><dd>Sheet bending</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Key Numbers</h3>
+        <div class="metric"><div class="m-val">8</div><div class="m-key">Unique components re-engineered</div></div>
+        <div class="metric"><div class="m-val">1</div><div class="m-key">Material — aluminum plate</div></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="wrap proj-nav">
+    <a href="monopropellant-soft-exoskeleton.html">← Prev: Monopropellant Exoskeleton</a>
+    <a href="fish-exoskeleton.html">Next: ExoTic Fish Exoskeleton →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>SPK-005 — RC CAR STEERING DFM — SHEET 4 OF 8</span>
+    <span>DRAWN: SPK · © 2026</span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

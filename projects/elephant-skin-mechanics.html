@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elephant Skin Mechanics — Samuel Kirschner</title>
+  <meta name="description" content="Full-field strain measurement of elephant skin via digital image correlation for biomimetic materials and robotics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2316211c'/><text x='50' y='68' font-size='52' font-family='monospace' fill='%23e8590c' text-anchor='middle'>SK</text></svg>">
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="../index.html">SAMUEL&nbsp;KIRSCHNER <span class="tick">//</span> MECH&nbsp;E</a>
+    <div class="nav__links">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#publications" class="hide-sm">Publications</a>
+      <a href="https://scholar.google.com/citations?user=mxpmhYYAAAAJ&hl=en" class="ext hide-sm" target="_blank" rel="noopener">Scholar</a>
+      <a href="../assets/Samuel_Kirschner_Resume.pdf" class="btn-resume" target="_blank" rel="noopener">Résumé&nbsp;↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-header">
+  <div class="wrap">
+    <div class="crumbs"><a href="../index.html#projects">← All Projects</a> &nbsp;/&nbsp; <span style="color:var(--accent)">SPK-001</span></div>
+    <h1>Elephant Skin Mechanics</h1>
+    <p class="lede">Elephant skin is a remarkable soft tissue — wrinkled, anisotropic, and tough. Using
+    digital image correlation, I measured its full-field deformation under load to build intuition for
+    soft-tissue mechanics that informs biomimetic materials and robotics.</p>
+    <div class="proj-hero-img">
+      <img src="../assets/img/elephant-strain.gif" alt="Animated digital image correlation strain field on an elephant skin specimen">
+    </div>
+  </div>
+</header>
+
+<div class="proj-body">
+  <div class="wrap proj-layout">
+
+    <div class="proj-content">
+      <h2><span class="h-index">1.0</span>Why Elephant Skin</h2>
+      <p>Biological soft tissues solve mechanical problems that engineered materials struggle with — large
+      reversible deformation, direction-dependent stiffness, and structural toughness all at once. Elephant
+      skin is an extreme, accessible case study. Characterizing how it strains under load gives the
+      <strong>Geometry of Materials Lab</strong> a reference point for designing programmable, biomimetic
+      materials and the soft structures used in robotics.</p>
+
+      <h2><span class="h-index">2.0</span>Method — Digital Image Correlation</h2>
+      <p>DIC tracks a high-contrast speckle pattern across video frames to reconstruct full-field
+      displacement and strain — no physical gauges touching the specimen. I prepared specimens, applied
+      speckle patterns, ran tensile tests, and processed the imagery into engineering strain fields:</p>
+      <ul>
+        <li>Compared bare graphite-coated and speckled specimens to optimize pattern contrast and tracking fidelity.</li>
+        <li>Computed E<sub>yy</sub> engineering strain fields (both Eulerian and Lagrangian frames) and displacement maps in MATLAB.</li>
+        <li>Ran cyclic loading trials to capture the tissue's hysteretic, history-dependent response.</li>
+      </ul>
+
+      <h2><span class="h-index">3.0</span>Observations</h2>
+      <p>The strain fields reveal pronounced <strong>spatial heterogeneity</strong> — strain concentrates
+      around wrinkles and structural features rather than distributing uniformly, and the response stiffens
+      and shifts across loading cycles. These full-field measurements are exactly the kind of ground-truth
+      data needed to validate constitutive models of soft tissue and to design materials that reproduce its
+      behavior.</p>
+
+      <div class="gallery">
+        <figure class="figure reveal">
+          <img src="../assets/img/elephant-speckle.jpg" alt="Speckled elephant skin specimen prepared for DIC">
+          <figcaption><span class="fig-no">FIG. 01</span>Speckle-patterned specimen — high-contrast texture for correlation tracking.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/elephant-specimen.jpg" alt="Elephant skin tensile specimen">
+          <figcaption><span class="fig-no">FIG. 02</span>Tensile specimen during a successful test.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/elephant-strain.gif" alt="Animated E_yy strain field">
+          <figcaption><span class="fig-no">FIG. 03</span>E<sub>yy</sub> engineering strain field evolving through loading (Eulerian frame).</figcaption>
+        </figure>
+      </div>
+
+      <h2><span class="h-index">4.0</span>Connection to My Work</h2>
+      <p>Optical strain measurement became a core experimental skill I carry into every soft-systems project —
+      from knitted ExoSkins to soft actuators. Understanding how compliant, anisotropic materials actually
+      deform under load is the throughline connecting this work to my research in wearable robotics and
+      therapeutic devices.</p>
+    </div>
+
+    <aside class="proj-aside">
+      <div class="aside-block reveal">
+        <h3>Title Block</h3>
+        <dl>
+          <dt>Role</dt><dd>Undergraduate Researcher</dd>
+          <dt>Where</dt><dd>Georgia Tech — Geometry of Materials Lab</dd>
+          <dt>When</dt><dd>2022 — 2025</dd>
+          <dt>Domain</dt><dd>Soft-tissue mechanics / biomimetics</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Techniques</h3>
+        <dl>
+          <dt>Optical</dt><dd>Digital Image Correlation (DIC)</dd>
+          <dt>Mech</dt><dd>Cyclic tensile testing</dd>
+          <dt>Analysis</dt><dd>MATLAB strain-field reconstruction</dd>
+          <dt>Output</dt><dd>E<sub>yy</sub> strain &amp; displacement maps</dd>
+        </dl>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="wrap proj-nav">
+    <a href="exoskins.html">← Prev: ExoSkins</a>
+    <a href="../index.html#projects">All Projects →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>SPK-001 — ELEPHANT SKIN MECHANICS — SHEET 8 OF 8</span>
+    <span>DRAWN: SPK · © 2026</span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

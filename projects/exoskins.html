@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExoSkins — Programmable Knitted Orthoses — Samuel Kirschner</title>
+  <meta name="description" content="Characterizing knitted fabrics as programmable materials for wearable bio-augmentation. Co-first-author publication.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2316211c'/><text x='50' y='68' font-size='52' font-family='monospace' fill='%23e8590c' text-anchor='middle'>SK</text></svg>">
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="../index.html">SAMUEL&nbsp;KIRSCHNER <span class="tick">//</span> MECH&nbsp;E</a>
+    <div class="nav__links">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#publications" class="hide-sm">Publications</a>
+      <a href="https://scholar.google.com/citations?user=mxpmhYYAAAAJ&hl=en" class="ext hide-sm" target="_blank" rel="noopener">Scholar</a>
+      <a href="../assets/Samuel_Kirschner_Resume.pdf" class="btn-resume" target="_blank" rel="noopener">Résumé&nbsp;↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-header">
+  <div class="wrap">
+    <div class="crumbs"><a href="../index.html#projects">← All Projects</a> &nbsp;/&nbsp; <span style="color:var(--accent)">SPK-002</span></div>
+    <h1>ExoSkins — Programmable Knitted Orthoses</h1>
+    <p class="lede">Knitted fabric is a programmable material: from a single yarn, stitch patterning alone
+    produces wildly different mechanical behavior. We characterized knitted "ExoSkins" against commercial
+    knee braces to chart a path toward orthoses knit to a person's specific biomechanics.</p>
+    <div class="proj-hero-img">
+      <img src="../assets/img/exoskins-torque-testing.jpg" alt="Knitted ExoSkin on a hinged knee test rig under torque-angle testing">
+    </div>
+  </div>
+</header>
+
+<div class="proj-body">
+  <div class="wrap proj-layout">
+
+    <div class="proj-content">
+      <h2><span class="h-index">1.0</span>The Idea</h2>
+      <p>Commercial braces come in small, medium, and large. Bodies don't. Knitting machines, though, can
+      vary stitch pattern continuously across a garment — meaning a knee sleeve could in principle be
+      <strong>programmed, stitch by stitch, to deliver a prescribed torque-angle response</strong> for a
+      specific person's joint. Before you can optimize that, you need to know how elementary stitch
+      patterns actually behave on a joint.</p>
+      <p>This work — done across the <strong>Physiology of Wearable Robotics Lab</strong> (Sawicki) and the
+      <strong>Geometry of Materials Lab</strong> (Matsumoto) at Georgia Tech — produced the first
+      characterization of knitted ExoSkins for bio-augmentation and grew into a co-first-author paper,
+      <a href="https://arxiv.org/abs/2509.22971" target="_blank" rel="noopener" style="color:var(--blueprint)">arXiv:2509.22971</a>.</p>
+
+      <h2><span class="h-index">2.0</span>Experimental Design</h2>
+      <p>I designed and built a torque-angle test rig around a foam cast of a human leg, hinged at the knee.
+      Three single-stitch ExoSkins (stockinette, garter, seed), two intuitively-designed multistitch ExoSkins,
+      and three commercial braces (elastic, neoprene, rigid) were tested across the rig:</p>
+      <ul>
+        <li>Force applied through a force meter while video captured rotation and readings simultaneously.</li>
+        <li>Frames extracted and measured in MATLAB to compute torque at each knee angle; 15 torque-angle points per trial, 3 trials per garment.</li>
+        <li>Results benchmarked against published quasi-stiffness of the human knee during walking.</li>
+      </ul>
+
+      <h2><span class="h-index">3.0</span>What We Found</h2>
+      <p>ExoSkins stiffen progressively with knee angle while commercial braces behave almost linearly — the
+      stitch geometry itself shapes the response curve. Even the stiffest garments contribute only ~2–5% of
+      total walking knee stiffness, which reframes the design goal: the value of knits isn't brute stiffness,
+      it's <strong>programmability</strong> — user-specific tuning of where and how resistance builds through
+      the range of motion.</p>
+
+      <div class="gallery">
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-knitting-machine.jpg" alt="Industrial knitting machine">
+          <figcaption><span class="fig-no">FIG. 01</span>Industrial knitting machine — patterns designed in software, constructed precisely.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-fabric-closeup.jpg" alt="Close-up of knitted fabric stitch structure">
+          <figcaption><span class="fig-no">FIG. 02</span>Stitch structure up close — the unit cell of a programmable material.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-white-pair.jpg" alt="Pair of knitted ExoSkin knee sleeves">
+          <figcaption><span class="fig-no">FIG. 03</span>Knitted ExoSkin knee sleeves.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-multistitch.png" alt="Multistitch ExoSkin design with spatially varying stitch patterns">
+          <figcaption><span class="fig-no">FIG. 04</span>Multistitch design — spatial variation of stitch pattern across the garment.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-test-rig.jpg" alt="Torque-angle test rig with foam leg cast">
+          <figcaption><span class="fig-no">FIG. 05</span>Custom torque-angle rig: hinged foam leg cast, force meter, video capture.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-torque-results.png" alt="Torque-angle curves for ExoSkins and commercial braces">
+          <figcaption><span class="fig-no">FIG. 06</span>Torque-angle behavior: ExoSkins stiffen nonlinearly; commercial braces stay linear.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-seed-swatch.jpg" alt="Seed stitch knitted swatch">
+          <figcaption><span class="fig-no">FIG. 07</span>Seed-stitch swatch — one yarn, distinct mechanics.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="../assets/img/exoskins-yellow-knit.jpg" alt="Knitted tube sample">
+          <figcaption><span class="fig-no">FIG. 08</span>Knitted sample under deformation.</figcaption>
+        </figure>
+      </div>
+
+      <h2><span class="h-index">4.0</span>Beyond the Bench</h2>
+      <p>The roadmap pairs this experimental foundation with numerical modeling and optimization-based design:
+      measure a user's joint impedance, solve for the stitch map that complements it, and knit the orthosis
+      directly. Alongside the rig work, I performed human biomechanics characterization — motion capture, EMG,
+      and torque-angle testing — feeding the framework for optimization-based wearable design. Applications
+      run from personalized medicine to athletics.</p>
+    </div>
+
+    <aside class="proj-aside">
+      <div class="aside-block reveal">
+        <h3>Title Block</h3>
+        <dl>
+          <dt>Role</dt><dd>Undergraduate Researcher (co-first author)</dd>
+          <dt>Where</dt><dd>Georgia Tech — PoWeR Lab &amp; Geometry of Materials Lab</dd>
+          <dt>When</dt><dd>2022 — 2025</dd>
+          <dt>Status</dt><dd>Published — arXiv:2509.22971</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Key Metrics</h3>
+        <div class="metric"><div class="m-val">8</div><div class="m-key">Garments characterized</div></div>
+        <div class="metric"><div class="m-val">45</div><div class="m-key">Torque-angle data points per garment</div></div>
+        <div class="metric"><div class="m-val">2–5%</div><div class="m-key">Of walking knee stiffness (stiffest knits)</div></div>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Methods</h3>
+        <dl>
+          <dt>Build</dt><dd>Custom hinged-knee torque rig</dd>
+          <dt>Measure</dt><dd>Video-synced force, MATLAB frame analysis</dd>
+          <dt>Human</dt><dd>Motion capture, EMG, torque-angle testing</dd>
+        </dl>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="wrap proj-nav">
+    <a href="metal-additive-manufacturing.html">← Prev: Metal AM</a>
+    <a href="elephant-skin-mechanics.html">Next: Elephant Skin Mechanics →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>SPK-002 — EXOSKINS — SHEET 7 OF 8</span>
+    <span>DRAWN: SPK · © 2026</span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
