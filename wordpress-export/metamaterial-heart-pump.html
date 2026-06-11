@@ -1,0 +1,213 @@
+<!-- Page: Metamaterial Heart Pump — System Identification — Samuel Kirschner
+     Slug: metamaterial-heart-pump -->
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="/samkirschner/">SAMUEL&nbsp;KIRSCHNER <span class="tick">//</span> MECHANICAL&nbsp;ENGINEER</a>
+    <div class="nav__links">
+      <a href="/samkirschner/#projects">Projects</a>
+      <a href="/samkirschner/#publications" class="hide-sm">Publications</a>
+      <a href="/samkirschner/files/2026/06/Samuel_Kirschner_Resume.pdf" class="btn-resume" target="_blank" rel="noopener">Resume&nbsp;↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-header">
+  <div class="wrap">
+    <div class="crumbs"><a href="/samkirschner/#projects">← All Projects</a></div>
+    <h1>System ID of a Metamaterial Soft Robotic Ventricle</h1>
+    <p class="lede">A 3D-printed metamaterial ventricle can pump like a heart — but to control it like one, you
+    first have to identify the system. For MIT's 2.131 (Advanced Instrumentation &amp; Measurement), our team
+    instrumented a soft robotic ventricle in a mock circulatory loop. My contribution: replacing the
+    pressure-controlled vacuum drive with a servo-driven hydraulic piston pump, turning an unmeasurable
+    pneumatic input into a displacement-controlled one.</p>
+    <div class="proj-hero-img">
+      <img src="/samkirschner/files/2026/06/heart-hero.png" alt="Render of the metamaterial soft robotic ventricle with its equivalent circulatory circuit model">
+    </div>
+  </div>
+</header>
+
+<div class="proj-body">
+  <div class="wrap proj-layout">
+
+    <div class="proj-content">
+      <h2><span class="h-index">1.0</span>The System Under Test</h2>
+      <p>The plant is a soft robotic ventricle printed in Formlabs Elastic 50A, developed in prior work
+      from the Roche lab. A metamaterial lattice forms the ventricle wall: evacuating the actuator cavity
+      between the lattice and the inner membrane squeezes the ventricle cavity and ejects fluid, mimicking
+      systole. The ventricle sits in a mock circulatory flow loop — compliance chambers and resistances
+      standing in for arterial and venous beds — so its input/output behavior maps onto the equivalent
+      circuit cardiologists use to model the real thing.</p>
+
+      <figure class="figure reveal">
+        <img src="/samkirschner/files/2026/06/heart-actuator-diagram.png" alt="Cross-section of the metamaterial actuator showing actuator cavity, ventricle cavity, and inflow/outflow ports">
+        <figcaption><span class="fig-no">FIG. 01</span>Metamaterial actuator cross-section — actuator cavity surrounds the ventricle cavity; a single input port drives inflow/outflow through a Y-junction.</figcaption>
+      </figure>
+
+      <h2><span class="h-index">2.0</span>Instrumentation</h2>
+      <p>We instrumented the loop end-to-end: PendoTECH pressure transducers at the actuator and circulatory
+      loop inputs and outputs, read through NAU7802 24-bit ADCs (gain 128 on a 0–25&nbsp;mV bridge signal)
+      multiplexed over I²C into an Arduino Nano Every at 320 samples per second, plus Transonic perivascular
+      flow sensors on the inflow and outflow lines. Every claim about the ventricle's dynamics traces back
+      to a calibrated measurement chain.</p>
+
+      <figure class="figure reveal">
+        <img src="/samkirschner/files/2026/06/heart-system-diagram.png" alt="System diagram: electro-pneumatic input, metamaterial actuator, and mock circulatory flow loop with pressure and flow measurement points">
+        <figcaption><span class="fig-no">FIG. 02</span>Full system — drive electronics, actuator, and mock circulatory loop with pressure (P) and flow (F) measurement stations.</figcaption>
+      </figure>
+
+      <h2><span class="h-index">3.0</span>My Contribution — the Hydraulic Piston Drive</h2>
+      <p>The original drive was pneumatic: a vacuum reservoir, regulator, and solenoid valve pulsing the
+      actuator cavity. For system identification that architecture has a fundamental flaw — air is
+      compressible, so you can command pressure but you can never know the <em>volume</em> you delivered,
+      and input flow can't be measured accurately. It also topped out around 30&nbsp;L/min and couldn't
+      run continuously.</p>
+      <p>I designed and built the replacement: a <strong>servo-driven hydraulic piston pump</strong>. A
+      NEMA&nbsp;23 integrated servo (iSV57T-130S) drives an SFU1605 ball-screw linear stage, which strokes an
+      SC80 pneumatic cylinder repurposed as a water piston, all mounted on a 2020 T-slot frame. Because water
+      is incompressible, commanded displacement <em>is</em> delivered volume — a one-to-one mapping from
+      motor position to input volume that makes the input side of the system ID exactly known.</p>
+      <ul>
+        <li><strong>Displacement control</strong> instead of pressure control — the input becomes a known volume waveform.</li>
+        <li><strong>50 L/min</strong> flow capability, up from ~30 L/min with the vacuum system.</li>
+        <li><strong>Continuous operation</strong> — no reservoir to deplete, so long identification runs and fatigue cycling are possible.</li>
+        <li>Sized from torque-speed curves against the pressure-volume demands of the ventricle; components selected and integrated from BOM to working hardware.</li>
+      </ul>
+
+      <div class="gallery">
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/heart-pump-components.png" alt="Pump components: NEMA 23 integrated servo, SFU1605 ball screw linear stage, SC80 piston cylinder">
+          <figcaption><span class="fig-no">FIG. 03</span>Pump architecture — NEMA 23 servo → SFU1605 ball-screw stage → SC80 piston, on a 2020 T-slot frame.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/heart-waveforms.jpg" alt="Pressure waveform of the piston-driven input showing repeatable continuous cycles">
+          <figcaption><span class="fig-no">FIG. 04</span>Piston-driven input: repeatable, continuous pressure cycles suitable for identification.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/heart-setup.jpg" alt="Experimental setup with the ventricle, sensors, and drive hardware on the test rig">
+          <figcaption><span class="fig-no">FIG. 05</span>Bench setup — ventricle in the loop with pressure and flow instrumentation.</figcaption>
+        </figure>
+      </div>
+
+      <h2><span class="h-index">4.0</span>Why It Matters</h2>
+      <p>Soft robotic cardiac simulators are only useful to clinicians and device designers if their dynamics
+      are characterized — a ventricle you can't model is a demo, not an instrument. Volume-resolved actuation
+      closes that gap: with known input volume and measured pressures and flows on both sides, the
+      identification pipeline (implemented in MATLAB) can fit the equivalent-circuit parameters of the
+      ventricle and loop. The same lesson generalizes across soft robotics: <strong>choose the actuation
+      modality that makes your states observable.</strong></p>
+    </div>
+
+    <aside class="proj-aside">
+      <div class="aside-block reveal">
+        <h3>Title Block</h3>
+        <dl>
+          <dt>Role</dt><dd>Hydraulic pump design &amp; build — Team "Roche and Roll"</dd>
+          <dt>Course</dt><dd>MIT 2.131 — Advanced Instrumentation &amp; Measurement</dd>
+          <dt>When</dt><dd>Spring 2026</dd>
+          <dt>Focus</dt><dd>System identification · Hydraulic drive design</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Stack</h3>
+        <dl>
+          <dt>Drive</dt><dd>NEMA 23 servo · SFU1605 ball screw · SC80 piston</dd>
+          <dt>Sense</dt><dd>PendoTECH pressure · Transonic flow</dd>
+          <dt>DAQ</dt><dd>NAU7802 24-bit ADC · I²C mux · Arduino</dd>
+          <dt>Model</dt><dd>MATLAB system ID pipeline</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Key Numbers</h3>
+        <div class="metric"><div class="m-val">50 L/min</div><div class="m-key">Piston flow rate — up from 30</div></div>
+        <div class="metric"><div class="m-val">1 : 1</div><div class="m-key">Displacement → volume mapping</div></div>
+        <div class="metric"><div class="m-val">320 sps</div><div class="m-key">Pressure sampling, 24-bit</div></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="wrap proj-nav">
+    <a href="/samkirschner/#projects">← All Projects</a>
+    <a href="/samkirschner/compartment-pressure-monitor/">Next: Compartment Pressure Monitor →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>METAMATERIAL HEART PUMP</span>
+    <span>CAMBRIDGE, MA · © 2026</span>
+  </div>
+</footer>
+<script>
+// Scroll-reveal
+const observer = new IntersectionObserver(
+  (entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        observer.unobserve(e.target);
+      }
+    }
+  },
+  { threshold: 0.08 }
+);
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+// Scroll progress bar
+const progress = document.getElementById("progress");
+if (progress) {
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (scrolled * 100).toFixed(2) + "%";
+  };
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
+// Subtle pointer-reactive parallax on the hero portrait
+const portrait = document.querySelector(".hero__portrait .frame");
+const hero = document.querySelector(".hero");
+if (portrait && hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  hero.addEventListener("mousemove", (e) => {
+    const r = hero.getBoundingClientRect();
+    const dx = (e.clientX - r.left) / r.width - 0.5;
+    const dy = (e.clientY - r.top) / r.height - 0.5;
+    portrait.style.transform = `perspective(900px) rotateY(${dx * 5}deg) rotateX(${-dy * 5}deg) translateZ(0)`;
+  });
+  hero.addEventListener("mouseleave", () => {
+    portrait.style.transform = "";
+  });
+}
+
+// Lightbox for gallery figures + project hero image
+const lb = document.createElement("div");
+lb.className = "lightbox";
+lb.innerHTML = "<img alt=\"\">";
+document.body.appendChild(lb);
+const lbImg = lb.querySelector("img");
+
+document.querySelectorAll(".gallery .figure img, .proj-hero-img img").forEach((img) => {
+  img.style.cursor = "zoom-in";
+  img.addEventListener("click", () => {
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || "";
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+  });
+});
+lb.addEventListener("click", () => {
+  lb.classList.remove("open");
+  document.body.style.overflow = "";
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+});
+
+</script>

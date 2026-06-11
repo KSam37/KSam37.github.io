@@ -1,0 +1,184 @@
+<!-- Page: Elephant Skin Mechanics — Samuel Kirschner
+     Slug: elephant-skin-mechanics -->
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="/samkirschner/">SAMUEL&nbsp;KIRSCHNER <span class="tick">//</span> MECHANICAL&nbsp;ENGINEER</a>
+    <div class="nav__links">
+      <a href="/samkirschner/#projects">Projects</a>
+      <a href="/samkirschner/#publications" class="hide-sm">Publications</a>
+      <a href="/samkirschner/files/2026/06/Samuel_Kirschner_Resume.pdf" class="btn-resume" target="_blank" rel="noopener">Resume&nbsp;↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-header">
+  <div class="wrap">
+    <div class="crumbs"><a href="/samkirschner/#projects">← All Projects</a></div>
+    <h1>Elephant Skin Mechanics</h1>
+    <p class="lede">Elephant skin is a remarkable soft tissue — wrinkled, anisotropic, and tough. Using
+    digital image correlation, I measured its full-field deformation under load to build intuition for
+    soft-tissue mechanics that informs biomimetic materials and robotics.</p>
+    <div class="proj-hero-img">
+      <img src="/samkirschner/files/2026/06/elephant-strain.gif" alt="Animated digital image correlation strain field on an elephant skin specimen">
+    </div>
+  </div>
+</header>
+
+<div class="proj-body">
+  <div class="wrap proj-layout">
+
+    <div class="proj-content">
+      <h2><span class="h-index">1.0</span>Why Elephant Skin</h2>
+      <p>Biological soft tissues solve mechanical problems that engineered materials struggle with — large
+      reversible deformation, direction-dependent stiffness, and structural toughness all at once. Elephant
+      skin is an extreme, accessible case study. Characterizing how it strains under load gives the
+      <strong>Geometry of Materials Lab</strong> a reference point for designing programmable, biomimetic
+      materials and the soft structures used in robotics.</p>
+
+      <h2><span class="h-index">2.0</span>Method — Digital Image Correlation</h2>
+      <p>DIC tracks a high-contrast speckle pattern across video frames to reconstruct full-field
+      displacement and strain — no physical gauges touching the specimen. I prepared specimens, applied
+      speckle patterns, ran tensile tests, and processed the imagery into engineering strain fields:</p>
+      <ul>
+        <li>Compared bare graphite-coated and speckled specimens to optimize pattern contrast and tracking fidelity.</li>
+        <li>Computed E<sub>yy</sub> engineering strain fields (both Eulerian and Lagrangian frames) and displacement maps in MATLAB.</li>
+        <li>Ran cyclic loading trials to capture the tissue's hysteretic, history-dependent response.</li>
+      </ul>
+
+      <h2><span class="h-index">3.0</span>Observations</h2>
+      <p>The strain fields reveal pronounced <strong>spatial heterogeneity</strong> — strain concentrates
+      around wrinkles and structural features rather than distributing uniformly, and the response stiffens
+      and shifts across loading cycles. These full-field measurements are exactly the kind of ground-truth
+      data needed to validate constitutive models of soft tissue and to design materials that reproduce its
+      behavior.</p>
+
+      <div class="gallery">
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/elephant-speckle.jpg" alt="Speckled elephant skin specimen prepared for DIC">
+          <figcaption><span class="fig-no">FIG. 01</span>Speckle-patterned specimen — high-contrast texture for correlation tracking.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/elephant-specimen.jpg" alt="Elephant skin tensile specimen">
+          <figcaption><span class="fig-no">FIG. 02</span>Tensile specimen during a successful test.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/elephant-strain.gif" alt="Animated E_yy strain field">
+          <figcaption><span class="fig-no">FIG. 03</span>E<sub>yy</sub> engineering strain field evolving through loading (Eulerian frame).</figcaption>
+        </figure>
+      </div>
+
+      <h2><span class="h-index">4.0</span>Connection to My Work</h2>
+      <p>Optical strain measurement became a core experimental skill I carry into every soft-systems project —
+      from knitted ExoSkins to soft actuators. Understanding how compliant, anisotropic materials actually
+      deform under load is the throughline connecting this work to my research in wearable robotics and
+      therapeutic devices.</p>
+    </div>
+
+    <aside class="proj-aside">
+      <div class="aside-block reveal">
+        <h3>Title Block</h3>
+        <dl>
+          <dt>Role</dt><dd>Undergraduate Researcher</dd>
+          <dt>Where</dt><dd>Georgia Tech — Geometry of Materials Lab</dd>
+          <dt>When</dt><dd>2023</dd>
+          <dt>Domain</dt><dd>Soft-tissue mechanics / biomimetics</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Techniques</h3>
+        <dl>
+          <dt>Optical</dt><dd>Digital Image Correlation (DIC)</dd>
+          <dt>Mech</dt><dd>Cyclic tensile testing</dd>
+          <dt>Analysis</dt><dd>MATLAB strain-field reconstruction</dd>
+          <dt>Output</dt><dd>E<sub>yy</sub> strain &amp; displacement maps</dd>
+        </dl>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="wrap proj-nav">
+    <a href="/samkirschner/exoskins/">← Prev: ExoSkins</a>
+    <a href="/samkirschner/metal-additive-manufacturing/">Next: Metal AM →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>ELEPHANT SKIN MECHANICS</span>
+    <span>CAMBRIDGE, MA · © 2026</span>
+  </div>
+</footer>
+<script>
+// Scroll-reveal
+const observer = new IntersectionObserver(
+  (entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        observer.unobserve(e.target);
+      }
+    }
+  },
+  { threshold: 0.08 }
+);
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+// Scroll progress bar
+const progress = document.getElementById("progress");
+if (progress) {
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (scrolled * 100).toFixed(2) + "%";
+  };
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
+// Subtle pointer-reactive parallax on the hero portrait
+const portrait = document.querySelector(".hero__portrait .frame");
+const hero = document.querySelector(".hero");
+if (portrait && hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  hero.addEventListener("mousemove", (e) => {
+    const r = hero.getBoundingClientRect();
+    const dx = (e.clientX - r.left) / r.width - 0.5;
+    const dy = (e.clientY - r.top) / r.height - 0.5;
+    portrait.style.transform = `perspective(900px) rotateY(${dx * 5}deg) rotateX(${-dy * 5}deg) translateZ(0)`;
+  });
+  hero.addEventListener("mouseleave", () => {
+    portrait.style.transform = "";
+  });
+}
+
+// Lightbox for gallery figures + project hero image
+const lb = document.createElement("div");
+lb.className = "lightbox";
+lb.innerHTML = "<img alt=\"\">";
+document.body.appendChild(lb);
+const lbImg = lb.querySelector("img");
+
+document.querySelectorAll(".gallery .figure img, .proj-hero-img img").forEach((img) => {
+  img.style.cursor = "zoom-in";
+  img.addEventListener("click", () => {
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || "";
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+  });
+});
+lb.addEventListener("click", () => {
+  lb.classList.remove("open");
+  document.body.style.overflow = "";
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+});
+
+</script>

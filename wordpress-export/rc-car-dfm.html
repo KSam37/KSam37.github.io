@@ -1,0 +1,196 @@
+<!-- Page: RC Car Steering — Design for Manufacturing — Samuel Kirschner
+     Slug: rc-car-dfm -->
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="/samkirschner/">SAMUEL&nbsp;KIRSCHNER <span class="tick">//</span> MECHANICAL&nbsp;ENGINEER</a>
+    <div class="nav__links">
+      <a href="/samkirschner/#projects">Projects</a>
+      <a href="/samkirschner/#publications" class="hide-sm">Publications</a>
+      <a href="/samkirschner/files/2026/06/Samuel_Kirschner_Resume.pdf" class="btn-resume" target="_blank" rel="noopener">Resume&nbsp;↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-header">
+  <div class="wrap">
+    <div class="crumbs"><a href="/samkirschner/#projects">← All Projects</a></div>
+    <h1>RC Car Steering — Design for Manufacturing</h1>
+    <p class="lede">A working prototype and a manufacturable product are different objects. For MIT's 2.810,
+    our team re-engineered an RC car's steering system to be built repeatably from aluminum — collapsing 3D
+    geometries into waterjet-cut 2D profiles and spending tolerance only where the mechanism demands it.</p>
+    <div class="proj-hero-img">
+      <img src="/samkirschner/files/2026/06/rccar-steering-assembly.png" alt="CAD assembly of the redesigned RC car steering mechanism">
+    </div>
+  </div>
+</header>
+
+<div class="proj-body">
+  <div class="wrap proj-layout">
+
+    <div class="proj-content">
+      <h2><span class="h-index">1.0</span>Design Review → Manufacturing Review</h2>
+      <p>The inherited steering design worked, but it was a manufacturing liability: it leaned on expensive
+      components, 3D-printed or complex-machined geometries, and unreliable press fits and adhesives. The
+      assignment was to take it from "prints on a desktop" to "produces consistently in a shop."</p>
+
+      <h2><span class="h-index">2.0</span>DFM Principles Applied</h2>
+      <p>Across the eight unique components — plate mount, rigid linkage, C-joint, steer bars, bushings,
+      shaft collars, wire, and servo — we applied a consistent manufacturing philosophy:</p>
+      <ul>
+        <li><strong>Flatten to 2D.</strong> Re-modeled complex 3D geometries as flat profiles cut on the waterjet, then assembled into 3D form with simple fasteners.</li>
+        <li><strong>Machine only the critical features.</strong> Tolerance and machining time spent only on functional surfaces — bushing bores, mating faces — not cosmetic ones.</li>
+        <li><strong>Standardize joining.</strong> Replaced press fits and adhesives with simple bolted connections wherever the mechanism allowed.</li>
+        <li><strong>One material.</strong> Consolidated to aluminum plate stock for predictable, repeatable machining.</li>
+      </ul>
+
+      <h2><span class="h-index">3.0</span>Process Planning</h2>
+      <p>Each part got an explicit operation sequence. The rigid plate mount: waterjet the profile and holes,
+      drill the top holes to tolerance, face the back edge on the mill, then drill and thread it. The C-joint
+      is the showcase part — waterjet profile, face front/back, drill-and-ream the bushing bore, face
+      interior surfaces, press-fit and ream the bushing to final ID — sequenced so that each datum is
+      established before the features that depend on it. The Ackermann steering geometry
+      (R = √((r+W)² + B²), r = B/tan θ) set the functional dimensions the process plan had to hit.</p>
+
+      <div class="gallery">
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/rccar-cjoint.png" alt="C-joint component model">
+          <figcaption><span class="fig-no">FIG. 01</span>C-joint — multi-op part: waterjet, face, drill/ream, press-fit bushing.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/rccar-drawing.png" alt="Engineering drawing of a steering component">
+          <figcaption><span class="fig-no">FIG. 02</span>Toleranced engineering drawing for shop fabrication.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/rccar-wheel-assembly.png" alt="Wheel and steering linkage assembly render">
+          <figcaption><span class="fig-no">FIG. 03</span>Steering linkage and wheel sub-assembly.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/rccar-closeup.jpg" alt="Photograph of the machined aluminum RC car">
+          <figcaption><span class="fig-no">FIG. 04</span>Built hardware — machined aluminum on the physical car.</figcaption>
+        </figure>
+        <figure class="figure reveal">
+          <img src="/samkirschner/files/2026/06/rccar-army.jpg" alt="Multiple RC car units">
+          <figcaption><span class="fig-no">FIG. 05</span>Batch context — designed to be reproduced, not one-off.</figcaption>
+        </figure>
+      </div>
+
+      <h2><span class="h-index">4.0</span>Takeaway</h2>
+      <p>The exercise is the discipline at the heart of mechanical engineering practice: respecting that every
+      feature on a drawing is a real operation with real cost, and that good design moves cost off the part by
+      choosing processes — waterjet, mill, drill-and-tap, bend — deliberately. It pairs directly with the
+      precision metrology and tolerance-analysis side of my toolkit.</p>
+    </div>
+
+    <aside class="proj-aside">
+      <div class="aside-block reveal">
+        <h3>Title Block</h3>
+        <dl>
+          <dt>Role</dt><dd>Steering Team — Design &amp; Process Planning</dd>
+          <dt>Course</dt><dd>MIT 2.810 — Manufacturing Processes &amp; Systems</dd>
+          <dt>When</dt><dd>2025</dd>
+          <dt>Focus</dt><dd>Design for Manufacturing</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Processes</h3>
+        <dl>
+          <dt>Cut</dt><dd>Waterjet (2D profiles)</dd>
+          <dt>Machine</dt><dd>Mill — facing, drilling, reaming</dd>
+          <dt>Thread</dt><dd>Drill &amp; tap critical holes</dd>
+          <dt>Form</dt><dd>Sheet bending</dd>
+        </dl>
+      </div>
+      <div class="aside-block reveal">
+        <h3>Key Numbers</h3>
+        <div class="metric"><div class="m-val">8</div><div class="m-key">Unique components re-engineered</div></div>
+        <div class="metric"><div class="m-val">1</div><div class="m-key">Material — aluminum plate</div></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="wrap proj-nav">
+    <a href="/samkirschner/compartment-pressure-monitor/">← Prev: Compartment Pressure Monitor</a>
+    <a href="/samkirschner/fish-exoskeleton/">Next: ExoTic Fish Exoskeleton →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>RC CAR STEERING DFM</span>
+    <span>CAMBRIDGE, MA · © 2026</span>
+  </div>
+</footer>
+<script>
+// Scroll-reveal
+const observer = new IntersectionObserver(
+  (entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        observer.unobserve(e.target);
+      }
+    }
+  },
+  { threshold: 0.08 }
+);
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+// Scroll progress bar
+const progress = document.getElementById("progress");
+if (progress) {
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (scrolled * 100).toFixed(2) + "%";
+  };
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
+// Subtle pointer-reactive parallax on the hero portrait
+const portrait = document.querySelector(".hero__portrait .frame");
+const hero = document.querySelector(".hero");
+if (portrait && hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  hero.addEventListener("mousemove", (e) => {
+    const r = hero.getBoundingClientRect();
+    const dx = (e.clientX - r.left) / r.width - 0.5;
+    const dy = (e.clientY - r.top) / r.height - 0.5;
+    portrait.style.transform = `perspective(900px) rotateY(${dx * 5}deg) rotateX(${-dy * 5}deg) translateZ(0)`;
+  });
+  hero.addEventListener("mouseleave", () => {
+    portrait.style.transform = "";
+  });
+}
+
+// Lightbox for gallery figures + project hero image
+const lb = document.createElement("div");
+lb.className = "lightbox";
+lb.innerHTML = "<img alt=\"\">";
+document.body.appendChild(lb);
+const lbImg = lb.querySelector("img");
+
+document.querySelectorAll(".gallery .figure img, .proj-hero-img img").forEach((img) => {
+  img.style.cursor = "zoom-in";
+  img.addEventListener("click", () => {
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || "";
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+  });
+});
+lb.addEventListener("click", () => {
+  lb.classList.remove("open");
+  document.body.style.overflow = "";
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+});
+
+</script>
