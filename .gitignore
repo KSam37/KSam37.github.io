@@ -1,0 +1,2 @@
+# Build artifacts not needed for the live site
+wordpress-export/
