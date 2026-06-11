@@ -9,15 +9,14 @@ All asset paths are **relative**, so the site works from any folder, subdirector
 ```
 website/
 ├── index.html                    # Landing page (hero, projects, publications, contact)
-├── projects/                     # One detail page per project (SPK-001 … SPK-008)
-│   ├── metamaterial-heart-pump.html        SPK-008 · MIT 2.131 · 2026
-│   ├── compartment-pressure-monitor.html   SPK-007 · MIT 2.750 · 2026
-│   ├── monopropellant-soft-exoskeleton.html SPK-006 · MIT · 2025–
-│   ├── rc-car-dfm.html                     SPK-005 · MIT 2.810 · 2025
-│   ├── fish-exoskeleton.html               SPK-004 · GT capstone · 2025
-│   ├── metal-additive-manufacturing.html   SPK-003 · 2024–25
-│   ├── exoskins.html                       SPK-002 · GT · 2022–25
-│   └── elephant-skin-mechanics.html        SPK-001 · GT · 2022–25
+├── projects/                     # One detail page per project, displayed newest first
+│   ├── metamaterial-heart-pump.html        MIT 2.131 · 2026
+│   ├── compartment-pressure-monitor.html   MIT 2.750 · 2026
+│   ├── rc-car-dfm.html                     MIT 2.810 · 2025
+│   ├── fish-exoskeleton.html               GT capstone · 2025
+│   ├── exoskins.html                       GT · 2024–25
+│   ├── elephant-skin-mechanics.html        GT · 2023
+│   └── metal-additive-manufacturing.html   2021
 └── assets/
     ├── css/style.css             # Design system — dark, Marcellus display type
     ├── fonts/Marcellus-Regular.ttf  # Self-hosted display font (@font-face)
@@ -25,8 +24,6 @@ website/
     ├── img/                      # Optimized project images
     └── Samuel_Kirschner_Resume.pdf
 ```
-
-Projects are numbered chronologically (SPK-001 oldest) and displayed newest-first on the landing page.
 
 ## Viewing locally
 
@@ -75,8 +72,7 @@ files can't be uploaded directly — the cleanest port:
 ## Adding a project
 
 1. Drop optimized images into `assets/img/` (≤ ~1600px wide; JPG for photos, PNG for diagrams).
-2. Copy an existing file in `projects/` as a template and edit the content. Give it the next
-   SPK number chronologically and update the `SHEET n OF n` footers.
+2. Copy an existing file in `projects/` as a template and edit the content.
 3. Add a new `<a class="card">` block to the projects grid in `index.html` in date position
    (newest first), and splice it into the prev/next links of its neighbors.
 
