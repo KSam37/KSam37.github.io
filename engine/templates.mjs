@@ -142,8 +142,8 @@ ${nav({ site, home: true })}
   <canvas class="hero__field" aria-hidden="true"></canvas>
   <div class="hero__fade" aria-hidden="true"></div>
   <div class="wrap hero__grid">
+    ${list(hero.credentials).length ? `<ul class="hero__creds mono">${list(hero.credentials).map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
     <div class="hero__text">
-      ${list(hero.credentials).length ? `<ul class="hero__creds mono">${list(hero.credentials).map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
       <h1 class="hero__name">${esc(site.name)}</h1>
       <p class="hero__summary">${esc(hero.summary || '')}</p>
       ${list(site.affiliations).length ? `<ul class="hero__orgs" aria-label="Affiliations">${list(site.affiliations).map((a) => `<li>${a.logo
@@ -213,6 +213,7 @@ ${nav({ site })}
 <article class="proj">
   <header class="proj__head wrap">
     <a class="crumb mono" href="${b}#work">← All work</a>
+    ${p.wip ? `<p class="proj__wip mono">${esc(typeof p.wip === 'string' ? p.wip : site.wip_notice || 'Work in progress')}</p>` : ''}
     <h1 class="proj__title">${esc(p.title)}</h1>
     ${p.lede || p.summary ? `<p class="proj__lede">${esc(p.lede || p.summary)}</p>` : ''}
     ${meta.length ? `<p class="proj__meta mono">${meta.join('')}</p>` : ''}

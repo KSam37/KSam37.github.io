@@ -16,6 +16,7 @@ metrics:
     label: Per-unit cost, versus thousands for commercial systems
   - value: 6-DOF
     label: IMU plus two curvature sensors
+wip: true
 ---
 
 <!-- Draft carried over from the old site. Rewrite in your own words.

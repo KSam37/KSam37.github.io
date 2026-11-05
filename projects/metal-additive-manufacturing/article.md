@@ -9,6 +9,7 @@ team: University of Central Florida
 tools: [Tensile testing, Digital image correlation, MATLAB image analysis]
 tags: [Manufacturing, Mechanics]
 cover: dic-strain-field.jpg
+wip: true
 ---
 
 <!-- Draft carried over from the old site. Rewrite in your own words. -->

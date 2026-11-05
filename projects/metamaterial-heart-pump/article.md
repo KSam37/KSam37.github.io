@@ -1,58 +1,60 @@
 ---
 title: System ID of a Metamaterial Soft Robotic Ventricle
-summary: Identifying the dynamics of a 3D-printed metamaterial heart ventricle in a mock circulatory loop. I built the servo-driven hydraulic piston pump that made the input volume exactly known.
+summary: A benchtop platform for identifying the pressure and flow dynamics of a 3D-printed metamaterial left ventricle. I designed and built the servo-driven piston pump that drives it.
 date: 2026-05
 org: MIT
 period: Spring 2026
-role: Hydraulic drive design & build
-team: Team "Roche and Roll", MIT 2.131 Advanced Instrumentation & Measurement
-tools: [NEMA 23 servo, SFU1605 ball screw, PendoTECH & Transonic sensors, Arduino, MATLAB]
+wip: true
+role: Piston pump design & build
+team: S. Kirschner, A. Mobius, D. Quevedo-Moreno, I. Sperandio. MIT 2.131 Advanced Instrumentation & Measurement
+tools: [iSV57T servo, SFU1605 ball screw, PendoTECH pressure, Sensirion & ES Systems flow, Arduino, MATLAB]
 tags: [Soft robotics, Medical devices]
-cover: bench-setup.jpg
-cover_position: 50% 35%
+cover: test-bench-labeled.png
 metrics:
-  - value: 50 L/min
-    label: Piston flow rate, up from ~30 with the vacuum drive
-  - value: "1 : 1"
-    label: Motor displacement to delivered volume
-  - value: 320 Hz
-    label: 24-bit pressure sampling
+  - value: 91%
+    label: Model fit on held-out validation data
+  - value: 200 mL
+    label: Pump stroke volume, sized for an adult ventricle
+  - value: 1 Hz
+    label: Actuation frequency
 ---
 
-<!-- Draft carried over from the old site. Rewrite in your own words. -->
+<!-- Condensed from the 2.131 paper "System Identification of a Metamaterial Heart". Edit freely. -->
 
 ## Metamaterial ventricle
 
-The plant is a soft robotic ventricle printed in Formlabs Elastic 50A, developed in prior work from the Roche lab. A metamaterial lattice forms the ventricle wall. Evacuating the actuator cavity between the lattice and the inner membrane squeezes the ventricle and ejects fluid, mimicking systole.
+Nearly 30% of patients on the heart transplant list die or become too ill for surgery within a year of waiting. An artificial ventricle has to do more than move fluid: it must reproduce the heart's pressure generation, flow regulation and response to load. Architected metamaterials are a promising route because their programmed structure can tune those mechanics in ways a plain elastic shell can't.
 
-The ventricle sits in a mock circulatory loop, with compliance chambers and resistances standing in for the arterial and venous beds, so its input/output behavior maps onto the equivalent circuit cardiologists use to model the real heart.
+The ventricle starts from a segmented MRI scan of a patient's left ventricle. A rule-based algorithm assigns idealized muscle-fiber orientations (helix angle +60° to −60°), and a procedural texturing method fills the wall with a fiber-like lattice that is rigid along the fibers and flexible across them. The lattice is printed in Formlabs Elastic 50A and cast between two PVA cryogel shells, forming a ventricle cavity and a surrounding actuator cavity. Pulling volume out of the actuator cavity collapses the lattice across the fibers, squeezes the ventricle and ejects fluid, mimicking how cardiac muscle contracts.
 
-![The ventricle and its equivalent circulatory circuit.](ventricle-circuit-model.png)
-![Actuator cross-section: the actuator cavity surrounds the ventricle cavity; one port drives inflow and outflow through a Y-junction.](actuator-cross-section.png)
+![Design framework, assembled actuator, finite element simulation, and the fabricated ventricle at rest and actuated.](metamaterial-ventricle-design.png "small")
+
+## Piston pump
+
+The pump had to reproduce an adult ventricle: a 200 mL stroke volume, 50 L/min peak flow and 1 atm of vacuum, across the natural heart-rate range of 60–120 BPM. It is a single-stroke design, so one pump cycle maps directly to one heartbeat. An SC80×200 cylinder is driven by a 5 mm-lead SFU1605 ball-screw stage coupled to an iSV57T-180S servo (0.6 N·m at 3000 RPM), all on a 2020 T-slot frame.
+
+It works with either water or air. Water is incompressible, so the displaced volume is exactly known, but its higher inertia limits the pumping frequency. The tests reported here ran on air with an 80 mm stroke, at up to 2 Hz (120 BPM). The servo ran closed-loop on trapezoidal velocity profiles through the manufacturer's tuning software, or open-loop on sinusoidal velocity profiles from step and direction signals sent by an Arduino Nano.
 
 ## Instrumentation
 
-We instrumented the loop end to end: PendoTECH pressure transducers at the actuator and loop inputs and outputs, read through NAU7802 24-bit ADCs (gain 128 on a 0–25 mV bridge signal) multiplexed over I²C into an Arduino Nano Every at 320 samples per second, plus Transonic perivascular flow sensors on the inflow and outflow lines.
+PendoTECH pressure sensors are read by two 24-bit NAU7802 ADCs, and flow is measured by a Sensirion SFM3003 mass flow meter and an ES Systems ESRF-ESF MEMS sensor. The SFM3003 has a hardcoded I²C address that clashes with the ADCs, so a TCA9548A multiplexer sits between them and an Arduino Nano Every. The ADCs top out at 320 samples per second, and the full system reached about 250. A multithreaded Python script logs the serial stream to CSV while updating a live dashboard, and the data are resampled onto a uniform time base afterwards.
 
-![Full system: drive electronics, actuator, and mock circulatory loop with pressure (P) and flow (F) measurement stations.](system-diagram.png "wide")
-
-## Hydraulic piston drive
-
-The original drive was pneumatic: a vacuum reservoir, regulator and solenoid valve pulsing the actuator cavity. For system identification that has a basic flaw. Air is compressible, so you can command pressure but never know the *volume* you delivered. It also topped out around 30 L/min and could not run continuously.
-
-I designed and built the replacement, a **servo-driven hydraulic piston pump**. A NEMA 23 integrated servo (iSV57T-130S) drives an SFU1605 ball-screw stage, which strokes an SC80 pneumatic cylinder repurposed as a water piston, all on a 2020 T-slot frame. Water is incompressible, so commanded displacement *is* delivered volume.
-
-![Drive train: NEMA 23 servo, SFU1605 ball-screw stage, SC80 piston.](piston-pump-components.png "wide")
-
-- **Displacement control** instead of pressure control: the input becomes a known volume waveform.
-- **50 L/min** flow, up from about 30 L/min.
-- **Continuous operation**: no reservoir to deplete, so long identification runs and fatigue cycling are possible.
-- Sized from torque-speed curves against the pressure-volume demands of the ventricle.
-
-![Piston-driven input: repeatable, continuous pressure cycles.](pressure-waveforms.jpg "small")
+![Data acquisition: pressure and flow signals are digitized, multiplexed into the microcontroller and streamed to a laptop.](data-acquisition.png "wide")
 
 ## System identification
 
-A soft cardiac simulator is only useful to clinicians and device designers if its dynamics are characterized. With known input volume and measured pressures and flows on both sides, the MATLAB identification pipeline can fit the equivalent-circuit parameters of the ventricle and loop.
+We first tried broadband identification: a pseudo-square-wave velocity input, with the frequency response estimated by Welch's method. The spectra showed harmonics a linear system wouldn't produce, and coherence stayed below 0.5 across most of the band, so we switched to steady-state sine inputs at discrete frequencies from 0.2 to 1 Hz.
 
-> Choose the actuation modality that makes your states observable.
+![Input and output flow during one actuation cycle.](single-cycle-flow.png)
+![Input and output flow profiles stacked across excitation frequencies.](frequency-sweep-flow.png)
+
+A lumped spring-mass-damper can't capture the ventricle: every lattice cell has its own mass and elasticity, which makes the wall a distributed system with high-order lag and subtle resonances. The data were fit with a multi-input, single-output Hammerstein-Wiener model, a static input nonlinearity, then a linear dynamic block, then a static output nonlinearity. Its inputs are the input flow, its derivative and its integral (the cavity volume). In the identified model, an 11th-order flow term captures structural resonances in the lattice, a 3rd-order rate term captures viscoelastic damping, and a 3rd-order volume term captures how the material stiffens as the cavity fills.
+
+The model was trained on 80% of the recordings. On the held-out 20% it reached a **91% fit**, and it reproduces the ventricle's hysteresis. The area inside that loop is energy lost to friction in the elastomer and viscous losses in the fluid. Residual cross-correlation stayed within the 95% confidence bounds, a sign that the model captures the real input-output dynamics rather than overfitting individual recordings.
+
+![Model prediction against measured output flow on a validation recording.](model-validation.png)
+![Hysteresis loop: loading and unloading paths diverge.](hysteresis-loop.png)
+
+## Next steps
+
+The 91% model predicts well, but its high order makes it hard to interpret physically. The next model will have fewer terms, each tied to a physical mechanism such as fluid inertance, flow resistance or tubing compliance. Switching both the actuation and circulatory sides from air to water will isolate the metamaterial's own nonlinearity. Connecting the ventricle to a mock circulatory loop with realistic vascular resistance and compliance would then make it a testbed for medical devices.

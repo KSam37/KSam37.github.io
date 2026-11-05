@@ -60,6 +60,8 @@ Text here. **Bold**, *italic*, [links](https://example.com), lists with "- ".
 - Use `###` for sub-headings inside a section.
 - A line starting with `>` becomes a highlighted callout. Save it for one key sentence.
 - `<!-- notes like this -->` are notes to yourself. They never appear on the site.
+- `wip: true` in the front matter shows a small "Work in progress" notice at the top of
+  the article (the wording is `wip_notice` in `site.yaml`). Delete the line once the article is finished.
 - Add `draft: true` to the front matter to keep an article off the live site; it still
   shows in Preview.
 

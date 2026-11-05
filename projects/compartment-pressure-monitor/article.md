@@ -1,57 +1,73 @@
 ---
 title: Continuous Intramuscular Compartment Pressure Monitoring Device
-summary: A wearable, Bluetooth-connected patch that monitors intracompartmental pressure continuously, built with MGH clinicians and accurate to 1 mmHg at the diagnostic threshold.
+summary: An open-source wearable that measures intracompartmental pressure continuously through any standard needle and alerts a clinician's phone when it crosses a threshold. Built from $40 of off-the-shelf parts with a clinician at MGH.
 date: 2026-04
 org: MIT · MGH
 period: Spring 2026
+wip: true
 role: Design, fabrication & validation
-team: MIT 2.750 Medical Device Design, with Dr. Michael Fuenfer (MGH Pediatric Critical Care)
-tools: [ESP32-C6, Bluetooth LE, Pressure transducer, Ballistics-gel phantom]
+team: S. Kirschner, P. Dzenutis, A. Kitjasateanphun, A. Villalva, S. Torrellas, I. Ceco, J. Connor, with Dr. Michael Fuenfer (MGH). MIT 2.750 Medical Device Design
+tools: [XIAO ESP32-C6, Honeywell ABP2 transducer, Bluetooth LE, iOS app, Ballistics-gel phantom]
 tags: [Medical devices, Embedded systems]
 cover: device-prototype.png
 metrics:
-  - value: ±1 mmHg
-    label: Accuracy at the 30 mmHg diagnostic level
+  - value: 0.7 mmHg
+    label: Mean absolute error with a catheter, against a water column
   - value: 20 h
-    label: Continuous monitoring per charge
+    label: Battery life at one sample per minute
   - value: "$40"
-    label: Target cost versus the $3,000 incumbent device
+    label: Hardware cost, versus about $3,250 per use for the MY01 monitor
 ---
 
-<!-- Draft carried over from the old site. Rewrite in your own words.
-     Older renders, the old validation plot and the team photo are in _unused/. -->
+<!-- Condensed from the HardwareX manuscript. Edit freely. -->
 
 ## Compartment syndrome
 
-Acute compartment syndrome follows fractures, burns and crush injuries. Pressure rises inside a muscle compartment and chokes off perfusion. Above roughly 30 mmHg the treatment is an emergency fasciotomy; missed, the endpoint is tissue death and amputation. Onset can be silent, especially under regional anesthesia, when pain is masked.
+Acute compartment syndrome is an orthopedic emergency. After a fracture, burn or penetrating wound, bleeding and swelling raise the pressure inside a muscle's fascial compartment. The fascia can't expand, so within minutes to hours the pressure collapses the blood vessels and the tissue starts to die. It follows about 2.7% of tibial fractures, the most common single cause.
 
-The standard tool, the Stryker ICP monitor, costs about $3,000, takes one reading per needle insertion, and has no alarms. Our clinical proposer asked for a device that is **cheap, continuous, and loud when it matters.**
+Normal compartment pressure is around 10 mmHg. Above 30 mmHg the standard treatment is an emergency fasciotomy, which leaves large scars and carries a high risk of infection. The first sign is usually pain out of proportion to the injury, which a nerve block can hide, so a diagnostic tool has to resist both false positives and false negatives.
 
-## Wearable patch
+Two devices are used clinically in the US. The Stryker STIC monitor takes one reading per needle insertion. The MY01 monitors continuously for up to 18 hours, but it is single-use and costs about $3,250 per use. Neither one fits military field hospitals or rural trauma centers, where compartment syndrome is common and budgets are tight.
 
-An indwelling 20-gauge flexible catheter connects through a luer lock to a pressure transducer on the patch. An ESP32 samples it, median-filters the signal, and streams readings over Bluetooth Low Energy. A 110 mAh battery runs about 20 hours. The housing curvature matches the limb, and the patch mounts with adhesive and a strap.
+## The device
 
-![Patch assembly: case, pressure transducer, ESP32, 110 mAh battery, luer lock and needle or catheter.](patch-assembly-labeled.png)
+The core is three off-the-shelf parts: a Seeed Studio XIAO ESP32-C6, a Honeywell ABP2 gauge pressure transducer with a built-in amplifier and ADC, and a LiPo battery. A Luer-lock plug glued onto the transducer lets any standard needle or catheter twist on. Once the needle is in the muscle, the fluid in it couples the compartment pressure to the sensor.
+
+![Assembled monitor without its case, with a 20 G catheter attached.](patch-assembly-labeled.png)
 ![The patch worn on the leg.](patch-on-leg.jpg)
 
-A phone app plots the pressure trend and raises an audible and visual alarm when pressure crosses a programmable threshold.
+The ESP32 reads the sensor over I²C, logs the data locally, and sends it over Bluetooth to an iPhone app. Two 3D-printed cases suit different patients: an adhesive patch that is quick to put on, and a strapped version for burns or damaged skin where adhesive isn't safe.
+
+![CAD and worn prototypes of the adhesive patch (left) and strap (right) versions, and how the patch assembles.](form-factors.png "wide")
+
+The app plots the pressure trend and lets the clinician set an alarm threshold (30 mmHg by default). When the pressure crosses it, the phone sounds a loud alarm and vibrates. A rolling average keeps single outliers from triggering false alarms. The device samples once a minute to save battery, and the data can be exported as a CSV for research.
 
 ![App alert as pressure crosses the 30 mmHg threshold.](phone-app-alert.png "noplate")
 
 ## Validation
 
-We validated accuracy against a hydrostatic water column, where pressure is known exactly from ρgh. The device read **within 1 mmHg at the 30 mmHg diagnostic level**, with no systematic difference between needle and catheter delivery.
+The first test used a tissue phantom: ballistics gel sealed in an inelastic pouch that plays the part of the fascia, with a self-healing injection port, all wrapped in a blood pressure cuff. With a 20 G catheter in the gel, inflating the cuff produced an immediate, stable reading that rose linearly with the applied pressure.
 
-![Measured versus theoretical pressure on the water column, needle and catheter.](water-column-validation-plot.png "small")
+![Muscle compartment phantom: blood pressure cuff around a ballistics-gel compartment with injection ports, and its cross-section.](tissue-phantom.png)
 
-To test in something closer to tissue, we built a phantom compartment (ballistics gel over an inflatable pouch in a nylon sleeve) and tracked programmed pressure ramps through the full needle-to-app chain. Battery endurance testing confirmed 20 h 13 min of continuous sampling.
+The phantom isn't a precise pressure reference, so accuracy was measured on a hydrostatic water column, where the pressure is known exactly from ρgh. The water height was stepped from 60 cm down to 1 cm in 1 cm increments, with three trials each for an 18 G needle and a 20 G catheter.
 
-## Design details
+![Measured versus theoretical pressure on the water column, needle and catheter. The dashed line marks the 30 mmHg diagnostic level.](water-column-validation-plot.png "small")
 
-- **Needle fabrication.** Test needles were modified to mimic the Stryker non-coring geometry, tip soldered shut and side ports cut, so tissue doesn't plug the lumen.
-- **Signal chain.** One sample per minute with a rolling median rejects motion spikes without smearing real trends.
-- **Beyond the leg.** The same platform extends to abdominal and intracranial pressure.
+Both setups tracked the theoretical pressure closely (R² = 0.9995 for the needle and 0.9993 for the catheter). The mean absolute error was 1.13 mmHg for the needle and 0.72 mmHg for the catheter. A t-test showed a small systematic offset, most likely from calibration, and no significant difference between needle and catheter.
+
+| Requirement | Target | Achieved |
+|---|---|---|
+| Pressure range | 0–60 mmHg | 0–60 mmHg |
+| Accuracy | ±1 mmHg | ±2.2 mmHg |
+| Sampling rate | 1 sample/min | 1 sample/min |
+| Mass | < 50 g | 42 g |
+| Penetration depth | 5–50 mm | 5–50 mm |
+
+## Open hardware
+
+The case CAD, ESP32 firmware and iOS app are released under a CC BY-NC license, so anyone can build the device from the bill of materials. Beyond clinical use, it is meant as a research platform: a cheap, reproducible way to record compartment pressure in experimental models and field studies, and a source of ground-truth data for validating non-invasive detection methods such as near-infrared spectroscopy, surface strain sensing and biomarkers.
 
 ## Next steps
 
-Animal and clinical testing, head-to-head comparison with the Stryker and MY01 devices, and motion-artifact filtering for ambulatory patients.
+The device hasn't yet been tested in humans or animals. Next come a calibration step to remove the systematic offset, then animal and clinical testing.

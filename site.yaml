@@ -31,7 +31,7 @@ hero:
   credentials:                    # small line above your name
     - MIT Mechanical Engineering graduate student
     - NSF Graduate Research Fellow
-    - Georgia Tech alumnus
+    - Georgia Tech Alumn
   summary: >-                     # one paragraph under your name
     I research medical soft robotics, developing solutions to the energy limits of
     devices that must work in highly constrained environments, and I specialize in
@@ -45,13 +45,16 @@ hero:
 affiliations:                     # height = display height in px, tuned for equal visual weight
   - name: MIT
     logo: files/logos/mit.png
-    height: 28
+    height: 34
   - name: Georgia Tech
     logo: files/logos/georgia-tech.png
-    height: 38
+    height: 46
   - name: NASA
     logo: files/logos/nasa.png
-    height: 46
+    height: 56
+
+# Shown at the top of any article whose front matter has  wip: true
+wip_notice: Work in progress · still being written
 
 contact_line: Let's build something.
 

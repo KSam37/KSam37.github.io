@@ -10,6 +10,7 @@ tools: [Digital image correlation, Cyclic tensile testing, MATLAB]
 tags: [Mechanics]
 cover: dic-strain-field.gif
 cover_caption: Eyy engineering strain field evolving through a loading cycle (Eulerian frame).
+wip: true
 ---
 
 <!-- Draft carried over from the old site. Rewrite in your own words.

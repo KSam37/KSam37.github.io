@@ -110,7 +110,7 @@
     const hero = canvas.parentElement;
     const ctx = canvas.getContext('2d');
     const STEP = 8;                       // sample spacing along each line (px)
-    let W = 0, H = 0, LINE = 2, nx = 0, ny = 0, px, py, pi, dpr = 1;
+    let W = 0, H = 0, LINE = 2, nx = 0, ny = 0, px, py, pi, wx, wy, dpr = 1;
     let acc = '255,106,43';
     const src = [
       { x: 0, y: 0, A: 0, s: 180 },       // ambient
@@ -120,13 +120,14 @@
 
     const resize = () => {
       const r = hero.getBoundingClientRect();
-      dpr = Math.min(devicePixelRatio || 1, 2);
+      dpr = Math.min(devicePixelRatio || 1, 1.5);
       W = r.width; H = r.height;
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       LINE = W < 700 ? 3 : 2;             // grid pitch = LINE * STEP (24px / 16px)
       nx = Math.ceil(W / STEP) + 3; ny = Math.ceil(H / STEP) + 3;
       px = new Float32Array(nx * ny); py = new Float32Array(nx * ny); pi = new Float32Array(nx * ny);
+      wx = new Float32Array(ny); wy = new Float32Array(nx);
     };
 
     const BINS = 7;
@@ -137,12 +138,11 @@
       const a = src[0];
       a.x = W * (0.6 + 0.07 * Math.sin(t * 0.00011));
       a.y = H * (0.3 + 0.14 * Math.sin(t * 0.00017 + 1.3));
-      // one slow breath (~14 s) drives the source pulse and the global swell together
-      const breath = Math.sin(t * 0.00045);
-      a.A = 6 + 2.4 * breath;
-      a.s = 180 + 22 * breath;
-      const swell = 0.0045 * breath, cx = W * 0.55, cy = H * 0.5;
-      const wt = t * 0.0002, wa = 2.6 + 0.8 * breath;     // low-frequency shear warp
+      a.A = 6; a.s = 180;
+      // gentle low-frequency shear warp, precomputed per row and column
+      const wt = t * 0.0002, wa = 2.6;
+      for (let i = 0; i < nx; i++) wy[i] = wa * Math.sin((-STEP + i * STEP) / 310 - wt * 0.8);
+      for (let j = 0; j < ny; j++) wx[j] = wa * Math.sin((-STEP + j * STEP) / 260 + wt);
       // pointer source eases toward the cursor
       const p = src[1];
       p.x += (p.tx - p.x) * 0.08; p.y += (p.ty - p.y) * 0.08; p.A += (p.tA - p.A) * 0.05;
@@ -151,8 +151,7 @@
       for (let j = 0; j < ny; j++) {
         for (let i = 0; i < nx; i++) {
           const k = j * nx + i, x = ox + i * STEP, y = oy + j * STEP;
-          let dx = (x - cx) * swell + wa * Math.sin(y / 260 + wt),
-              dy = (y - cy) * swell + wa * Math.sin(x / 310 - wt * 0.8), I = 0;
+          let dx = wx[j], dy = wy[i], I = 0;
           for (const s of src) {
             if (s.A < 0.05) continue;
             const rx = x - s.x, ry = y - s.y, r2 = rx * rx + ry * ry, q = r2 / (s.s * s.s);
@@ -183,11 +182,13 @@
     };
 
     const loop = (t) => { if (!running) return; frame(t); requestAnimationFrame(loop); };
-    const start = () => { if (!running && visible && !document.hidden && !reduced) { running = true; requestAnimationFrame(loop); } };
+    // phones and touch devices get a single static frame: no loop, no battery cost
+    const still = reduced || matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+    const start = () => { if (!running && visible && !document.hidden && !still) { running = true; requestAnimationFrame(loop); } };
     const stop = () => { running = false; };
 
     resize(); frame(0);
-    if (reduced) return;
+    if (still) { addEventListener('resize', () => { resize(); frame(0); }); return; }
 
     hero.addEventListener('pointermove', (e) => {
       const r = hero.getBoundingClientRect(), p = src[1];

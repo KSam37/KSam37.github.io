@@ -15,6 +15,7 @@ metrics:
     label: Unique components re-engineered
   - value: "1"
     label: Material, aluminum plate
+wip: true
 ---
 
 <!-- Draft carried over from the old site. Rewrite in your own words. -->
