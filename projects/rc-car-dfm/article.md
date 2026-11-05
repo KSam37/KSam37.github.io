@@ -8,8 +8,7 @@ role: Steering team, design & process planning
 team: MIT 2.810 Manufacturing Processes & Systems
 tools: [Waterjet, Mill, Drill & tap, Fusion 360]
 tags: [Manufacturing]
-cover: finished-car.jpg
-cover_position: 50% 55%
+cover: class-fleet-lineup.jpg
 metrics:
   - value: "8"
     label: Unique components re-engineered
@@ -39,6 +38,8 @@ Across the eight unique components (plate mount, rigid linkage, C-joint, steer b
 
 Each part got an explicit operation sequence. The plate mount: waterjet the profile and holes, drill the top holes to tolerance, face the back edge on the mill, then drill and tap.
 
+![A steering part in the vise on the mill.](milling-part.jpg "small")
+
 The C-joint is the showcase part: waterjet profile, face front and back, drill and ream the bushing bore, face the interior surfaces, then press-fit and ream the bushing to final size. Each datum is established before the features that depend on it.
 
 ![C-joint: waterjet, face, drill and ream, press-fit bushing.](c-joint.png)
@@ -46,4 +47,4 @@ The C-joint is the showcase part: waterjet profile, face front and back, drill a
 
 ![Toleranced drawing of the plate mount for shop fabrication.](plate-mount-drawing.png "wide")
 
-![The class fleet, built to be reproduced rather than one-off.](class-fleet.jpg "small")
+![A chassis during assembly, with the car bodies behind it.](chassis-assembly.jpg "wide")
