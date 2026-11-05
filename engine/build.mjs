@@ -26,7 +26,13 @@ const exists = (p) => fs.existsSync(p);
 const read = (p) => fs.readFileSync(p, 'utf8');
 const mkdir = (p) => fs.mkdirSync(p, { recursive: true });
 const write = (p, s) => { mkdir(path.dirname(p)); fs.writeFileSync(p, s); };
-const newer = (out, src) => exists(out) && fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs;
+// cached output is reused only if it was written after the source last changed.
+// ctime counts too, so a file moved or restored with an old mtime is still rebuilt.
+const newer = (out, src) => {
+  if (!exists(out)) return false;
+  const s = fs.statSync(src);
+  return fs.statSync(out).mtimeMs >= Math.max(s.mtimeMs, s.ctimeMs);
+};
 export const esc = (s = '') => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const slugify = (s) => String(s).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '')
@@ -83,9 +89,23 @@ async function processMedia(srcPath, outDir, urlDir) {
     }
     set.push([w, `${urlDir}/${stem}-${w}.webp`]);
   }
+  // light = opaque, near-white border (diagram on white -> gets a plate);
+  // a transparent or dark image sits straight on the dark page instead.
+  let light = false;
+  if (png) {
+    const { data: px } = await sharp(srcPath).rotate().resize(24, 24, { fit: 'fill' }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    let sum = 0, cnt = 0, clear = 0, tot = 0;
+    for (let y = 0; y < 24; y++) for (let x = 0; x < 24; x++) {
+      if (x && y && x < 23 && y < 23) continue;
+      const i = (y * 24 + x) * 4; tot++;
+      if (px[i + 3] < 128) { clear++; continue; }
+      sum += 0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]; cnt++;
+    }
+    light = clear < tot * 0.3 && cnt > 0 && sum / cnt > 200;
+  }
   const mid = set.find(([w]) => w >= 1600) || set.at(-1);
   return {
-    w: W, h: pageH, png,
+    w: W, h: pageH, png, light,
     src: mid[1],
     srcset: set.map(([w, u]) => `${u} ${w}w`).join(', '),
     full: set.at(-1)[1],
@@ -127,13 +147,16 @@ function makeMarkdown(ctx) {
     const m = mods(tok.title);
     const caption = tok.text || '';
     if (!info) return `<figure class="fig fig--missing"><div>Missing image: ${esc(tok.href)}</div></figure>`;
-    const plate = (info.png && !m.has('noplate')) || m.has('plate');
+    const plate = (info.light && !m.has('noplate')) || m.has('plate');
     const cls = ['fig'];
     if (!inRow) for (const k of ['wide', 'full', 'small']) if (m.has(k)) cls.push(`fig--${k}`);
     if (plate) cls.push('fig--plate');
     const n = ++ctx.fig.n;
     const ratio = info.video ? 16 / 9 : info.w / info.h;
-    const style = inRow ? ` style="--r:${ratio.toFixed(4)}"` : '';
+    // rows share a height via aspect ratio; single figures never upscale past the source
+    const style = inRow ? ` style="--r:${ratio.toFixed(4)}"`
+      : (!info.video && !m.has('full') && !m.has('wide') && (info.w < 1000 || m.has('small')))
+        ? ` style="max-width:${Math.min(info.w, m.has('small') ? 440 : 1e9) + (plate ? 64 : 0)}px"` : '';
     const inner = info.video
       ? `<div class="fig__media">${mediaTag(info, caption, sizes)}</div>`
       : `<a class="fig__media" href="${info.full}" data-lightbox data-caption="${esc(caption)}">${mediaTag(info, caption, sizes)}</a>`;

@@ -13,7 +13,7 @@ cover: dic-strain-field.jpg
 
 <!-- Draft carried over from the old site. Rewrite in your own words. -->
 
-## The question
+## Process, porosity and strength
 
 Metal additive manufacturing trades the predictability of wrought stock for design freedom, but process parameters leave behind internal porosity that drives where and how a part fails. To use AM structurally, you have to connect **process → porosity → mechanical behavior** with real data.
 
@@ -29,6 +29,6 @@ I ran tensile tests on 15-5PH stainless specimens printed across a range of proc
 
 ![Overlaid responses across the parameter sweep.](parameter-sweep-curves.png "small")
 
-## Computer-vision porosity analysis
+## Porosity analysis
 
 To explain the scatter, I wrote a MATLAB pipeline that segments pores in cross-sectional micrographs, quantifying size, count and distribution so porosity can be correlated with measured strength and failure location.

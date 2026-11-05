@@ -19,7 +19,7 @@ metrics:
 
 <!-- Draft carried over from the old site. Rewrite in your own words. -->
 
-## From design review to manufacturing review
+## Inherited design
 
 The inherited steering design worked, but it relied on expensive parts, 3D-printed or complex machined geometry, and unreliable press fits and adhesives. The assignment: take it from "prints on a desktop" to "produces consistently in a shop."
 
@@ -44,9 +44,5 @@ The C-joint is the showcase part: waterjet profile, face front and back, drill a
 ![Plate mount.](plate-mount-model.png)
 
 ![Toleranced drawing of the plate mount for shop fabrication.](plate-mount-drawing.png "wide")
-
-## Takeaway
-
-Every feature on a drawing is a real operation with a real cost. Good design moves cost off the part by choosing processes deliberately.
 
 ![The class fleet, built to be reproduced rather than one-off.](class-fleet.jpg "small")

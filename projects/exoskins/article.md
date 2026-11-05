@@ -23,7 +23,7 @@ metrics:
 
 <!-- Draft carried over from the old site. Rewrite in your own words. -->
 
-## The idea
+## Knit as a programmable material
 
 Commercial braces come in small, medium and large. Bodies don't. Knitting machines can vary stitch pattern continuously across a garment, so a knee sleeve could in principle be **programmed, stitch by stitch, to deliver a prescribed torque-angle response** for one person's joint. Before you can optimize that, you need to know how elementary stitch patterns behave on a joint.
 
@@ -47,7 +47,7 @@ I designed and built a torque-angle rig around a foam cast of a human leg, hinge
 
 ![The rig: hinged foam leg, force gauge, and video capture.](rig-white-exoskin.jpg "small")
 
-## What we found
+## Results
 
 ExoSkins stiffen progressively with knee angle, while commercial braces stay nearly linear. The stitch geometry shapes the response curve.
 
@@ -55,7 +55,7 @@ ExoSkins stiffen progressively with knee angle, while commercial braces stay nea
 
 Even the stiffest garments contribute only about 2–5% of walking knee stiffness. That reframes the goal: the value of knits isn't brute stiffness, it's **programmability**, tuning where and how resistance builds through the range of motion.
 
-## Beyond the bench
+## Optimization-based design
 
 The roadmap pairs this foundation with modeling and optimization: measure a user's joint impedance, solve for the stitch map that complements it, and knit the orthosis directly. Alongside the rig work I ran human biomechanics characterization (motion capture, EMG, torque-angle testing) to feed that framework.
 

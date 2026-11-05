@@ -16,11 +16,11 @@ cover_caption: Eyy engineering strain field evolving through a loading cycle (Eu
      The only usable image is the strain animation. The speckle and specimen
      photos are tiny (in _unused/). Add higher-resolution images if you have them. -->
 
-## Why elephant skin
+## Soft-tissue mechanics
 
 Biological soft tissues solve problems engineered materials struggle with: large reversible deformation, direction-dependent stiffness and toughness, all at once. Elephant skin is an extreme, accessible case. Characterizing how it strains under load gives the Geometry of Materials Lab a reference point for designing programmable, biomimetic materials.
 
-## Method: digital image correlation
+## Digital image correlation
 
 DIC tracks a high-contrast speckle pattern across video frames to reconstruct full-field displacement and strain, with nothing touching the specimen. I prepared specimens, applied speckle patterns, ran tensile tests, and processed the imagery into strain fields.
 
@@ -28,10 +28,6 @@ DIC tracks a high-contrast speckle pattern across video frames to reconstruct fu
 - Computed E<sub>yy</sub> strain fields (Eulerian and Lagrangian) and displacement maps in MATLAB.
 - Ran cyclic loading to capture the tissue's hysteretic, history-dependent response.
 
-## Observations
+## Results
 
 The strain fields show strong **spatial heterogeneity**. Strain concentrates around wrinkles and structural features instead of spreading uniformly, and the response stiffens and shifts across loading cycles. This is the ground-truth data needed to validate soft-tissue constitutive models.
-
-## Connection to my work
-
-Optical strain measurement became a core skill I carry into every soft-systems project, from knitted ExoSkins to soft actuators.

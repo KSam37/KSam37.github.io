@@ -8,20 +8,8 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   document.addEventListener('DOMContentLoaded', () => {
-    theme(); navAndProgress(); reveal(); filters(); lightbox(); toc(); breakouts(); field();
+    navAndProgress(); reveal(); lightbox(); toc(); breakouts(); field();
   });
-
-  // ------------------------------------------------------------ theme
-  function theme() {
-    const btn = $('.nav__theme');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const next = doc.dataset.theme === 'light' ? 'dark' : 'light';
-      const apply = () => { doc.dataset.theme = next; try { localStorage.setItem('theme', next); } catch (e) {} };
-      if (document.startViewTransition && !reduced) document.startViewTransition(apply); else apply();
-      window.dispatchEvent(new Event('themechange'));
-    });
-  }
 
   // ------------------------------------------------------------ nav + progress
   function navAndProgress() {
@@ -45,22 +33,6 @@
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
     els.forEach((e) => io.observe(e));
-  }
-
-  // ------------------------------------------------------------ project filters
-  function filters() {
-    const chips = $$('.chip[data-filter]');
-    if (!chips.length) return;
-    const cards = $$('.card[data-tags]');
-    chips.forEach((chip) => chip.addEventListener('click', () => {
-      const f = chip.dataset.filter;
-      const apply = () => {
-        chips.forEach((c) => c.classList.toggle('is-on', c === chip));
-        cards.forEach((c) => c.classList.toggle('is-hidden', f !== '*' && !c.dataset.tags.split(' ').includes(f)));
-        cards.forEach((c) => c.classList.add('is-in'));
-      };
-      if (document.startViewTransition && !reduced) document.startViewTransition(apply); else apply();
-    }));
   }
 
   // ------------------------------------------------------------ lightbox
@@ -128,27 +100,23 @@
     set(); addEventListener('resize', set);
   }
 
-  // ------------------------------------------------------------ hero strain field
-  // A spring-mass lattice. The cursor indents it; an off-screen "actuator"
-  // slowly inflates and relaxes. Edges are tinted by local strain, like a DIC map.
+  // ------------------------------------------------------------ hero stress field
+  // A fine grid displaced by smooth radial fields from point sources: one drifts
+  // slowly on its own, one follows the cursor. Lines warm toward the accent
+  // colour where the field is strongest, fading smoothly with distance.
   function field() {
     const canvas = $('.hero__field');
     if (!canvas) return;
     const hero = canvas.parentElement;
     const ctx = canvas.getContext('2d');
-    const rx = $('[data-readout="xy"]'), re = $('[data-readout="eps"]');
-    let W = 0, H = 0, S = 36, cols = 0, rows = 0, nodes = [], dpr = 1;
-    let ink = '236,235,231', acc = [255, 106, 43];
-    const ptr = { x: -9999, y: -9999, on: false, px: -9999, py: -9999 };
-    let running = false, visible = true, t0 = performance.now();
-
-    const colors = () => {
-      const cs = getComputedStyle(doc);
-      ink = cs.getPropertyValue('--field').trim() || ink;
-      const a = cs.getPropertyValue('--accent').trim();
-      const m = a.match(/^#([0-9a-f]{6})$/i);
-      if (m) acc = [0, 2, 4].map((i) => parseInt(m[1].substr(i, 2), 16));
-    };
+    const STEP = 8;                       // sample spacing along each line (px)
+    let W = 0, H = 0, LINE = 2, nx = 0, ny = 0, px, py, pi, dpr = 1;
+    let acc = '255,106,43';
+    const src = [
+      { x: 0, y: 0, A: 0, s: 180 },       // ambient
+      { x: 0, y: 0, A: 0, s: 120, tx: 0, ty: 0, tA: 0 }, // pointer
+    ];
+    let running = false, visible = true;
 
     const resize = () => {
       const r = hero.getBoundingClientRect();
@@ -156,97 +124,73 @@
       W = r.width; H = r.height;
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      S = W < 700 ? 30 : 38;
-      cols = Math.ceil(W / S) + 3; rows = Math.ceil(H / S) + 3;
-      const ox = (W - (cols - 1) * S) / 2, oy = (H - (rows - 1) * S) / 2;
-      nodes = [];
-      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
-        const x = ox + i * S, y = oy + j * S;
-        nodes.push({ rx: x, ry: y, x, y, vx: 0, vy: 0 });
-      }
+      LINE = W < 700 ? 3 : 2;             // grid pitch = LINE * STEP (24px / 16px)
+      nx = Math.ceil(W / STEP) + 3; ny = Math.ceil(H / STEP) + 3;
+      px = new Float32Array(nx * ny); py = new Float32Array(nx * ny); pi = new Float32Array(nx * ny);
     };
 
-    const step = (time) => {
-      const t = (time - t0) / 1000;
-      // two slow "actuators" inflating out of phase
-      const a1 = { x: W * 0.78, y: H * 0.42, A: 22 * (0.5 + 0.5 * Math.sin(t * 0.9)), s: 190 };
-      const a2 = { x: W * 0.12, y: H * 0.85, A: 14 * (0.5 + 0.5 * Math.sin(t * 0.9 + 2.2)), s: 150 };
-      const R = 170, R2 = R * R;
-      for (const n of nodes) {
-        let tx = n.rx, ty = n.ry;
-        for (const a of [a1, a2]) {
-          const dx = n.rx - a.x, dy = n.ry - a.y, d = Math.hypot(dx, dy) || 1;
-          const g = a.A * Math.exp(-(d * d) / (2 * a.s * a.s));
-          tx += (dx / d) * g; ty += (dy / d) * g;
-        }
-        if (ptr.on) {
-          const dx = n.x - ptr.x, dy = n.y - ptr.y, d2 = dx * dx + dy * dy;
-          if (d2 < R2) {
-            const d = Math.sqrt(d2) || 1, f = (1 - d / R) ** 2 * 4.2;
-            n.vx += (dx / d) * f; n.vy += (dy / d) * f;
+    const BINS = 7;
+    const paths = () => Array.from({ length: BINS }, () => new Path2D());
+
+    const frame = (t) => {
+      // ambient source drifts on a slow Lissajous path between the name and the portrait
+      const a = src[0];
+      a.x = W * (0.6 + 0.07 * Math.sin(t * 0.00011));
+      a.y = H * (0.3 + 0.14 * Math.sin(t * 0.00017 + 1.3));
+      a.A = 5 + 1.5 * Math.sin(t * 0.0006);
+      // pointer source eases toward the cursor
+      const p = src[1];
+      p.x += (p.tx - p.x) * 0.08; p.y += (p.ty - p.y) * 0.08; p.A += (p.tA - p.A) * 0.05;
+
+      const ox = -STEP, oy = -STEP;
+      for (let j = 0; j < ny; j++) {
+        for (let i = 0; i < nx; i++) {
+          const k = j * nx + i, x = ox + i * STEP, y = oy + j * STEP;
+          let dx = 0, dy = 0, I = 0;
+          for (const s of src) {
+            if (s.A < 0.05) continue;
+            const rx = x - s.x, ry = y - s.y, r2 = rx * rx + ry * ry, q = r2 / (s.s * s.s);
+            if (q > 9) continue;
+            const r = Math.sqrt(r2) || 1, e = Math.exp(-0.5 * q);
+            // radial displacement peaks at r = s, zero at the source: no kink
+            const u = s.A * (r / s.s) * Math.exp(0.5) * e;
+            dx += (rx / r) * u; dy += (ry / r) * u;
+            I += (s.A / 8) * e;
           }
+          px[k] = x + dx; py[k] = y + dy; pi[k] = I;
         }
-        n.vx = (n.vx + (tx - n.x) * 0.045) * 0.84;
-        n.vy = (n.vy + (ty - n.y) * 0.045) * 0.84;
-        n.x += n.vx; n.y += n.vy;
       }
-    };
 
-    const BINS = 6;
-    const draw = () => {
       ctx.clearRect(0, 0, W, H);
-      const paths = Array.from({ length: BINS }, () => new Path2D());
-      let emax = 0;
-      const edge = (a, b) => {
-        const len = Math.hypot(b.x - a.x, b.y - a.y);
-        const e = Math.abs(len / S - 1);
-        if (e > emax) emax = e;
-        const k = Math.min(BINS - 1, Math.floor(e * 28));
-        paths[k].moveTo(a.x, a.y); paths[k].lineTo(b.x, b.y);
+      const ps = paths();
+      const seg = (k1, k2) => {
+        const b = Math.min(BINS - 1, Math.floor(((pi[k1] + pi[k2]) * 0.5) * BINS * 1.15));
+        ps[b].moveTo(px[k1], py[k1]); ps[b].lineTo(px[k2], py[k2]);
       };
-      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
-        const n = nodes[j * cols + i];
-        if (i < cols - 1) edge(n, nodes[j * cols + i + 1]);
-        if (j < rows - 1) edge(n, nodes[(j + 1) * cols + i]);
+      for (let j = 0; j < ny; j += LINE) for (let i = 0; i < nx - 1; i++) seg(j * nx + i, j * nx + i + 1);
+      for (let i = 0; i < nx; i += LINE) for (let j = 0; j < ny - 1; j++) seg(j * nx + i, (j + 1) * nx + i);
+      ctx.lineWidth = 0.75;
+      for (let b = 0; b < BINS; b++) {
+        ctx.strokeStyle = b === 0 ? 'rgba(236,235,231,0.05)' : `rgba(${acc},${(0.05 + 0.24 * b / (BINS - 1)).toFixed(3)})`;
+        ctx.stroke(ps[b]);
       }
-      ctx.lineWidth = 1;
-      for (let k = 0; k < BINS; k++) {
-        const u = k / (BINS - 1);
-        ctx.strokeStyle = k === 0 ? `rgba(${ink},0.085)` : `rgba(${acc[0]},${acc[1]},${acc[2]},${0.1 + u * 0.55})`;
-        ctx.stroke(paths[k]);
-      }
-      // node markers near the pointer
-      if (ptr.on) {
-        ctx.fillStyle = `rgba(${acc[0]},${acc[1]},${acc[2]},0.9)`;
-        for (const n of nodes) {
-          const d = Math.hypot(n.x - ptr.x, n.y - ptr.y);
-          if (d < 120) { const r = 1.6 * (1 - d / 120) + 0.4; ctx.fillRect(n.x - r, n.y - r, r * 2, r * 2); }
-        }
-        ctx.strokeStyle = `rgba(${ink},0.35)`;
-        ctx.beginPath(); ctx.moveTo(ptr.x - 9, ptr.y); ctx.lineTo(ptr.x + 9, ptr.y); ctx.moveTo(ptr.x, ptr.y - 9); ctx.lineTo(ptr.x, ptr.y + 9); ctx.stroke();
-      }
-      if (re) re.innerHTML = `ε<sub>max</sub> ${emax.toFixed(3)}`;
-      if (rx && ptr.on) rx.textContent = `x ${String(Math.round(ptr.x)).padStart(4, '0')} · y ${String(Math.round(ptr.y)).padStart(4, '0')}`;
     };
 
-    const loop = (time) => {
-      if (!running) return;
-      step(time); draw();
-      requestAnimationFrame(loop);
-    };
+    const loop = (t) => { if (!running) return; frame(t); requestAnimationFrame(loop); };
     const start = () => { if (!running && visible && !document.hidden && !reduced) { running = true; requestAnimationFrame(loop); } };
     const stop = () => { running = false; };
 
-    colors(); resize(); draw();
+    resize(); frame(0);
     if (reduced) return;
 
     hero.addEventListener('pointermove', (e) => {
-      const r = hero.getBoundingClientRect();
-      ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top; ptr.on = true;
+      const r = hero.getBoundingClientRect(), p = src[1];
+      p.tx = e.clientX - r.left; p.ty = e.clientY - r.top;
+      if (p.tA === 0) { p.x = p.tx; p.y = p.ty; }
+      p.tA = 8;
     });
-    hero.addEventListener('pointerleave', () => { ptr.on = false; });
-    addEventListener('resize', () => { resize(); });
-    addEventListener('themechange', () => setTimeout(colors, 30));
+    hero.addEventListener('pointerleave', () => { src[1].tA = 0; });
+    addEventListener('resize', () => { resize(); frame(performance.now()); });
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); }).observe(hero);
     start();

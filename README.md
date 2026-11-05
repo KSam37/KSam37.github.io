@@ -5,7 +5,7 @@ plain text and drop images beside them; the build turns that into the site.
 
 ```
 Portfolio Website/
-├── site.yaml              ← home page: headline, bio, experience, publications, skills
+├── site.yaml              ← home page: name, one-line summary, links, publications
 ├── files/                 ← résumé PDF and headshot (linked from the site as-is)
 ├── projects/
 │   ├── exoskins/          ← one folder per project; the folder name is the web address
@@ -38,10 +38,10 @@ summary: One or two sentences for the home page card and the top of the article.
 date: 2025-01                # sorts the home page, newest first
 org: Georgia Tech
 period: 2024 — 2025
-role: Undergraduate researcher, co-first author
+role: Undergraduate researcher, co-first author   # role/team/tools: notes only, not shown
 team: PoWeR Lab & Geometry of Materials Lab
 tools: [Custom torque rig, MATLAB]
-tags: [Wearables, Mechanics]  # become filter buttons on the home page
+tags: [Wearables, Mechanics]  # shown on the home page card
 cover: rig-red-exoskin.jpg     # card image + big image at the top
 metrics:
   - value: "8"
@@ -69,7 +69,7 @@ Text here. **Bold**, *italic*, [links](https://example.com), lists with "- ".
 |---|---|
 | `cover_position: 50% 30%` | Which part of the cover stays in frame when it's cropped (x% y%) |
 | `cover_caption: …` | Caption under the big top image |
-| `cover_style: bleed` | Force the top image to `bleed` (full width), `framed` (whole photo on a blurred backdrop) or `plate` (on a white sheet, for diagrams). Normally chosen automatically. |
+| `cover_style: bleed` | Force the top image to `bleed` (full width), `framed` (whole photo on a blurred backdrop), `plate` (on a white sheet) or `bare` (straight on the dark page). Normally chosen automatically. |
 | `lede: …` | A longer intro for the article page, if it should differ from `summary` |
 | `order: 1` | Pin a project to the top of the home page (higher numbers first) |
 | `hide_cover: true` | Don't repeat the cover at the top of the article |
@@ -108,8 +108,12 @@ They're scaled to the same height automatically. Two or three per row works best
 **Tips**
 
 - Name files for what they show (`rig-red-exoskin.jpg`, not `IMG_4021.jpg`).
-- Export photos as JPG, diagrams and plots as PNG. PNGs get a light "plate" behind them
-  so white backgrounds look intentional in dark mode.
+- Export photos as JPG, diagrams and plots as PNG. The site is dark, so dark or
+  transparent backgrounds blend best. A PNG with a white background gets a light "plate"
+  behind it automatically; a transparent or dark PNG sits straight on the page.
+- Plots and diagrams are fine on white. A product photo on a plain white backdrop can be
+  cut out so it floats on the dark page: `node engine/darken.mjs cutout path/to/photo.png`
+  (the original is kept in `_unused/originals/`).
 - Don't resize anything. The build makes web-sized copies automatically. Bigger
   originals look sharper, and a cover should ideally be landscape and 2000 px or wider.
 - iPhone HEIC photos aren't supported. Export as JPG.
@@ -118,8 +122,10 @@ They're scaled to the same height automatically. Two or three per row works best
 
 ## The home page
 
-Everything except the project cards comes from `site.yaml`: the headline, intro,
-"Now" line, experience, education, toolkit, and publications. Keep the two-space
+Everything except the project cards comes from `site.yaml`: your name, the one-line
+summary under it, the affiliations row (MIT · Georgia Tech · NASA; add `logo:` with a
+white SVG/PNG in `files/logos/` to swap a name for its logo), contact links, and publications. Experience and skills live in the
+résumé PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. Keep the two-space
 indentation, and put text containing a colon in quotes.
 
 ## Publishing

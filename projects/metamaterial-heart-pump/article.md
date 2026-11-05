@@ -21,7 +21,7 @@ metrics:
 
 <!-- Draft carried over from the old site. Rewrite in your own words. -->
 
-## The system under test
+## Metamaterial ventricle
 
 The plant is a soft robotic ventricle printed in Formlabs Elastic 50A, developed in prior work from the Roche lab. A metamaterial lattice forms the ventricle wall. Evacuating the actuator cavity between the lattice and the inner membrane squeezes the ventricle and ejects fluid, mimicking systole.
 
@@ -36,7 +36,7 @@ We instrumented the loop end to end: PendoTECH pressure transducers at the actua
 
 ![Full system: drive electronics, actuator, and mock circulatory loop with pressure (P) and flow (F) measurement stations.](system-diagram.png "wide")
 
-## My contribution: the hydraulic piston drive
+## Hydraulic piston drive
 
 The original drive was pneumatic: a vacuum reservoir, regulator and solenoid valve pulsing the actuator cavity. For system identification that has a basic flaw. Air is compressible, so you can command pressure but never know the *volume* you delivered. It also topped out around 30 L/min and could not run continuously.
 
@@ -51,7 +51,7 @@ I designed and built the replacement, a **servo-driven hydraulic piston pump**. 
 
 ![Piston-driven input: repeatable, continuous pressure cycles.](pressure-waveforms.jpg "small")
 
-## Why it matters
+## System identification
 
 A soft cardiac simulator is only useful to clinicians and device designers if its dynamics are characterized. With known input volume and measured pressures and flows on both sides, the MATLAB identification pipeline can fit the equivalent-circuit parameters of the ventricle and loop.
 
