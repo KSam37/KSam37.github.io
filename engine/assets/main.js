@@ -137,7 +137,12 @@
       const a = src[0];
       a.x = W * (0.6 + 0.07 * Math.sin(t * 0.00011));
       a.y = H * (0.3 + 0.14 * Math.sin(t * 0.00017 + 1.3));
-      a.A = 5 + 1.5 * Math.sin(t * 0.0006);
+      // one slow breath (~14 s) drives the source pulse and the global swell together
+      const breath = Math.sin(t * 0.00045);
+      a.A = 6 + 2.4 * breath;
+      a.s = 180 + 22 * breath;
+      const swell = 0.0045 * breath, cx = W * 0.55, cy = H * 0.5;
+      const wt = t * 0.0002, wa = 2.6 + 0.8 * breath;     // low-frequency shear warp
       // pointer source eases toward the cursor
       const p = src[1];
       p.x += (p.tx - p.x) * 0.08; p.y += (p.ty - p.y) * 0.08; p.A += (p.tA - p.A) * 0.05;
@@ -146,7 +151,8 @@
       for (let j = 0; j < ny; j++) {
         for (let i = 0; i < nx; i++) {
           const k = j * nx + i, x = ox + i * STEP, y = oy + j * STEP;
-          let dx = 0, dy = 0, I = 0;
+          let dx = (x - cx) * swell + wa * Math.sin(y / 260 + wt),
+              dy = (y - cy) * swell + wa * Math.sin(x / 310 - wt * 0.8), I = 0;
           for (const s of src) {
             if (s.A < 0.05) continue;
             const rx = x - s.x, ry = y - s.y, r2 = rx * rx + ry * ry, q = r2 / (s.s * s.s);
@@ -171,7 +177,7 @@
       for (let i = 0; i < nx; i += LINE) for (let j = 0; j < ny - 1; j++) seg(j * nx + i, (j + 1) * nx + i);
       ctx.lineWidth = 0.75;
       for (let b = 0; b < BINS; b++) {
-        ctx.strokeStyle = b === 0 ? 'rgba(236,235,231,0.05)' : `rgba(${acc},${(0.05 + 0.24 * b / (BINS - 1)).toFixed(3)})`;
+        ctx.strokeStyle = b === 0 ? 'rgba(236,235,231,0.055)' : `rgba(${acc},${(0.055 + 0.265 * b / (BINS - 1)).toFixed(3)})`;
         ctx.stroke(ps[b]);
       }
     };

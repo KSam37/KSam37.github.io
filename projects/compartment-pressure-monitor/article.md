@@ -14,8 +14,8 @@ metrics:
     label: Accuracy at the 30 mmHg diagnostic level
   - value: 20 h
     label: Continuous monitoring per charge
-  - value: "≪ $3,000"
-    label: Target cost versus the incumbent device
+  - value: "$40"
+    label: Target cost versus the $3,000 incumbent device
 ---
 
 <!-- Draft carried over from the old site. Rewrite in your own words.

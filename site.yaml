@@ -28,23 +28,30 @@ links:
   # github: https://github.com/KSam37
 
 hero:
-  # One line under your name. Keep it short.
-  summary: >-
-    MIT Mechanical Engineering graduate student and NSF Graduate Research Fellow,
-    researching medical soft robotics and designing novel robotic mechanisms.
+  credentials:                    # small line above your name
+    - MIT Mechanical Engineering graduate student
+    - NSF Graduate Research Fellow
+    - Georgia Tech alumnus
+  summary: >-                     # one paragraph under your name
+    I research medical soft robotics, developing solutions to the energy limits of
+    devices that must work in highly constrained environments, and I specialize in
+    novel robotic mechanisms and precision devices designed for manufacturing at scale.
+    I'm drawn to complicated problems at the boundaries of mechanical engineering, and
+    my goal is to question the conventional limits of robotics to build technology that
+    augments how we interact with the world and with our own biology.
 
 # Shown as a quiet row under the summary. Add a logo (white or single-colour SVG/PNG
 # in files/logos/) to replace the text, e.g.  logo: files/logos/mit.svg
 affiliations:                     # height = display height in px, tuned for equal visual weight
   - name: MIT
     logo: files/logos/mit.png
-    height: 22
+    height: 28
   - name: Georgia Tech
     logo: files/logos/georgia-tech.png
-    height: 30
+    height: 38
   - name: NASA
     logo: files/logos/nasa.png
-    height: 36
+    height: 46
 
 contact_line: Let's build something.
 

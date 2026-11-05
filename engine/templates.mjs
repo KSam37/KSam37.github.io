@@ -143,6 +143,7 @@ ${nav({ site, home: true })}
   <div class="hero__fade" aria-hidden="true"></div>
   <div class="wrap hero__grid">
     <div class="hero__text">
+      ${list(hero.credentials).length ? `<ul class="hero__creds mono">${list(hero.credentials).map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
       <h1 class="hero__name">${esc(site.name)}</h1>
       <p class="hero__summary">${esc(hero.summary || '')}</p>
       ${list(site.affiliations).length ? `<ul class="hero__orgs" aria-label="Affiliations">${list(site.affiliations).map((a) => `<li>${a.logo
