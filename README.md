@@ -1,6 +1,6 @@
 # Portfolio Website: how to write for it
 
-This folder is the source for **https://ksam37.github.io**. You write articles in
+This folder is the source for **https://samkir.com**. You write articles in
 plain text and drop images beside them; the build turns that into the site.
 
 ```

@@ -11,7 +11,7 @@ short_name: Kirschner            # bolded in publication author lists
 role: Mechanical Engineer
 location: Cambridge, MA
 email: samkir@mit.edu
-url: https://ksam37.github.io    # the live site address (used for link previews)
+url: https://samkir.com          # the live site address (used for link previews)
 base: /                          # leave as / unless the site moves into a subfolder
 
 description: >-

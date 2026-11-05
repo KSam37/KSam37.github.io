@@ -1,7 +1,7 @@
 # Portfolio website: notes for Claude
 
-Sam's personal portfolio and hiring page, live at https://ksam37.github.io
-(repo `KSam37/KSam37.github.io`, branch `main`). Sam writes the content; Claude
+Sam's personal portfolio and hiring page, live at https://samkir.com
+(repo `KSam37/KSam37.github.io`, branch `main`; custom domain set in the repo Pages settings, DNS at Cloudflare with proxy off; ksam37.github.io redirects there). Sam writes the content; Claude
 builds, polishes, and publishes it. `README.md` is Sam's writing guide, so keep it
 in sync with any change to the content format.
 
