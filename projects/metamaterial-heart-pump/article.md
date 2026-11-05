@@ -31,9 +31,27 @@ The ventricle starts from a segmented MRI scan of a patient's left ventricle. A 
 
 ## Piston pump
 
-The pump had to reproduce an adult ventricle: a 200 mL stroke volume, 50 L/min peak flow and 1 atm of vacuum, across the natural heart-rate range of 60–120 BPM. It is a single-stroke design, so one pump cycle maps directly to one heartbeat. An SC80×200 cylinder is driven by a 5 mm-lead SFU1605 ball-screw stage coupled to an iSV57T-180S servo (0.6 N·m at 3000 RPM), all on a 2020 T-slot frame.
+My contribution to the project was the pump that drives the ventricle. I designed, built and programmed it.
 
-It works with either water or air. Water is incompressible, so the displaced volume is exactly known, but its higher inertia limits the pumping frequency. The tests reported here ran on air with an 80 mm stroke, at up to 2 Hz (120 BPM). The servo ran closed-loop on trapezoidal velocity profiles through the manufacturer's tuning software, or open-loop on sinusoidal velocity profiles from step and direction signals sent by an Arduino Nano.
+### Why a piston
+
+The original drive was a vacuum reservoir switched by a pneumatic controller. It controlled pressure, not volume, and because air is compressible there was no way to know how much volume actually went into the actuator. It also topped out around 30 L/min and could only run a limited number of cycles before the reservoir needed recharging. For system identification the input has to be known precisely, so I replaced it with a displacement-controlled piston. The motor's position sets the swept volume directly, the pump runs continuously, and the design targets 50 L/min.
+
+### Sizing
+
+The design targets came from adult physiology: a 200 mL stroke volume, 50 L/min peak flow and 1 atm of vacuum, across 60–120 BPM. It is a single-stroke pump, so one stroke maps to one heartbeat with no valves or gearing between them. The piston's flow follows directly from the motor's speed:
+
+Q = A · (lead / 2π) · ω
+
+An 80 mm bore gives a piston area of about 5,030 mm². A 5 mm lead turns the servo's 3000 RPM ceiling into 250 mm/s of piston travel, which works out to a theoretical peak of about 75 L/min, comfortably above the 50 L/min target. At 1 atm of vacuum the piston pulls roughly 510 N, which the 5 mm lead brings down to about 0.45 N·m at the motor, inside the servo's 0.6 N·m rated torque. I sized the servo from its torque-speed curve against these loads.
+
+### Mechanical design
+
+The drive train is an iSV57T-180S integrated servo (180 W, 0.6 N·m rated and 1.1 N·m peak, 16-bit encoder) on an SFU1605 ball-screw stage, pushing an SC80 pneumatic cylinder repurposed as the piston. The cylinder rod connects to the carriage through a heim joint and a double-ear clevis bracket, so small misalignments between the screw and the cylinder don't bind the rod. Everything mounts to a 2020 T-slot frame, and the cylinder ports take brass hose barbs, so the same pump runs on water or air. Water is incompressible, so the displaced volume is exactly known, but its inertia limits how fast the pump can cycle. The tests reported here ran on air with an 80 mm stroke, at up to 2 Hz (120 BPM). The whole pump, including the power supply and electronics, came in at about $390 in parts.
+
+### Control
+
+The servo closes its own position loop. An Arduino Nano generates the step and direction pulses, recomputing the target position and velocity of the waveform every 500 µs. A MATLAB GUI sets the parameters, runs frequency sweeps and plots position, velocity and flow live. Both the firmware and the GUI reject any command whose peak velocity would exceed the step-rate limit, and soft limits stop the piston before the end of its travel. The pump plays back sinusoids for the identification sweeps, and trapezoidal velocity profiles, run closed-loop through the manufacturer's tuning software, for broadband tests.
 
 ## Instrumentation
 

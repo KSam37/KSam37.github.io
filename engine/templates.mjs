@@ -151,7 +151,7 @@ ${nav({ site, home: true })}
         : `<span>${esc(a.name)}</span>`}</li>`).join('')}</ul>` : ''}
     </div>
     ${hs ? `<figure class="hero__portrait">
-      <div class="hero__frame">${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 360px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}</div>
+      <div class="hero__frame">${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 408px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}</div>
     </figure>` : ''}
   </div>
 </header>

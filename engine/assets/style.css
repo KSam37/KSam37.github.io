@@ -125,7 +125,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .hero__orgs li { display: flex; align-items: center; color: var(--ink-3); font-size: 15px; font-weight: 600; }
 .hero__orgs img { width: auto; display: block; }
 
-.hero__portrait { margin: 0; justify-self: end; width: 100%; max-width: 340px; }
+.hero__portrait { margin: 0; justify-self: end; width: 100%; max-width: 408px; }
 .hero__frame { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: var(--bg-3); box-shadow: var(--shadow); }
 .hero__frame img { width: 100%; height: 100%; object-fit: cover; }
 .hero__frame::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--line); pointer-events: none; }
