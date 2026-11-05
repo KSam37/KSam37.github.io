@@ -1,84 +1,129 @@
-# Samuel Kirschner — Engineering Portfolio
+# Portfolio Website: how to write for it
 
-A static portfolio website. No build step, no dependencies — just HTML, CSS, and a little vanilla JS.
-All asset paths are **relative**, so the site works from any folder, subdirectory URL
-(e.g. `sites.mit.edu/samkirschner`), or `file://` open.
-
-## Structure
+This folder is the source for **https://ksam37.github.io**. You write articles in
+plain text and drop images beside them; the build turns that into the site.
 
 ```
-website/
-├── index.html                    # Landing page (hero, projects, publications, contact)
-├── projects/                     # One detail page per project, displayed newest first
-│   ├── metamaterial-heart-pump.html        MIT 2.131 · 2026
-│   ├── compartment-pressure-monitor.html   MIT 2.750 · 2026
-│   ├── rc-car-dfm.html                     MIT 2.810 · 2025
-│   ├── fish-exoskeleton.html               GT capstone · 2025
-│   ├── exoskins.html                       GT · 2024–25
-│   ├── elephant-skin-mechanics.html        GT · 2023
-│   └── metal-additive-manufacturing.html   2021
-└── assets/
-    ├── css/style.css             # Design system — dark, Marcellus display type
-    ├── fonts/Marcellus-Regular.ttf  # Self-hosted display font (@font-face)
-    ├── js/main.js                # Scroll reveal + progress bar + lightbox
-    ├── img/                      # Optimized project images
-    └── Samuel_Kirschner_Resume.pdf
+Portfolio Website/
+├── site.yaml              ← home page: headline, bio, experience, publications, skills
+├── files/                 ← résumé PDF and headshot (linked from the site as-is)
+├── projects/
+│   ├── exoskins/          ← one folder per project; the folder name is the web address
+│   │   ├── article.md     ← the article
+│   │   ├── rig-red-exoskin.jpg
+│   │   ├── …              ← images used in the article
+│   │   └── _unused/       ← anything you want to keep but not publish
+│   └── _template/         ← copy this to start a new project
+├── Preview.cmd            ← double-click to preview locally
+└── engine/                ← the code that builds the site (you shouldn't need to touch it)
 ```
 
-## Viewing locally
+## Preview while you write
 
-Any static server works. From this `website/` folder:
+Double-click **Preview.cmd**. A browser opens at http://localhost:4000 and refreshes
+every time you save an article, image, or `site.yaml`. The console window lists
+problems, such as a missing image or an image in the folder that the article never uses.
 
-```bash
-python -m http.server 8000
+Requires Node.js (already installed). The first run takes a minute to install.
+
+## Writing an article
+
+Each `article.md` has two parts: a **front matter** block between `---` lines, then the
+article in Markdown.
+
+```markdown
+---
+title: ExoSkins, Programmable Knitted Orthoses
+summary: One or two sentences for the home page card and the top of the article.
+date: 2025-01                # sorts the home page, newest first
+org: Georgia Tech
+period: 2024 — 2025
+role: Undergraduate researcher, co-first author
+team: PoWeR Lab & Geometry of Materials Lab
+tools: [Custom torque rig, MATLAB]
+tags: [Wearables, Mechanics]  # become filter buttons on the home page
+cover: rig-red-exoskin.jpg     # card image + big image at the top
+metrics:
+  - value: "8"
+    label: Garments characterized
+links:
+  - label: Paper (arXiv)
+    url: https://arxiv.org/abs/2509.22971
+---
+
+## The idea
+
+Text here. **Bold**, *italic*, [links](https://example.com), lists with "- ".
 ```
 
-Then open <http://localhost:8000>.
+- Each `## Heading` becomes a numbered section and an entry in the side menu.
+- Use `###` for sub-headings inside a section.
+- A line starting with `>` becomes a highlighted callout. Save it for one key sentence.
+- `<!-- notes like this -->` are notes to yourself. They never appear on the site.
+- Add `draft: true` to the front matter to keep an article off the live site; it still
+  shows in Preview.
 
-## Deploying to sites.mit.edu (CampusPress / WordPress)
+### Optional front matter
 
-Target URL: `https://sites.mit.edu/samkirschner`. CampusPress is WordPress-based, so raw HTML
-files can't be uploaded directly — the cleanest port:
+| Field | What it does |
+|---|---|
+| `cover_position: 50% 30%` | Which part of the cover stays in frame when it's cropped (x% y%) |
+| `cover_caption: …` | Caption under the big top image |
+| `cover_style: bleed` | Force the top image to `bleed` (full width), `framed` (whole photo on a blurred backdrop) or `plate` (on a white sheet, for diagrams). Normally chosen automatically. |
+| `lede: …` | A longer intro for the article page, if it should differ from `summary` |
+| `order: 1` | Pin a project to the top of the home page (higher numbers first) |
+| `hide_cover: true` | Don't repeat the cover at the top of the article |
 
-1. **Media first.** Upload everything in `assets/img/` (plus the résumé PDF) through
-   *Media Library → Add New*. WordPress gives each file a URL like
-   `https://sites.mit.edu/samkirschner/files/2026/06/heart-hero.png`.
-2. **CSS once.** Paste the contents of `assets/css/style.css` into
-   *Appearance → Customize → Additional CSS*. Upload `Marcellus-Regular.ttf` to the Media Library
-   and update the `@font-face` `src:` URL at the top of the CSS to that file's URL
-   (or swap to the Google Fonts copy: `https://fonts.googleapis.com/css2?family=Marcellus`).
-3. **Pages.** Create one WordPress page per HTML file. In the block editor, add a single
-   **Custom HTML** block and paste everything between `<body>` and `</body>` (drop the
-   `<script>` tag; see step 5). Set the page slug to match the file name
-   (`metamaterial-heart-pump`, etc.) and make `index` the site's static front page
-   (*Settings → Reading*).
-4. **Fix links.** In the pasted HTML, replace relative links:
-   `../assets/img/…` → the Media Library URLs, `projects/foo.html` → `/samkirschner/foo/`,
-   `../index.html#projects` → `/samkirschner/#projects`. A find-and-replace in a text editor
-   before pasting makes this a 2-minute job per page.
-5. **JS.** CampusPress strips `<script>` in some plans. The site degrades gracefully without
-   `main.js` (reveal animations and lightbox are progressive enhancements). If scripts are
-   allowed (Custom HTML block usually permits them), paste the contents of `assets/js/main.js`
-   inside a `<script>…</script>` at the bottom of the same Custom HTML block.
-6. **Theme.** Pick the most minimal theme available and hide its header/footer if possible —
-   the pages carry their own nav and footer.
+## Images
 
-### Alternative hosts (zero modification)
+Put images in the project's folder and reference them by filename. The text in the
+brackets is the caption.
 
-- **GitHub Pages** — push the contents of `website/` to a repo and enable Pages. Works
-  unchanged thanks to relative paths.
-- **Netlify / Vercel / Cloudflare Pages** — drag-and-drop the `website/` folder. No build step.
+```markdown
+![Torque-angle curves for every garment.](torque-angle-results.png)
+```
 
-## Adding a project
+**Side by side:** put images on back-to-back lines with no blank line between them.
+They're scaled to the same height automatically. Two or three per row works best.
 
-1. Drop optimized images into `assets/img/` (≤ ~1600px wide; JPG for photos, PNG for diagrams).
-2. Copy an existing file in `projects/` as a template and edit the content.
-3. Add a new `<a class="card">` block to the projects grid in `index.html` in date position
-   (newest first), and splice it into the prev/next links of its neighbors.
+```markdown
+![Knitted sleeves.](exoskin-pair.jpg)
+![A commercial brace.](commercial-brace.png)
+```
 
-## Editing content
+**Sizes:** add a word in quotes after the filename.
 
-All copy lives directly in the HTML. The visual language (colors, fonts, spacing) is centralized
-in `assets/css/style.css` under the `:root` CSS variables — change `--accent`, `--bg`, `--ink`,
-etc. in one place to retheme the whole site. Display typography is Marcellus (self-hosted,
-single 400 weight); body is Inter; annotations are IBM Plex Mono.
+| | |
+|---|---|
+| *(nothing)* | Text-column width |
+| `"wide"` | Wider than the text. Good for diagrams, plots, and panoramic photos |
+| `"full"` | Edge to edge across the whole screen |
+| `"small"` | Narrow and centered. Good for small or low-resolution images |
+| `"nocaption"` | Hide the caption (it's still used as alt text) |
+
+```markdown
+![System diagram.](system-diagram.png "wide")
+```
+
+**Tips**
+
+- Name files for what they show (`rig-red-exoskin.jpg`, not `IMG_4021.jpg`).
+- Export photos as JPG, diagrams and plots as PNG. PNGs get a light "plate" behind them
+  so white backgrounds look intentional in dark mode.
+- Don't resize anything. The build makes web-sized copies automatically. Bigger
+  originals look sharper, and a cover should ideally be landscape and 2000 px or wider.
+- iPhone HEIC photos aren't supported. Export as JPG.
+- Short videos (`.mp4`) work like images and autoplay silently on loop. GIFs work too.
+- Every image in the folder should appear in the article. Park extras in `_unused/`.
+
+## The home page
+
+Everything except the project cards comes from `site.yaml`: the headline, intro,
+"Now" line, experience, education, toolkit, and publications. Keep the two-space
+indentation, and put text containing a colon in quotes.
+
+## Publishing
+
+When you're happy with the preview, ask Claude to publish (the steps are in
+`CLAUDE.md`). Claude reviews and builds the site, then pushes to GitHub.
+GitHub rebuilds and deploys it in about a minute.

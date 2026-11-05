@@ -1,0 +1,110 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  HOME PAGE CONTENT
+#  Everything on the front page (except the project cards) comes from this file.
+#  Edit the text, save, and the preview refreshes. Indentation matters in YAML:
+#  keep the two-space indents, and wrap text containing a colon in "quotes".
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Samuel Kirschner
+short_name: Kirschner            # bolded in publication author lists
+role: Mechanical Engineer
+location: Cambridge, MA
+email: samkirschner123@gmail.com
+url: https://ksam37.github.io    # the live site address (used for link previews)
+base: /                          # leave as / unless the site moves into a subfolder
+
+description: >-
+  Samuel Kirschner is a mechanical engineering graduate student at MIT and an NSF
+  Graduate Research Fellow, working on medical soft robotics, energy-constrained
+  actuation, and precision mechanisms designed for manufacturing at scale.
+
+resume: files/Samuel_Kirschner_Resume.pdf
+headshot: files/headshot.jpg
+headshot_position: 50% 22%       # which part of the photo stays in frame (x% y%)
+headshot_caption: ""             # optional small caption under the photo
+
+links:
+  linkedin: https://linkedin.com/in/samuelkirschner
+  scholar: https://scholar.google.com/citations?user=mxpmhYYAAAAJ&hl=en
+  # github: https://github.com/KSam37
+
+hero:
+  credentials:
+    - MS candidate, MIT
+    - NSF Graduate Research Fellow
+    - BSME, Georgia Tech
+  headline: >-
+    I design medical soft robots and precision mechanisms that work within hard
+    limits on energy and space, and that can be built at scale.
+  intro: >-
+    I like complicated problems at the boundaries of mechanical engineering. In
+    research, my goal is to question the conventional limits of robotics and build
+    technology that changes how we interact with the world, and with our own biology.
+  currently: >-
+    Building a hybrid electrolytic and H₂O₂ pressure generator for untethered soft robots at MIT.
+
+contact_line: Let's build something.
+
+# ── Experience (newest first) ────────────────────────────────────────────────
+experience:
+  - org: Massachusetts Institute of Technology
+    unit: Therapeutic Technology Design & Development Lab · Fabrication-Integrated Design Lab
+    role: Graduate Researcher
+    when: Sep 2025 — Now
+    place: Cambridge, MA
+    points:
+      - Built a framework for quantitatively comparing pressure generation technologies in soft robotics and medical devices; it points to hybrid architectures as the high-potential direction.
+      - Designing and prototyping a hybrid pressure generator that couples electrolytic gas generation with H₂O₂ monopropellant decomposition, exceeding the pressure limits of existing monopropellant systems.
+
+  - org: NASA Johnson Space Center
+    unit: Energy Systems Division
+    role: Engineering Intern
+    when: Jun — Aug 2024
+    place: Houston, TX
+    points:
+      - Extended systems models of in-situ resource utilization processes for sustained settlements on the Moon and Mars.
+      - Defined mission requirements for a lunar water mining and processing system.
+      - Ran a trade study of MBSE tools and presented the findings to division leadership.
+
+  - org: Georgia Institute of Technology
+    unit: Physiology of Wearable Robotics Lab · Geometry of Materials Lab
+    role: Undergraduate Researcher
+    when: Jan 2022 — May 2025
+    place: Atlanta, GA
+    points:
+      - Co-first author on the first paper studying programmable knitted wearables for augmenting knee biomechanics.
+      - Characterized human biomechanics with motion capture, EMG and torque-angle testing to support optimization-based wearable design.
+      - Measured the mechanics of elephant skin with digital image correlation.
+
+  - org: NASA Marshall Space Flight Center
+    role: Engineering Intern
+    when: Jun — Aug 2022
+    place: Huntsville, AL
+    points:
+      - Built a MagicDraw model of lunar surface operations that the Architecture and Baseline Definitions team adopted for Artemis III.
+      - Added timing simulation to the Lunar Exploration Architecture Framework (SysML) to predict event duration and probability of mission success.
+
+education:
+  - school: Massachusetts Institute of Technology
+    degree: MS Mechanical Engineering (in progress) · NSF GRFP Fellow
+    when: 2025 — Now
+  - school: Georgia Institute of Technology
+    degree: BS Mechanical Engineering · GPA 4.0 · Atlanta & Metz, France
+    when: 2022 — 2025
+
+skills:
+  - group: Design
+    items: [SolidWorks, Fusion 360, Design for manufacturing, Tolerance analysis]
+  - group: Analysis & modeling
+    items: [MATLAB, Mathematica, MBSE / SysML, System identification]
+  - group: Manufacturing
+    items: [Additive manufacturing, Injection molding, Mill & lathe, Waterjet, Statistical process control]
+  - group: Experimental
+    items: [Precision metrology, Digital image correlation, Motion capture & EMG, Kinematic analysis]
+
+publications:
+  - title: Augmenting knee biomechanics through programmable knitted ExoSkin orthoses
+    authors: K. Singal*, S.P. Kirschner*, A.K. Schulz, E.D. Sanders, G. Sawicki, K.R. Herrin, E.A. Matsumoto
+    venue: arXiv:2509.22971 · 2025
+    note: "*Equal contribution"
+    url: https://arxiv.org/abs/2509.22971

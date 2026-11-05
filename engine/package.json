@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-engine",
+  "version": "1.0.0",
+  "description": "Builds the portfolio site from ../projects and ../site.yaml",
+  "scripts": {
+    "dev": "node dev.mjs --open",
+    "build": "node build.mjs",
+    "build:drafts": "node build.mjs --drafts"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "marked": "^15.0.12",
+    "sharp": "^0.35.5",
+    "yaml": "^2.9.1"
+  },
+  "private": true
+}
