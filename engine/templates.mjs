@@ -53,7 +53,8 @@ function nav({ site, home }) {
       <span class="nav__name">${esc(site.name)}</span>
     </a>
     <div class="nav__links">
-      <a href="${h}#work">Work</a>
+      <a href="${h}#work">Projects</a>
+      ${list(site.experience).length ? `<a href="${h}#experience" class="hide-sm">Experience</a>` : ''}
       <a href="${h}#publications" class="hide-sm">Publications</a>
       <a href="${h}#contact" class="hide-xs">Contact</a>
       <a class="nav__cv" href="${b}${site.resume}" target="_blank" rel="noopener">Résumé ${icon.arrow}</a>
@@ -93,6 +94,12 @@ const heroMode = (p) => {
   if (p.cover.png) return p.cover.light ? 'plate' : 'bare';
   return p.cover.w >= 1800 && p.cover.w / p.cover.h >= 1.25 ? 'bleed' : 'framed';
 };
+// card image: card_image (if set) or the cover; card_style plate|bare|fill overrides the automatic look
+const cardClass = (p) => {
+  const m = p.card || p.cover;
+  const s = p.card_style || (m?.png ? (m.light ? 'plate' : 'bare') : 'fill');
+  return s === 'plate' ? ' is-plate' : s === 'bare' ? ' is-bare' : '';
+};
 const coverStyle = (p) => (p.cover_position ? `object-position:${esc(p.cover_position)}` : '');
 
 // ---------------------------------------------------------------- home
@@ -102,8 +109,8 @@ export function home({ site, projects, dev }) {
 
   const cards = projects.map((p, i) => `
       <a class="card reveal" href="${b}projects/${p.slug}/">
-        <div class="card__media${p.cover?.png ? (p.cover.light ? ' is-plate' : ' is-bare') : ''}" style="view-transition-name:p-${p.slug}">
-          ${img(p.cover, { alt: p.title, sizes: '(min-width: 1100px) 560px, (min-width: 700px) 50vw, 100vw', style: coverStyle(p) })}
+        <div class="card__media${cardClass(p)}" style="view-transition-name:p-${p.slug}">
+          ${img(p.card || p.cover, { alt: p.title, sizes: '(min-width: 1100px) 560px, (min-width: 700px) 50vw, 100vw', style: p.card ? '' : coverStyle(p) })}
           <span class="card__go">${icon.arrow}</span>
         </div>
         <div class="card__body">
@@ -124,6 +131,18 @@ export function home({ site, projects, dev }) {
         </div>
         ${p.url ? `<a class="pub__link" href="${esc(p.url)}" target="_blank" rel="noopener">Read ${icon.arrow}</a>` : ''}
       </li>`).join('');
+
+  const exp = list(site.experience).map((e) => `
+      <li class="exp reveal">
+        <div class="exp__when mono"><span>${esc(e.period || '')}</span><span>${esc(e.location || '')}</span></div>
+        <div>
+          <p class="exp__org">${esc(e.org || '')}</p>
+          <p class="exp__role">${esc(e.role || '')}</p>
+          ${list(e.points).length ? `<ul class="exp__points">${list(e.points).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+        </div>
+      </li>`).join('');
+  let n = 1;
+  const no = () => pad(++n);
 
   const links = site.links || {};
   const linkRow = [
@@ -161,17 +180,28 @@ ${nav({ site, home: true })}
     <div class="wrap">
       <header class="section__head reveal">
         <span class="section__no mono">01</span>
-        <h2>Selected work</h2>
+        <h2>Projects</h2>
       </header>
       <div class="cards">${cards}
       </div>
     </div>
   </section>
 
+  ${exp ? `<section class="section" id="experience">
+    <div class="wrap">
+      <header class="section__head reveal">
+        <span class="section__no mono">${no()}</span>
+        <h2>Experience</h2>
+      </header>
+      <ol class="exps">${exp}
+      </ol>
+    </div>
+  </section>` : ''}
+
   ${pubs ? `<section class="section" id="publications">
     <div class="wrap">
       <header class="section__head reveal">
-        <span class="section__no mono">02</span>
+        <span class="section__no mono">${no()}</span>
         <h2>Publications</h2>
         ${links.scholar ? `<a class="section__note mono" href="${esc(links.scholar)}" target="_blank" rel="noopener">Google Scholar ${icon.arrow}</a>` : ''}
       </header>
@@ -182,7 +212,7 @@ ${nav({ site, home: true })}
 
   <section class="section contact" id="contact">
     <div class="wrap">
-      <p class="mono contact__eyebrow reveal">03 — Contact</p>
+      <p class="mono contact__eyebrow reveal">${no()} — Contact</p>
       <h2 class="contact__title reveal">${esc(site.contact_line || "Let's build something.")}</h2>
       <a class="contact__mail reveal" href="mailto:${esc(site.email)}">${esc(site.email)}<span>${icon.arrow}</span></a>
       <div class="contact__links reveal">

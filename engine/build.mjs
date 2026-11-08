@@ -152,7 +152,7 @@ function makeMarkdown(ctx) {
     if (!inRow) for (const k of ['wide', 'full', 'small']) if (m.has(k)) cls.push(`fig--${k}`);
     if (plate) cls.push('fig--plate');
     const n = ++ctx.fig.n;
-    const ratio = info.video ? 16 / 9 : info.w / info.h;
+    const ratio = info.video ? (m.has('portrait') ? 9 / 16 : 16 / 9) : info.w / info.h;
     // rows share a height via aspect ratio; single figures never upscale past the source
     const style = inRow ? ` style="--r:${ratio.toFixed(4)}"`
       : (!info.video && !m.has('full') && !m.has('wide') && (info.w < 1000 || m.has('small')))
@@ -260,6 +260,12 @@ async function loadProjects({ drafts, warn, base }) {
       const first = [...media.values()].find((m) => !m.video);
       if (first) { cover = first; if (data.cover === undefined) pw('no "cover" set, using first image'); }
     }
+    // optional different image for the home-page card
+    let card = null;
+    if (data.card_image) {
+      card = media.get(data.card_image) || media.get(String(data.card_image).toLowerCase());
+      if (!card) pw(`card_image "${data.card_image}" not found in folder`);
+    }
     if (cover && !cover.video) {
       await ogImage(cover.path, path.join(OUT, 'projects', slug, 'og.jpg'));
     }
@@ -270,7 +276,7 @@ async function loadProjects({ drafts, warn, base }) {
     const words = clean.replace(/!\[[^\]]*\]\([^)]*\)/g, '').split(/\s+/).filter(Boolean).length;
     const dateStr = String(data.date ?? '');
     projects.push({
-      slug, ...data, html, toc: ctx.toc, cover, figures: ctx.fig.n,
+      slug, ...data, html, toc: ctx.toc, cover, card, figures: ctx.fig.n,
       tags: data.tags || [], metrics: data.metrics || [], links: data.links || [],
       sortKey: dateStr, readMin: Math.max(1, Math.round(words / 230)),
     });

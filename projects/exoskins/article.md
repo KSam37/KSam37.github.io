@@ -10,6 +10,8 @@ team: K. Singal, S.P. Kirschner, A.K. Schulz, E.D. Sanders, G.S. Sawicki, K.R. H
 tools: [Knee-flexion test rig, STOLL industrial knitting, Instron, MATLAB]
 tags: [Wearables, Mechanics]
 cover: rig-red-exoskin.jpg
+card_image: g-pexo-designs.jpg
+card_style: plate
 links:
   - label: Paper (arXiv)
     url: https://arxiv.org/abs/2509.22971

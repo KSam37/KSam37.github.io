@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 #  HOME PAGE CONTENT
 #  The front page text (everything except the project cards) comes from this file.
-#  Experience and skills live in the résumé PDF in files/.
+#  The full résumé PDF lives in files/.
 #  Edit the text, save, and the preview refreshes. Indentation matters in YAML:
 #  keep the two-space indents, and wrap text containing a colon in "quotes".
 # ─────────────────────────────────────────────────────────────────────────────
@@ -58,6 +58,31 @@ affiliations:                     # height = display height in px, tuned for equ
 wip_notice: Work in progress · still being written
 
 contact_line: Let's build something.
+
+# Experience section on the home page, newest first. points are the bullets.
+experience:
+  - org: Hu Laboratory for Biolocomotion
+    role: Undergraduate Research Assistant
+    location: Atlanta, GA
+    period: Jan. 2021 – Present
+    points:
+      - Used digital image correlation to study the unique mechanical and material properties of elephant skin, such as its stress-strain relationships, in an ongoing study of elephant trunks.
+      - Developed procedures for and performed uniaxial tensile testing of topologically programmed fabric, gathering force and deformation data with high-speed cameras.
+  - org: Laboratory for Advanced Materials and Additive Manufacturing
+    role: Undergraduate Research Assistant
+    location: Orlando, FL
+    period: Dec. 2020 – Dec. 2021
+    points:
+      - Researched how print parameters affect the mechanical properties of selectively laser melted stainless steel alloys (15-5PH, 316L) compared with traditionally manufactured samples.
+      - Automated the digital image correlation (DIC) process in MATLAB to efficiently extract mechanical properties and create stress-strain curves.
+      - Developed laboratory and material processing skills, with certification for the safe handling of radiation, lasers and PPE.
+  - org: Honduras Medical Service
+    role: Pharmaceuticals Team Lead
+    location: Santa Bárbara, Honduras
+    period: Jun. 2017, 2018, 2019
+    points:
+      - Led the pharmaceuticals team for a medical relief trip that brought aid to villages in rural Honduras, serving over 5,000 people over three years.
+      - Led a team of seven responsible for filling prescriptions, maintaining stock, and communicating doctors' instructions to patients.
 
 publications:
   - title: Augmenting knee biomechanics through programmable knitted ExoSkin orthoses

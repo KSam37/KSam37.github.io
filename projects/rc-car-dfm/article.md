@@ -1,5 +1,5 @@
 ---
-title: RC Car Steering, Designed for Manufacturing
+title: Manufacturing at Scale of an RC Car
 summary: Re-engineering an RC car steering system for batch production. 3D geometries flattened into waterjet-cut aluminum profiles, with tight tolerances only where the mechanism needs them.
 date: 2025-12
 org: MIT
@@ -46,5 +46,7 @@ The C-joint is the showcase part: waterjet profile, face front and back, drill a
 ![Plate mount.](plate-mount-model.png)
 
 ![Toleranced drawing of the plate mount for shop fabrication.](plate-mount-drawing.png "wide")
+
+![Checking a car with calipers in the shop, beside the stock and hardware list for the class run.](checking-car.jpg "wide")
 
 ![A chassis during assembly, with the car bodies behind it.](chassis-assembly.jpg "wide")

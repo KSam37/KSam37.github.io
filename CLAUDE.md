@@ -7,8 +7,8 @@ in sync with any change to the content format.
 
 ## Layout
 
-- `site.yaml`: home page content (name, one-line hero summary, links, publications).
-  Experience lives only in the résumé PDF by Sam's choice; don't add it back to the page.
+- `site.yaml`: home page content (name, one-line hero summary, links, experience, publications).
+  `experience:` holds the home-page Experience section (Sam re-added it; the résumé PDF doesn't cover everything).
 - `projects/<slug>/article.md` + images beside it. Folders starting with `_` are ignored
   (`_template/`, and `_unused/` inside a project).
 - `files/`: copied verbatim to `/files/` (résumé PDF, headshot source).

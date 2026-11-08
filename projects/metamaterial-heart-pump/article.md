@@ -49,6 +49,9 @@ An 80 mm bore gives a piston area of about 5,030 mm². A 5 mm lead turns the ser
 
 The drive train is an iSV57T-180S integrated servo (180 W, 0.6 N·m rated and 1.1 N·m peak, 16-bit encoder) on an SFU1605 ball-screw stage, pushing an SC80 pneumatic cylinder repurposed as the piston. The cylinder rod connects to the carriage through a heim joint and a double-ear clevis bracket, so small misalignments between the screw and the cylinder don't bind the rod. Everything mounts to a 2020 T-slot frame, and the cylinder ports take brass hose barbs, so the same pump runs on water or air. Water is incompressible, so the displaced volume is exactly known, but its inertia limits how fast the pump can cycle. The tests reported here ran on air with an 80 mm stroke, at up to 2 Hz (120 BPM). The whole pump, including the power supply and electronics, came in at about $390 in parts.
 
+![The pump (bottom) driving the ventricle on its stand, during our class presentation.](pump-and-ventricle.jpg "small")
+![The pump running on the lab bench, driving the ventricle above it.](ventricle-actuating.mp4 "portrait")
+
 ### Control
 
 The servo closes its own position loop. An Arduino Nano generates the step and direction pulses, recomputing the target position and velocity of the waveform every 500 µs. A MATLAB GUI sets the parameters, runs frequency sweeps and plots position, velocity and flow live. Both the firmware and the GUI reject any command whose peak velocity would exceed the step-rate limit, and soft limits stop the piston before the end of its travel. The pump plays back sinusoids for the identification sweeps, and trapezoidal velocity profiles, run closed-loop through the manufacturer's tuning software, for broadband tests.

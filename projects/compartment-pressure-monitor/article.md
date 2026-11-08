@@ -71,3 +71,5 @@ The case CAD, ESP32 firmware and iOS app are released under a CC BY-NC license, 
 ## Next steps
 
 The device hasn't yet been tested in humans or animals. Next come a calibration step to remove the systematic offset, then animal and clinical testing.
+
+![Our team presenting the system architecture: the wearable patch and its Bluetooth link to the phone app.](team-presentation.jpg "wide")

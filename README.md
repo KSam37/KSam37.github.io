@@ -71,6 +71,8 @@ Text here. **Bold**, *italic*, [links](https://example.com), lists with "- ".
 |---|---|
 | `cover_position: 50% 30%` | Which part of the cover stays in frame when it's cropped (x% y%) |
 | `cover_caption: …` | Caption under the big top image |
+| `card_image: file.jpg` | A different image for the home page card (the article keeps `cover`) |
+| `card_style: plate` | How the card shows its image: `plate` (whole image on a white sheet), `bare` (on the dark card) or `fill` (cropped to fill). Normally automatic. |
 | `cover_style: bleed` | Force the top image to `bleed` (full width), `framed` (whole photo on a blurred backdrop), `plate` (on a white sheet) or `bare` (straight on the dark page). Normally chosen automatically. |
 | `lede: …` | A longer intro for the article page, if it should differ from `summary` |
 | `order: 1` | Pin a project to the top of the home page (higher numbers first) |
@@ -102,6 +104,7 @@ They're scaled to the same height automatically. Two or three per row works best
 | `"full"` | Edge to edge across the whole screen |
 | `"small"` | Narrow and centered. Good for small or low-resolution images |
 | `"nocaption"` | Hide the caption (it's still used as alt text) |
+| `"portrait"` | For a video shot upright on a phone (videos are assumed landscape otherwise) |
 
 ```markdown
 ![System diagram.](system-diagram.png "wide")
@@ -126,8 +129,8 @@ They're scaled to the same height automatically. Two or three per row works best
 
 Everything except the project cards comes from `site.yaml`: your name, the one-line
 summary under it, the affiliations row (MIT · Georgia Tech · NASA; add `logo:` with a
-white SVG/PNG in `files/logos/` to swap a name for its logo), contact links, and publications. Experience and skills live in the
-résumé PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. Keep the two-space
+white SVG/PNG in `files/logos/` to swap a name for its logo), contact links, experience (org, role, location, period and bullet `points`, newest first) and publications. The full résumé is the
+PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. Keep the two-space
 indentation, and put text containing a colon in quotes.
 
 ## Publishing
