@@ -5,7 +5,7 @@ date: 2023-06
 org: Georgia Tech
 period: "2023"
 role: Undergraduate researcher
-team: Geometry of Materials Lab
+team: Hu Laboratory for Biolocomotion
 tools: [Digital image correlation, Cyclic tensile testing, MATLAB]
 tags: [Mechanics]
 cover: dic-strain-field.gif

@@ -21,6 +21,7 @@ description: >-
 resume: files/Samuel_Kirschner_Resume.pdf
 headshot: files/headshot.jpg
 headshot_position: 50% 22%       # which part of the photo stays in frame (x% y%)
+headshot_mobile: files/headshot-circle.jpg   # square close crop for the small circle on phones
 
 links:
   linkedin: https://linkedin.com/in/samuelkirschner
@@ -85,7 +86,7 @@ experience:
     role: Undergraduate Researcher
     location: Atlanta, GA
     period: Jan. 2022 – May 2025
-    projects: [exoskins, elephant-skin-mechanics]
+    projects: [exoskins]
   - org: NASA Marshall Space Flight Center
     role: Engineering Intern
     location: Huntsville, AL
@@ -94,6 +95,7 @@ experience:
     role: Undergraduate Research Assistant
     location: Atlanta, GA
     period: Jan. 2021 – Present
+    projects: [elephant-skin-mechanics]
   - org: Laboratory for Advanced Materials and Additive Manufacturing
     role: Undergraduate Research Assistant
     location: Orlando, FL

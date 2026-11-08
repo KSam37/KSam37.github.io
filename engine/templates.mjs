@@ -54,9 +54,9 @@ function nav({ site, home }) {
     </a>
     <div class="nav__links">
       <a href="${h}#work">Projects</a>
-      ${list(site.experience).length ? `<a href="${h}#experience" class="hide-sm">Experience</a>` : ''}
+      ${list(site.experience).length ? `<a href="${h}#experience" class="hide-xs">Experience</a>` : ''}
       <a href="${h}#publications" class="hide-sm">Publications</a>
-      <a href="${h}#contact" class="hide-xs">Contact</a>
+      <a href="${h}#contact">Contact</a>
       <a class="nav__cv" href="${b}${site.resume}" target="_blank" rel="noopener">Résumé ${icon.arrow}</a>
     </div>
   </div>
@@ -184,7 +184,7 @@ ${nav({ site, home: true })}
         : `<span>${esc(a.name)}</span>`}</li>`).join('')}</ul>` : ''}
     </div>
     ${hs ? `<figure class="hero__portrait">
-      <div class="hero__frame">${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 408px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}</div>
+      <div class="hero__frame">${site.headshot_mobile ? `<picture><source media="(max-width: 860px)" srcset="${b}${esc(site.headshot_mobile)}" width="600" height="600">` : ''}${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 408px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}${site.headshot_mobile ? '</picture>' : ''}</div>
     </figure>` : ''}
   </div>
 </header>
