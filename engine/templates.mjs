@@ -140,14 +140,20 @@ export function home({ site, projects, dev }) {
     const m = MONTHS.indexOf((s.match(/[a-z]{3}/i) || [''])[0].toLowerCase());
     return y * 12 + Math.max(m, 0);
   };
-  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
+  // experience entries can list project slugs; shown as links to those project pages
+  const bySlug = new Map(projects.map((p) => [p.slug, p]));
+  const expLinks = (e) => {
+    const ps = list(e.projects).map((s) => bySlug.get(String(s))).filter(Boolean);
+    return ps.length ? `<p class="exp__projects">${ps.map((p) => `<a href="${b}projects/${p.slug}/">${esc(p.title)} ${icon.arrow}</a>`).join('')}</p>` : '';
+  };  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
       <li class="exp reveal">
-        <div class="exp__when mono"><span>${esc(e.period || '')}</span><span>${esc(e.location || '')}</span></div>
+        <span class="exp__when mono">${esc(e.period || '')}</span>
         <div>
           <p class="exp__org">${esc(e.org || '')}</p>
           <p class="exp__role">${esc(e.role || '')}</p>
-          ${list(e.points).length ? `<ul class="exp__points">${list(e.points).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+          ${expLinks(e)}
         </div>
+        <span class="exp__where mono">${esc(e.location || '')}</span>
       </li>`).join('');
   let n = 1;
   const no = () => pad(++n);
