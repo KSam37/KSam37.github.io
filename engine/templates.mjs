@@ -132,7 +132,15 @@ export function home({ site, projects, dev }) {
         ${p.url ? `<a class="pub__link" href="${esc(p.url)}" target="_blank" rel="noopener">Read ${icon.arrow}</a>` : ''}
       </li>`).join('');
 
-  const exp = list(site.experience).map((e) => `
+  // experience sorted newest first by the start date in `period` ("Sept. 2025 – Present")
+  const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const started = (e) => {
+    const s = String(e.period || '');
+    const y = +(s.match(/\d{4}/) || [0])[0];
+    const m = MONTHS.indexOf((s.match(/[a-z]{3}/i) || [''])[0].toLowerCase());
+    return y * 12 + Math.max(m, 0);
+  };
+  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
       <li class="exp reveal">
         <div class="exp__when mono"><span>${esc(e.period || '')}</span><span>${esc(e.location || '')}</span></div>
         <div>

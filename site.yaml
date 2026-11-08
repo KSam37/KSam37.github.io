@@ -59,8 +59,39 @@ wip_notice: Work in progress · still being written
 
 contact_line: Let's build something.
 
-# Experience section on the home page, newest first. points are the bullets.
+# Experience section on the home page. Entries are sorted automatically by the start
+# date in period (newest first), so add new ones anywhere. points are the bullets.
 experience:
+  - org: Fabrication-Integrated Design Lab & Therapeutic Technology Design and Development Lab
+    role: Graduate Researcher
+    location: Cambridge, MA
+    period: Sept. 2025 – Present
+    points:
+      - Developing water-reactive metal power systems for untethered robots, integrating reactor design, electrochemical energy conversion, pneumatic actuation and magnetic controls.
+      - Designing medical devices for actuation and sensing, including a compact device for monitoring intramuscular compartment pressure and a hydraulic piston drive for an artificial heart ventricle.
+      - Experimentally characterized a catalytic hydrogen peroxide decomposition engine for pneumatic soft robots, demonstrating compact, high-output pressure generation.
+  - org: NASA Johnson Space Center
+    role: Engineering Intern
+    location: Houston, TX
+    period: Jun. 2024 – Aug. 2024
+    points:
+      - Modeled end-to-end lunar water-mining and processing architectures, integrating component, energy and resource flows for sustained lunar operations.
+      - Translated strategic mission objectives into technical design requirements, and presented an MBSE software trade study to division leadership to standardize tooling.
+  - org: Geometry of Materials Lab
+    role: Undergraduate Researcher
+    location: Atlanta, GA
+    period: Jan. 2022 – May 2025
+    points:
+      - Developed mechanically programmed wearable structures with spatially varying mechanical anisotropy to tailor knee torque–angle behavior; co-authored a paper demonstrating the concept (arXiv:2509.22971).
+      - Designed experimental hardware and characterized wearable-device mechanics using motion capture, EMG, torque–angle testing and custom instrumentation to inform optimization-based design.
+      - Characterized anisotropic elephant-skin mechanics using digital image correlation and translated biological mechanisms into engineered soft-material concepts.
+  - org: NASA Marshall Space Flight Center
+    role: Engineering Intern
+    location: Huntsville, AL
+    period: Jun. 2022 – Aug. 2022
+    points:
+      - Developed a dynamic model of crewed lunar surface operations, adopted by NASA's Architecture and Baseline Definitions team to support Artemis III mission planning.
+      - Integrated Monte Carlo simulation into the Lunar Exploration Architecture Framework using SysML to predict operation timing and the probability of mission success.
   - org: Hu Laboratory for Biolocomotion
     role: Undergraduate Research Assistant
     location: Atlanta, GA
