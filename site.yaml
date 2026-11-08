@@ -33,11 +33,12 @@ hero:
     - NSF Graduate Research Fellow
     - Georgia Tech Alumn
   summary: >-                     # one paragraph under your name
-    I research medical soft robotics, developing solutions to the energy limits of
-    devices that must work in highly constrained environments, and I specialize in
-    novel robotic mechanisms and precision devices designed for manufacturing at scale.
-    I'm drawn to complicated problems at the boundaries of mechanical engineering, and
-    my goal is to question the conventional limits of robotics to build technology that
+    I research medical soft robotics and try to solve the challenges of devices that must
+    work in highly constrained environments. My current work focuses on ways to provide
+    energy to implantable and untethered devices. I approach problems through the
+    principles of precision machine design, with a focus on manufacturability at scale.
+    I'm drawn to complicated problems at the boundaries of mechanical engineering, and my
+    goal is to question the conventional limits of robotics to build technology that
     augments how we interact with the world and with our own biology.
 
 # Shown as a quiet row under the summary. Add a logo (white or single-colour SVG/PNG
