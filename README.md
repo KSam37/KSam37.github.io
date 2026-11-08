@@ -129,7 +129,7 @@ They're scaled to the same height automatically. Two or three per row works best
 
 Everything except the project cards comes from `site.yaml`: your name, the one-line
 summary under it, the affiliations row (MIT · Georgia Tech · NASA; add `logo:` with a
-white SVG/PNG in `files/logos/` to swap a name for its logo), headshot (`headshot`, plus `headshot_mobile`, a square close crop for the small circle on phones), contact links, experience (org, role, location, period, and optional `projects:` folder names to link; sorted newest first by the start date in `period`) and publications. The full résumé is the
+white SVG/PNG in `files/logos/` to swap a name for its logo), credentials (an item can be `text:` plus a shorter `mobile:` version for phones), headshot (`headshot`, plus `headshot_mobile`, a square close crop for the small circle on phones), contact links, experience (org, role, location, period, and optional `projects:` folder names to link; sorted newest first by the start date in `period`) and publications. The full résumé is the
 PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. Keep the two-space
 indentation, and put text containing a colon in quotes.
 

@@ -30,7 +30,8 @@ links:
 
 hero:
   credentials:                    # small line above your name
-    - MIT Mechanical Engineering graduate student
+    - text: MIT Mechanical Engineering graduate student
+      mobile: MIT MechE grad student      # shorter version shown on phones
     - NSF Graduate Research Fellow
     - Georgia Tech Alumn
   summary: >-                     # one paragraph under your name

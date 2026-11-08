@@ -175,7 +175,7 @@ ${nav({ site, home: true })}
   <canvas class="hero__field" aria-hidden="true"></canvas>
   <div class="hero__fade" aria-hidden="true"></div>
   <div class="wrap hero__grid">
-    ${list(hero.credentials).length ? `<ul class="hero__creds mono">${list(hero.credentials).map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
+    ${list(hero.credentials).length ? `<ul class="hero__creds mono">${list(hero.credentials).map((c) => `<li>${typeof c === 'object' && c.mobile ? `<span class="cred-long">${esc(c.text)}</span><span class="cred-short">${esc(c.mobile)}</span>` : esc(typeof c === 'object' ? c.text : c)}</li>`).join('')}</ul>` : ''}
     <div class="hero__text">
       <h1 class="hero__name">${esc(site.name)}</h1>
       <p class="hero__summary">${esc(hero.summary || '')}</p>
