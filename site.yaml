@@ -63,18 +63,21 @@ contact_line: Let's build something.
 
 # Experience section on the home page. Entries are sorted automatically by the start
 # date in period (newest first), so add new ones anywhere.
-# projects: optional list of project folder names, linked under the role.
+# url: optional link on the lab name. projects: optional list of project folder names, linked under the role.
 experience:
   - org: Fabrication-Integrated Design Lab
+    url: https://fidl.mit.edu/
     role: Graduate Researcher
     location: Cambridge, MA
     period: Sept. 2025 – Present
   - org: Therapeutic Technology Design and Development Lab
+    url: https://ttdd.mit.edu/
     role: Graduate Researcher
     location: Cambridge, MA
     period: Sept. 2025 – Present
     projects: [metamaterial-heart-pump, compartment-pressure-monitor]
   - org: Physiology of Wearable Robotics Lab
+    url: https://power.me.gatech.edu/
     role: Undergraduate Researcher
     location: Atlanta, GA
     period: Jan. 2024 – May 2025
@@ -84,6 +87,7 @@ experience:
     location: Houston, TX
     period: Jun. 2024 – Aug. 2024
   - org: Geometry of Materials Lab
+    url: https://matsumoto.gatech.edu/
     role: Undergraduate Researcher
     location: Atlanta, GA
     period: Jan. 2022 – May 2025
@@ -93,11 +97,13 @@ experience:
     location: Huntsville, AL
     period: Jun. 2022 – Aug. 2022
   - org: Hu Laboratory for Biolocomotion
+    url: https://hu.gatech.edu/
     role: Undergraduate Researcher
     location: Atlanta, GA
     period: Jan. 2021 – Present
     projects: [elephant-skin-mechanics]
   - org: Laboratory for Advanced Materials and Additive Manufacturing
+    url: https://mse.ucf.edu/sohn/
     role: Undergraduate Researcher
     location: Orlando, FL
     period: Dec. 2020 – Dec. 2021

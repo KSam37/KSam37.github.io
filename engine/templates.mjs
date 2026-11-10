@@ -148,7 +148,7 @@ export function home({ site, projects, dev }) {
   };  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
       <li class="exp reveal">
         <div>
-          <p class="exp__org">${esc(e.org || '')}</p>
+          <p class="exp__org">${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.org || '')}</a>` : esc(e.org || '')}</p>
           <p class="exp__role">${esc(e.role || '')}</p>
           ${expLinks(e)}
         </div>
