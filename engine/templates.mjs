@@ -183,7 +183,7 @@ ${nav({ site, home: true })}
         : `<span>${esc(a.name)}</span>`}</li>`).join('')}</ul>` : ''}
     </div>
     ${hs ? `<figure class="hero__portrait">
-      <div class="hero__frame">${site.headshot_mobile ? `<picture><source media="(max-width: 860px)" srcset="${b}${esc(site.headshot_mobile)}" width="600" height="600">` : ''}${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 408px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}${site.headshot_mobile ? '</picture>' : ''}</div>
+      <div class="hero__frame">${site.headshot_mobile ? `<picture><source media="(max-width: 860px)" srcset="${b}${esc(site.headshot_mobile)}" width="600" height="600">` : ''}${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 367px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}${site.headshot_mobile ? '</picture>' : ''}</div>
     </figure>` : ''}
   </div>
 </header>
