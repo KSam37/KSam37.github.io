@@ -121,7 +121,7 @@ svg { width: 1em; height: 1em; flex: none; }
 @media (min-width: 1000px) { .hero__creds { flex-wrap: nowrap; white-space: nowrap; } }
 .cred-short { display: none; }
 .hero__creds li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-right: 10px; }
-.hero__name { font-size: clamp(44px, 6.4vw, 92px); font-weight: 500; letter-spacing: -.045em; line-height: .95; margin: 0 0 28px -.03em; }
+.hero__name { font-size: clamp(44px, 4.8vw, 69px); font-weight: 500; letter-spacing: -.045em; line-height: .95; margin: 0 0 28px -.03em; }
 .hero__summary { font-size: clamp(17px, 1.4vw, 19px); line-height: 1.6; color: var(--ink-2); max-width: 58ch; font-weight: 400; }
 .hero__orgs { display: flex; flex-wrap: wrap; align-items: center; gap: 20px clamp(40px, 5vw, 72px); margin-top: clamp(32px, 4vw, 48px); padding-top: 24px; border-top: 1px solid var(--line); max-width: 58ch; }
 .hero__orgs li { display: flex; align-items: center; color: var(--ink-3); font-size: 15px; font-weight: 600; }
