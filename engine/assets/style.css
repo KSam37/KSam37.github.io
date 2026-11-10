@@ -1,10 +1,11 @@
 /* ==========================================================================
    Samuel Kirschner — portfolio
-   Geist / Geist Mono · graphite + signal orange · light & dark
+   Marcellus (display) / Geist (text) / Geist Mono (labels) · graphite + signal orange · light & dark
    ========================================================================== */
 
 :root {
   --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Marcellus", Georgia, "Times New Roman", serif;
   --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
 
   --wrap: 1200px;
@@ -352,3 +353,13 @@ a.fig__media:hover img { transform: scale(1.015); }
   html { scroll-behavior: auto; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------------------------------------------------------------- display type
+   Marcellus for names and headings; Geist stays for body and small text.
+   Marcellus has one weight and wide letterforms, so tracking goes back to normal. */
+.hero__name, .nav__name, .section__head h2, .card__title, .contact__title, .proj__title,
+.metric__v, .prose h2, .prose h3, .nf h1, .exp__org, .pub__title {
+  font-family: var(--display); font-weight: 400; letter-spacing: 0;
+}
+.hero__name, .contact__title { letter-spacing: -.01em; }
+.hero__name { line-height: 1; }

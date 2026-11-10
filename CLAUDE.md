@@ -57,3 +57,4 @@ one subtle meta line (org · period · links); no spec table, no next-project ca
 Section headings are plain and descriptive ("Validation", "Next steps"), never
 self-narrating ("Where it stands", "Why it matters"). The hero background should stay subtle:
 a fine grid with smooth stress-flow fields radiating from a point.
+Type: Marcellus (single weight) for the name and headings/titles, Geist for body and small text, Geist Mono for labels.

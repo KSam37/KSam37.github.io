@@ -5,7 +5,7 @@ const pad = (n) => String(n).padStart(2, '0');
 const list = (v) => (Array.isArray(v) ? v : v ? [v] : []);
 const year = (p) => p.period || String(p.date ?? '').slice(0, 4);
 
-const FONTS = 'https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Marcellus&display=swap';
 
 const icon = {
   arrow: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>',
