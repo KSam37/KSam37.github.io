@@ -147,13 +147,12 @@ export function home({ site, projects, dev }) {
     return ps.length ? `<p class="exp__projects">${ps.map((p) => `<a href="${b}projects/${p.slug}/">${esc(p.title)} ${icon.arrow}</a>`).join('')}</p>` : '';
   };  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
       <li class="exp reveal">
-        <span class="exp__when mono">${esc(e.period || '')}</span>
         <div>
           <p class="exp__org">${esc(e.org || '')}</p>
           <p class="exp__role">${esc(e.role || '')}</p>
           ${expLinks(e)}
         </div>
-        <span class="exp__where mono">${esc(e.location || '')}</span>
+        <div class="exp__side mono"><span>${esc(e.location || '')}</span><span>${esc(e.period || '')}</span></div>
       </li>`).join('');
   let n = 1;
   const no = () => pad(++n);
