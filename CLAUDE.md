@@ -44,17 +44,46 @@ in sync with any change to the content format.
   with `node engine/darken.mjs cutout <file>` (check the result visually; originals go to
   `_unused/originals/`). Plots, diagrams and labeled assemblies keep their original white
   backgrounds on a plate. Sam rejected inverting them; don't use `invert` unless asked.
+- Diagrams drawn for the site: keep the SVG source in the project's `_src/` folder and render it with
+  `node engine/svg2png.mjs <in.svg> <out.png>` (the build only reads raster images). Fonts available to the
+  renderer: Marcellus, Segoe UI, Consolas.
+  Add `--light` to render the light version and save it as `name.print.png` beside `name.png`; the PDF
+  export uses it in place of the dark one. Block titles in diagrams are Title Case (Sam's preference).
+- PDF of a project page: `powershell -File engine/pdf.ps1 <slug> "Name.pdf"` prints it with the light
+  `@media print` layout in `style.css` and saves it in the project folder.
 - Old URLs `projects/<slug>.html` redirect to `projects/<slug>/` automatically.
 - Template or engine changes need the dev server restarted (modules are cached);
   content and CSS/JS changes hot-reload.
 
 ## Design direction (from Sam)
 
-Restraint with selective boldness: a big name and one summary line in the hero, no
-duplicate calls to action (the nav already carries Résumé and Contact), no gimmicky
-status lines, no tag filters, dark theme only. Project pages: modest title, short lede,
-one subtle meta line (org · period · links); no spec table, no next-project card.
-Section headings are plain and descriptive ("Validation", "Next steps"), never
-self-narrating ("Where it stands", "Why it matters"). The hero background should stay subtle:
-a fine grid with smooth stress-flow fields radiating from a point.
-Type: Marcellus (single weight) for the name and headings/titles, Geist for body and small text, Geist Mono for labels.
+Dark theme only, smooth and restrained. Sam asked for a more ambitious home page (November 2026), then
+pulled back everything that read as a gimmick. The theme is a compliant structure under load: `main.js`
+draws a triangular lattice of point masses behind the hero and the contact section. It is damped enough
+not to ring, pressed by one slowly drifting load and one that tracks the cursor, and members warm toward
+the accent only near a load. Touch devices get a single settled frame.
+
+Home page: an "Engineering Portfolio" label (`hero.eyebrow` in `site.yaml`) above the name on one line,
+the three titles stacked under it, the summary, the portrait, and the affiliation logos. Then Projects
+(a short `projects_intro`, bordered panels, the first one wide), Experience (a rail that fills on scroll,
+dates under the location on the right), Publications and Contact.
+
+Sam rejected, so do not bring back: a moving band of tags (buzzwords), a live readout of lattice numbers
+(meaningless data), random pulses or fast motion in the background, a glow that follows the cursor, any
+image or card that moves on hover, a Capabilities/skills section (belongs on a résumé), corner marks or a
+caption around the portrait, buttons in the hero that repeat the nav (Projects, Résumé), headline metric
+numbers on project panels or at the top of articles (`metrics:` in front matter is no longer shown), read
+time and figure counts, "in progress" labels or badges on project panels, a scroll progress bar on the
+home page, tag filters, and status lines.
+
+Project pages: modest title, short lede, one subtle meta line (org · period · links); no spec table, no
+next-project card. Section headings are plain and descriptive ("Validation", "Next steps"), never
+self-narrating ("Where it stands", "Why it matters").
+Type: Marcellus (single weight) for the name and headings/titles, Geist for body and small text, Geist
+Mono for labels. `--ink-3` is tuned to pass contrast for small labels.
+Reveal animations use the `translate` property. The intro is triggered by a timer, not an animation
+frame, so it still runs when the tab loads in the background.
+
+`projects/ai-in-the-loop/` is an unpublished draft. Sam is editing it and will say when to publish; until
+then it stays out of `main` (it is committed only on the local `redesign` branch and ignored locally).
+When he does, also regenerate its PDF with `engine/pdf.ps1`.

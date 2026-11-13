@@ -53,10 +53,10 @@ function nav({ site, home }) {
       <span class="nav__name">${esc(site.name)}</span>
     </a>
     <div class="nav__links">
-      <a href="${h}#work">Projects</a>
-      ${list(site.experience).length ? `<a href="${h}#experience" class="hide-xs">Experience</a>` : ''}
-      <a href="${h}#publications" class="hide-sm">Publications</a>
-      <a href="${h}#contact">Contact</a>
+      <a href="${h}#work" data-spy="work">Projects</a>
+      ${list(site.experience).length ? `<a href="${h}#experience" class="hide-xs" data-spy="experience">Experience</a>` : ''}
+      <a href="${h}#publications" class="hide-sm" data-spy="publications">Publications</a>
+      <a href="${h}#contact" data-spy="contact">Contact</a>
       <a class="nav__cv" href="${b}${site.resume}" target="_blank" rel="noopener">Résumé ${icon.arrow}</a>
     </div>
   </div>
@@ -66,7 +66,7 @@ function nav({ site, home }) {
 function footer({ site }) {
   return `<footer class="footer">
   <div class="wrap footer__inner">
-    <span>${esc(site.name)} — ${esc(site.role)}</span>
+    <span>${esc(site.name)} · ${esc(site.role)}</span>
     <span class="mono">${esc(site.location || '')} · © ${new Date().getFullYear()}</span>
   </div>
 </footer>
@@ -107,14 +107,23 @@ export function home({ site, projects, dev }) {
   const b = site.base;
   const hero = site.hero || {};
 
+  // section header: number, title, a dimension line that draws itself, and an optional note
+  let n = 0;
+  const shead = (title, note = '') => `<header class="shead reveal">
+        <span class="shead__no mono">${pad(++n)}</span>
+        <h2>${esc(title)}</h2>
+        <span class="shead__rule" aria-hidden="true"></span>
+        ${note}
+      </header>`;
+
   const cards = projects.map((p, i) => `
-      <a class="card reveal" href="${b}projects/${p.slug}/">
+      <a class="card${i === 0 ? ' card--feature' : ''} reveal" href="${b}projects/${p.slug}/">
         <div class="card__media${cardClass(p)}" style="view-transition-name:p-${p.slug}">
-          ${img(p.card || p.cover, { alt: p.title, sizes: '(min-width: 1100px) 560px, (min-width: 700px) 50vw, 100vw', style: p.card ? '' : coverStyle(p) })}
+          ${img(p.card || p.cover, { alt: p.title, sizes: i === 0 ? '(min-width: 900px) 720px, 100vw' : '(min-width: 1100px) 560px, (min-width: 700px) 50vw, 100vw', style: p.card ? '' : coverStyle(p) })}
           <span class="card__go">${icon.arrow}</span>
         </div>
         <div class="card__body">
-          <div class="card__meta mono"><span>${pad(i + 1)}</span><span>${esc(p.org || '')}</span><span>${esc(year(p))}</span></div>
+          <div class="card__meta mono"><span class="card__no">${pad(i + 1)}</span><span>${esc(p.org || '')}</span><span>${esc(year(p))}</span></div>
           <h3 class="card__title">${esc(p.title)}</h3>
           <p class="card__summary">${esc(p.summary || '')}</p>
           ${p.tags.length ? `<ul class="tags">${p.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
@@ -145,8 +154,10 @@ export function home({ site, projects, dev }) {
   const expLinks = (e) => {
     const ps = list(e.projects).map((s) => bySlug.get(String(s))).filter(Boolean);
     return ps.length ? `<p class="exp__projects">${ps.map((p) => `<a href="${b}projects/${p.slug}/">${esc(p.title)} ${icon.arrow}</a>`).join('')}</p>` : '';
-  };  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
+  };
+  const exp = [...list(site.experience)].sort((a, b) => started(b) - started(a)).map((e) => `
       <li class="exp reveal">
+        <span class="exp__node" aria-hidden="true"></span>
         <div>
           <p class="exp__org">${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.org || '')}</a>` : esc(e.org || '')}</p>
           <p class="exp__role">${esc(e.role || '')}</p>
@@ -154,8 +165,6 @@ export function home({ site, projects, dev }) {
         </div>
         <div class="exp__side mono"><span>${esc(e.location || '')}</span><span>${esc(e.period || '')}</span></div>
       </li>`).join('');
-  let n = 1;
-  const no = () => pad(++n);
 
   const links = site.links || {};
   const linkRow = [
@@ -166,35 +175,38 @@ export function home({ site, projects, dev }) {
   ].filter(Boolean).join('\n        ');
 
   const hs = site.headshotInfo;
+  const nameParts = String(site.name || '').trim().split(/\s+/);
+  const nameLines = [nameParts.join(' ')];   // one line
 
   return `${head({ site, title: `${site.name} — ${site.role}`, description: site.description || hero.summary, og: hs ? `${b}assets/og.jpg` : '', canonical: b, dev })}
 <body class="page-home">
 ${nav({ site, home: true })}
 <header class="hero" id="top">
-  <canvas class="hero__field" aria-hidden="true"></canvas>
-  <div class="hero__fade" aria-hidden="true"></div>
-  <div class="wrap hero__grid">
-    ${list(hero.credentials).length ? `<ul class="hero__creds mono">${list(hero.credentials).map((c) => `<li>${typeof c === 'object' && c.mobile ? `<span class="cred-long">${esc(c.text)}</span><span class="cred-short">${esc(c.mobile)}</span>` : esc(typeof c === 'object' ? c.text : c)}</li>`).join('')}</ul>` : ''}
-    <div class="hero__text">
-      <h1 class="hero__name">${esc(site.name)}</h1>
-      <p class="hero__summary">${esc(hero.summary || '')}</p>
+  <canvas class="lattice" data-lattice="hero" aria-hidden="true"></canvas>
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="wrap hero__inner">
+    <div class="hero__head">
+      ${hero.eyebrow ? `<p class="hero__eyebrow mono" data-in style="--d:0">${esc(hero.eyebrow)}</p>` : ''}
+      <h1 class="hero__name" aria-label="${esc(site.name)}">${nameLines.map((l, i) => `<span class="hero__line" aria-hidden="true"><span style="--d:${i + 1}">${esc(l)}</span></span>`).join('')}</h1>
+    </div>
+    ${list(hero.credentials).length ? `<ul class="hero__creds mono" data-in style="--d:3">${list(hero.credentials).map((c) => `<li>${typeof c === 'object' && c.mobile ? `<span class="cred-long">${esc(c.text)}</span><span class="cred-short">${esc(c.mobile)}</span>` : esc(typeof c === 'object' ? c.text : c)}</li>`).join('')}</ul>` : ''}
+    <p class="hero__summary" data-in style="--d:4">${esc(hero.summary || '')}</p>
+    ${hs ? `<figure class="hero__portrait" data-in style="--d:2">
+      <div class="hero__frame">${site.headshot_mobile ? `<picture><source media="(max-width: 860px)" srcset="${b}${esc(site.headshot_mobile)}" width="600" height="600">` : ''}${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 400px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}${site.headshot_mobile ? '</picture>' : ''}</div>
+    </figure>` : ''}
+    <div class="hero__bar" data-in style="--d:5">
       ${list(site.affiliations).length ? `<ul class="hero__orgs" aria-label="Affiliations">${list(site.affiliations).map((a) => `<li>${a.logo
         ? `<img src="${b}${esc(a.logo)}" alt="${esc(a.name)}" style="height:${Number(a.height) || 22}px">`
         : `<span>${esc(a.name)}</span>`}</li>`).join('')}</ul>` : ''}
     </div>
-    ${hs ? `<figure class="hero__portrait">
-      <div class="hero__frame">${site.headshot_mobile ? `<picture><source media="(max-width: 860px)" srcset="${b}${esc(site.headshot_mobile)}" width="600" height="600">` : ''}${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 367px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}${site.headshot_mobile ? '</picture>' : ''}</div>
-    </figure>` : ''}
   </div>
 </header>
 
 <main id="main">
   <section class="section" id="work">
     <div class="wrap">
-      <header class="section__head reveal">
-        <span class="section__no mono">01</span>
-        <h2>Projects</h2>
-      </header>
+      ${shead('Projects')}
+      ${site.projects_intro ? `<p class="section__intro reveal">${esc(site.projects_intro)}</p>` : ''}
       <div class="cards">${cards}
       </div>
     </div>
@@ -202,32 +214,29 @@ ${nav({ site, home: true })}
 
   ${exp ? `<section class="section" id="experience">
     <div class="wrap">
-      <header class="section__head reveal">
-        <span class="section__no mono">${no()}</span>
-        <h2>Experience</h2>
-      </header>
-      <ol class="exps">${exp}
+      ${shead('Experience')}
+      <ol class="exps" data-rail><span class="exps__fill" aria-hidden="true"></span>${exp}
       </ol>
     </div>
   </section>` : ''}
 
   ${pubs ? `<section class="section" id="publications">
     <div class="wrap">
-      <header class="section__head reveal">
-        <span class="section__no mono">${no()}</span>
-        <h2>Publications</h2>
-        ${links.scholar ? `<a class="section__note mono" href="${esc(links.scholar)}" target="_blank" rel="noopener">Google Scholar ${icon.arrow}</a>` : ''}
-      </header>
+      ${shead('Publications', links.scholar ? `<a class="shead__note mono" href="${esc(links.scholar)}" target="_blank" rel="noopener">Google Scholar ${icon.arrow}</a>` : '')}
       <ol class="pubs">${pubs}
       </ol>
     </div>
   </section>` : ''}
 
   <section class="section contact" id="contact">
-    <div class="wrap">
-      <p class="mono contact__eyebrow reveal">${no()} — Contact</p>
+    <canvas class="lattice lattice--quiet" data-lattice="contact" aria-hidden="true"></canvas>
+    <div class="wrap contact__inner">
+      <p class="mono contact__eyebrow reveal">${pad(++n)} · Contact</p>
       <h2 class="contact__title reveal">${esc(site.contact_line || "Let's build something.")}</h2>
-      <a class="contact__mail reveal" href="mailto:${esc(site.email)}">${esc(site.email)}<span>${icon.arrow}</span></a>
+      <div class="contact__row reveal">
+        <a class="contact__mail" href="mailto:${esc(site.email)}">${esc(site.email)}<span>${icon.arrow}</span></a>
+        <button class="contact__copy mono" type="button" data-copy="${esc(site.email)}">Copy address</button>
+      </div>
       <div class="contact__links reveal">
         ${linkRow}
       </div>
@@ -246,7 +255,6 @@ export function project({ site, p, dev }) {
   const links = list(p.links);
   const meta = [p.org, year(p)].filter(Boolean).map((v) => `<span>${esc(v)}</span>`)
     .concat(links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ${icon.arrow}</a>`));
-  const metrics = list(p.metrics);
   const og = p.cover && !p.cover.video ? `${b}projects/${p.slug}/og.jpg` : '';
 
   return `${head({ site, title: `${p.title} — ${site.name}`, description: p.summary || '', og, canonical: `${b}projects/${p.slug}/`, dev })}
@@ -260,6 +268,7 @@ ${nav({ site })}
     <h1 class="proj__title">${esc(p.title)}</h1>
     ${p.lede || p.summary ? `<p class="proj__lede">${esc(p.lede || p.summary)}</p>` : ''}
     ${meta.length ? `<p class="proj__meta mono">${meta.join('')}</p>` : ''}
+    <p class="print-only mono">${esc(site.name)} · ${esc(String(site.url || '').replace(/^https?:\/\//, '').replace(/\/$/, ''))}/projects/${p.slug}/</p>
   </header>
 
   ${p.cover && !p.hide_cover ? `<div class="proj__hero wrap-wide">
@@ -270,15 +279,10 @@ ${nav({ site })}
     ${p.cover_caption ? `<p class="proj__hero-cap mono">${esc(p.cover_caption)}</p>` : ''}
   </div>` : ''}
 
-  ${metrics.length ? `<div class="wrap"><dl class="metrics metrics--${Math.min(metrics.length, 4)}">
-    ${metrics.map((m) => `<div class="metric reveal"><dt class="metric__v">${esc(m.value)}</dt><dd class="metric__k">${esc(m.label)}</dd></div>`).join('\n    ')}
-  </dl></div>` : ''}
-
   <div class="proj__body wrap">
     ${p.toc.length > 1 ? `<nav class="toc" aria-label="Sections">
       <p class="toc__label mono">Contents</p>
       <ol>${p.toc.map((t, i) => `<li><a href="#${t.id}"><span class="mono">${pad(i + 1)}</span>${t.html}</a></li>`).join('')}</ol>
-      <p class="toc__meta mono">~${p.readMin} min read · ${p.figures} figures</p>
     </nav>` : '<div></div>'}
     <div class="prose">
 ${p.html}

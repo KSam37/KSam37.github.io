@@ -244,6 +244,16 @@ async function loadProjects({ drafts, warn, base }) {
     }
 
     const ctx = { media, used: new Set(), fig: { n: 0 }, toc: [], warn: pw };
+    // "name.print.png" is a light version of "name.png" for the PDF export. It never counts as unused,
+    // and a print build (SITE_PRINT=1, set by engine/pdf.ps1) shows it in place of the original.
+    for (const f of files) {
+      const m = f.match(/^(.*)\.print(\.[^.]+)$/i);
+      if (!m) continue;
+      ctx.used.add(f);
+      const orig = media.get(m[1] + m[2]) || media.get((m[1] + m[2]).toLowerCase());
+      if (!orig) { pw(`${f} has no matching ${m[1] + m[2]}`); continue; }
+      if (process.env.SITE_PRINT) { const { file, path: pth } = orig; Object.assign(orig, media.get(f), { file, path: pth }); }
+    }
     const md = makeMarkdown(ctx);
     const clean = body.replace(/<!--[\s\S]*?-->/g, '');
     const html = md.parse(clean)

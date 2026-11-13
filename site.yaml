@@ -29,6 +29,7 @@ links:
   # github: https://github.com/KSam37
 
 hero:
+  eyebrow: Engineering Portfolio   # small label above your name
   credentials:                    # small line above your name
     - text: MIT Mechanical Engineering graduate student
       mobile: MIT MechE grad student      # shorter version shown on phones
@@ -58,6 +59,12 @@ affiliations:                     # height = display height in px, tuned for equ
 
 # Shown at the top of any article whose front matter has  wip: true
 wip_notice: Work in progress · still being written
+
+# Short introduction shown under the Projects heading.
+projects_intro: >-
+  A selection of projects from classes, research and personal work. It isn't exhaustive,
+  and it leaves out anything I can't share freely, such as internships and current
+  unpublished research.
 
 contact_line: Let's build something.
 

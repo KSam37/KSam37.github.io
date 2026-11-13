@@ -43,9 +43,6 @@ team: PoWeR Lab & Geometry of Materials Lab
 tools: [Custom torque rig, MATLAB]
 tags: [Wearables, Mechanics]  # shown on the home page card
 cover: rig-red-exoskin.jpg     # card image + big image at the top
-metrics:
-  - value: "8"
-    label: Garments characterized
 links:
   - label: Paper (arXiv)
     url: https://arxiv.org/abs/2509.22971
@@ -129,7 +126,7 @@ They're scaled to the same height automatically. Two or three per row works best
 
 Everything except the project cards comes from `site.yaml`: your name, the one-line
 summary under it, the affiliations row (MIT · Georgia Tech · NASA; add `logo:` with a
-white SVG/PNG in `files/logos/` to swap a name for its logo), credentials (an item can be `text:` plus a shorter `mobile:` version for phones), headshot (`headshot`, plus `headshot_mobile`, a square close crop for the small circle on phones), contact links, experience (org, role, location, period, an optional `url:` for the lab name, and optional `projects:` folder names to link; sorted newest first by the start date in `period`) and publications. The full résumé is the
+white SVG/PNG in `files/logos/` to swap a name for its logo), credentials (an item can be `text:` plus a shorter `mobile:` version for phones), headshot (`headshot`, plus `headshot_mobile`, a square close crop for the small circle on phones), contact links, `projects_intro` (the short paragraph under the Projects heading), experience (org, role, location, period, an optional `url:` for the lab name, and optional `projects:` folder names to link; sorted newest first by the start date in `period`) and publications. The full résumé is the
 PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. Keep the two-space
 indentation, and put text containing a colon in quotes.
 
@@ -138,3 +135,16 @@ indentation, and put text containing a colon in quotes.
 When you're happy with the preview, ask Claude to publish (the steps are in
 `CLAUDE.md`). Claude reviews and builds the site, then pushes to GitHub.
 GitHub rebuilds and deploys it in about a minute.
+
+## Saving an article as a PDF
+
+Ask Claude to "export the <project> page to PDF", or run this from the site folder:
+
+```
+powershell -File engine/pdf.ps1 ai-in-the-loop "My Article.pdf"
+```
+
+The PDF uses a light, single-column print layout and is saved inside that project's folder.
+If a figure has a light twin named `figure.print.png` next to `figure.png`, the PDF uses the light one.
+Close the old PDF in your viewer first, or the export can't replace it.
+To change where a project sits on the home page, add `order: 1` (higher shows first, negative shows last) to its front matter.

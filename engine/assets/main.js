@@ -8,7 +8,9 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   document.addEventListener('DOMContentLoaded', () => {
-    navAndProgress(); reveal(); lightbox(); toc(); breakouts(); field();
+    navAndProgress(); reveal(); lightbox(); toc(); breakouts();
+    lattices(); spy(); rail(); copy();
+    setTimeout(() => doc.classList.add('is-ready'), 60);   // a timer, so the intro still runs if the tab loads in the background
   });
 
   // ------------------------------------------------------------ nav + progress
@@ -100,106 +102,169 @@
     set(); addEventListener('resize', set);
   }
 
-  // ------------------------------------------------------------ hero stress field
-  // A fine grid displaced by smooth radial fields from point sources: one drifts
-  // slowly on its own, one follows the cursor. Lines warm toward the accent
-  // colour where the field is strongest, fading smoothly with distance.
-  function field() {
-    const canvas = $('.hero__field');
-    if (!canvas) return;
-    const hero = canvas.parentElement;
+  // ------------------------------------------------------------ compliant lattice
+  // A triangular truss of point masses. Each node is tied to its rest position and
+  // to its six neighbours, and the motion is damped enough that the structure eases
+  // into shape without ringing. Two soft loads press on it: one drifts slowly on its
+  // own, the other tracks the cursor closely. Members warm slightly
+  // toward the accent where they carry strain. Touch devices and reduced-motion
+  // users get a single settled frame.
+  function lattices() { $$('canvas[data-lattice]').forEach(lattice); }
+
+  function lattice(canvas) {
+    const host = canvas.parentElement;
     const ctx = canvas.getContext('2d');
-    const STEP = 8;                       // sample spacing along each line (px)
-    let W = 0, H = 0, LINE = 2, nx = 0, ny = 0, px, py, pi, wx, wy, dpr = 1;
-    let acc = '255,106,43';
-    const src = [
-      { x: 0, y: 0, A: 0, s: 180 },       // ambient
-      { x: 0, y: 0, A: 0, s: 120, tx: 0, ty: 0, tA: 0 }, // pointer
-    ];
-    let running = false, visible = true;
+    const isHero = canvas.dataset.lattice === 'hero';
+    const still = reduced || !matchMedia('(pointer: fine)').matches;
 
-    const resize = () => {
-      const r = hero.getBoundingClientRect();
-      dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const KN = 0.12, KA = 0.02, DAMP = 0.86;       // neighbour stiffness, anchor stiffness, damping
+    const BINS = 6;
+    let W = 0, H = 0, P = 46, N = 0, E = 0;
+    let x0, y0, ux, uy, vx, vy, ax, ay, ea, eb;
+    let running = false, visible = false, tick = 0;
+    // loads: [0] drifts on its own, [1] follows the cursor. A is the current strength, tA its target.
+    const loads = [{ x: 0, y: 0, A: 1, tA: 1, R: 300, F: 0.2 }, { x: 0, y: 0, tx: 0, ty: 0, A: 0, tA: 0, R: 190, F: 0.3 }];
+
+    const build = () => {
+      const r = host.getBoundingClientRect();
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);
       W = r.width; H = r.height;
-      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      LINE = W < 700 ? 3 : 2;             // grid pitch = LINE * STEP (24px / 16px)
-      nx = Math.ceil(W / STEP) + 3; ny = Math.ceil(H / STEP) + 3;
-      px = new Float32Array(nx * ny); py = new Float32Array(nx * ny); pi = new Float32Array(nx * ny);
-      wx = new Float32Array(ny); wy = new Float32Array(nx);
-    };
-
-    const BINS = 7;
-    const paths = () => Array.from({ length: BINS }, () => new Path2D());
-
-    const frame = (t) => {
-      // ambient source drifts on a slow Lissajous path between the name and the portrait
-      const a = src[0];
-      a.x = W * (0.6 + 0.07 * Math.sin(t * 0.00011));
-      a.y = H * (0.3 + 0.14 * Math.sin(t * 0.00017 + 1.3));
-      a.A = 6; a.s = 180;
-      // gentle low-frequency shear warp, precomputed per row and column
-      const wt = t * 0.0002, wa = 2.6;
-      for (let i = 0; i < nx; i++) wy[i] = wa * Math.sin((-STEP + i * STEP) / 310 - wt * 0.8);
-      for (let j = 0; j < ny; j++) wx[j] = wa * Math.sin((-STEP + j * STEP) / 260 + wt);
-      // pointer source eases toward the cursor
-      const p = src[1];
-      p.x += (p.tx - p.x) * 0.08; p.y += (p.ty - p.y) * 0.08; p.A += (p.tA - p.A) * 0.05;
-
-      const ox = -STEP, oy = -STEP;
-      for (let j = 0; j < ny; j++) {
-        for (let i = 0; i < nx; i++) {
-          const k = j * nx + i, x = ox + i * STEP, y = oy + j * STEP;
-          let dx = wx[j], dy = wy[i], I = 0;
-          for (const s of src) {
-            if (s.A < 0.05) continue;
-            const rx = x - s.x, ry = y - s.y, r2 = rx * rx + ry * ry, q = r2 / (s.s * s.s);
-            if (q > 9) continue;
-            const r = Math.sqrt(r2) || 1, e = Math.exp(-0.5 * q);
-            // radial displacement peaks at r = s, zero at the source: no kink
-            const u = s.A * (r / s.s) * Math.exp(0.5) * e;
-            dx += (rx / r) * u; dy += (ry / r) * u;
-            I += (s.A / 8) * e;
-          }
-          px[k] = x + dx; py[k] = y + dy; pi[k] = I;
+      P = W < 700 ? 28 : W < 1200 ? 32 : 36;
+      const RH = P * 0.866;
+      const cols = Math.ceil(W / P) + 3, rows = Math.ceil(H / RH) + 3;
+      N = cols * rows;
+      x0 = new Float32Array(N); y0 = new Float32Array(N);
+      ux = new Float32Array(N); uy = new Float32Array(N); vx = new Float32Array(N); vy = new Float32Array(N);
+      ax = new Float32Array(N); ay = new Float32Array(N);
+      const a = [], b = [];
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const k = j * cols + i, odd = j & 1;
+        x0[k] = (i + odd * 0.5) * P - P; y0[k] = j * RH - RH;
+        if (i + 1 < cols) { a.push(k); b.push(k + 1); }
+        if (j + 1 < rows) {
+          const dl = odd ? i : i - 1, dr = odd ? i + 1 : i;
+          if (dl >= 0) { a.push(k); b.push((j + 1) * cols + dl); }
+          if (dr < cols) { a.push(k); b.push((j + 1) * cols + dr); }
         }
       }
+      ea = Int32Array.from(a); eb = Int32Array.from(b); E = ea.length;
+    };
 
-      ctx.clearRect(0, 0, W, H);
-      const ps = paths();
-      const seg = (k1, k2) => {
-        const b = Math.min(BINS - 1, Math.floor(((pi[k1] + pi[k2]) * 0.5) * BINS * 1.15));
-        ps[b].moveTo(px[k1], py[k1]); ps[b].lineTo(px[k2], py[k2]);
-      };
-      for (let j = 0; j < ny; j += LINE) for (let i = 0; i < nx - 1; i++) seg(j * nx + i, j * nx + i + 1);
-      for (let i = 0; i < nx; i += LINE) for (let j = 0; j < ny - 1; j++) seg(j * nx + i, (j + 1) * nx + i);
-      ctx.lineWidth = 0.75;
-      for (let b = 0; b < BINS; b++) {
-        ctx.strokeStyle = b === 0 ? 'rgba(236,235,231,0.055)' : `rgba(${acc},${(0.055 + 0.265 * b / (BINS - 1)).toFixed(3)})`;
-        ctx.stroke(ps[b]);
+    const step = (t) => {
+      // the drifting load moves on a slow closed path; the cursor load eases toward the pointer
+      const d = loads[0], p = loads[1];
+      d.x = W * ((isHero ? 0.62 : 0.6) + 0.26 * Math.sin(t * 0.00016));
+      d.y = H * (0.45 + 0.28 * Math.sin(t * 0.00023 + 1.3));
+      p.x += (p.tx - p.x) * 0.2; p.y += (p.ty - p.y) * 0.2; p.A += (p.tA - p.A) * 0.1;
+
+      for (let e = 0; e < E; e++) {
+        const a = ea[e], b = eb[e];
+        const dx = (ux[b] - ux[a]) * KN, dy = (uy[b] - uy[a]) * KN;
+        ax[a] += dx; ay[a] += dy; ax[b] -= dx; ay[b] -= dy;
+      }
+      for (const s of loads) {
+        if (s.A < 0.01) continue;
+        const R2 = s.R * s.R, F = s.F * s.A;
+        for (let k = 0; k < N; k++) {
+          const dx = x0[k] - s.x, dy = y0[k] - s.y, d2 = dx * dx + dy * dy;
+          if (d2 > R2 || d2 < 1) continue;
+          const dist = Math.sqrt(d2), f = 1 - dist / s.R, g = F * f * f * (dist / s.R) * 4;   // zero at the centre: no kink
+          ax[k] += (dx / dist) * g; ay[k] += (dy / dist) * g;
+        }
+      }
+      for (let k = 0; k < N; k++) {
+        vx[k] = (vx[k] + ax[k] - KA * ux[k]) * DAMP; vy[k] = (vy[k] + ay[k] - KA * uy[k]) * DAMP;
+        ux[k] += vx[k]; uy[k] += vy[k]; ax[k] = 0; ay[k] = 0;
       }
     };
 
-    const loop = (t) => { if (!running) return; frame(t); requestAnimationFrame(loop); };
-    // phones and touch devices get a single static frame: no loop, no battery cost
-    const still = reduced || matchMedia('(max-width: 760px), (pointer: coarse)').matches;
-    const start = () => { if (!running && visible && !document.hidden && !still) { running = true; requestAnimationFrame(loop); } };
-    const stop = () => { running = false; };
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      const ps = Array.from({ length: BINS }, () => new Path2D());
+      for (let e = 0; e < E; e++) {
+        const a = ea[e], b = eb[e];
+        const xa = x0[a] + ux[a], ya = y0[a] + uy[a], xb = x0[b] + ux[b], yb = y0[b] + uy[b];
+        const s = Math.abs(Math.hypot(xb - xa, yb - ya) / P - 1);
+        const bin = s < 0.012 ? 0 : Math.min(BINS - 1, 1 + (((s - 0.012) * 120) | 0));   // small strains stay neutral
+        ps[bin].moveTo(xa, ya); ps[bin].lineTo(xb, yb);
+      }
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < BINS; i++) {
+        const t = i / (BINS - 1);
+        ctx.strokeStyle = i === 0 ? 'rgba(236,235,231,0.09)' : `rgba(255,${(150 - 44 * t) | 0},${(96 - 53 * t) | 0},${(0.16 + 0.42 * t).toFixed(3)})`;
+        ctx.stroke(ps[i]);
+      }
+      ctx.fillStyle = 'rgba(236,235,231,0.17)';
+      for (let k = 0; k < N; k++) ctx.fillRect(x0[k] + ux[k] - 0.8, y0[k] + uy[k] - 0.8, 1.6, 1.6);
+    };
 
-    resize(); frame(0);
-    if (still) { addEventListener('resize', () => { resize(); frame(0); }); return; }
+    const settle = () => { for (let i = 0; i < 240; i++) step(0); draw(); };
+    // with no cursor on it the structure only drifts, so every other frame is enough
+    const loop = (t) => {
+      if (!running) return;
+      if (loads[1].A > 0.02 || (tick++ & 1)) { step(t); draw(); }
+      requestAnimationFrame(loop);
+    };
+    const start = () => { if (!running && visible && !document.hidden) { running = true; requestAnimationFrame(loop); } };
 
-    hero.addEventListener('pointermove', (e) => {
-      const r = hero.getBoundingClientRect(), p = src[1];
+    build(); settle();
+    let rt = 0;
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { build(); settle(); }, 150); });
+    if (still) return;
+
+    host.addEventListener('pointermove', (e) => {
+      const r = canvas.getBoundingClientRect(), p = loads[1];
       p.tx = e.clientX - r.left; p.ty = e.clientY - r.top;
-      if (p.tA === 0) { p.x = p.tx; p.y = p.ty; }
-      p.tA = 8;
+      if (p.tA === 0 && p.A < 0.02) { p.x = p.tx; p.y = p.ty; }
+      p.tA = 1;
     });
-    hero.addEventListener('pointerleave', () => { src[1].tA = 0; });
-    addEventListener('resize', () => { resize(); frame(performance.now()); });
-    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); }).observe(hero);
-    start();
+    host.addEventListener('pointerleave', () => { loads[1].tA = 0; });
+    document.addEventListener('visibilitychange', () => (document.hidden ? (running = false) : start()));
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : (running = false); }, { threshold: 0.02 }).observe(host);
+  }
+
+  // ------------------------------------------------------------ nav scroll-spy
+  function spy() {
+    const links = $$('.nav [data-spy]');
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    const by = new Map(links.map((a) => [a.dataset.spy, a]));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.classList.remove('is-on'));
+        by.get(e.target.id)?.classList.add('is-on');
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    by.forEach((_, id) => { const s = document.getElementById(id); s && io.observe(s); });
+  }
+
+  // ------------------------------------------------------------ experience rail fills as you scroll
+  function rail() {
+    const el = $('[data-rail]');
+    if (!el) return;
+    const items = $$('.exp', el);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = el.getBoundingClientRect(), mark = innerHeight * 0.62;
+      el.style.setProperty('--p', Math.max(0, Math.min(1, (mark - r.top) / r.height)).toFixed(4));
+      items.forEach((it) => it.classList.toggle('is-on', it.getBoundingClientRect().top + 30 < mark));
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener('resize', update);
+    update();
+  }
+
+  // ------------------------------------------------------------ copy email
+  function copy() {
+    $$('[data-copy]').forEach((btn) => btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        const was = btn.textContent; btn.textContent = 'Copied'; btn.classList.add('is-done');
+        setTimeout(() => { btn.textContent = was; btn.classList.remove('is-done'); }, 1600);
+      } catch { location.href = `mailto:${btn.dataset.copy}`; }
+    }));
   }
 })();

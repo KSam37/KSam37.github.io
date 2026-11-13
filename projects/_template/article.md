@@ -16,9 +16,6 @@ cover: cover-photo.jpg   # a file in this folder. Landscape, 2000px+ wide is bes
 # links:
 #   - label: Paper
 #     url: https://example.com
-metrics:                 # 2–4 headline numbers, or delete this block
-  - value: "50%"
-    label: What the number means
 draft: true              # shows in the preview only. Delete this line to publish.
 ---
 
