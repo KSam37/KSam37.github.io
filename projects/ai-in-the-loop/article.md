@@ -17,15 +17,15 @@ order: -1
 
 ## The argument
 
-Dwarkesh Patel published an essay this week arguing that AI improves explosively wherever answers can be checked and a model can practice thousands of times. Math is his example. In 2023 a frontier model couldn't reliably add four-digit numbers. In September, OpenAI reported that an internal model, running about 10,000 agents for 88 hours, had resolved the Navier–Stokes Millennium Prize problem, with a proof formalized in Lean so that a computer can check every step. Mathematicians are still reviewing it, but the slope is hard to argue with.
+In 2023 a frontier model couldn't reliably add four-digit numbers. In September, OpenAI reported that an internal model, running about 10,000 agents for 88 hours, had resolved the Navier–Stokes Millennium Prize problem, with a proof formalized in Lean so that a computer can check every step. Mathematicians are still reviewing it, but the slope is hard to argue with. Math moved this fast because [answers in math can be checked](https://www.dwarkesh.com/p/rsi), so a model can practice thousands of times and learn from every attempt.
 
 Much of engineering can be checked the same way. A CAD kernel can tell whether constraints are satisfied and whether parts interfere, and an analysis can be checked against units, conservation laws, limiting cases and an independent finite-element run. The usual objections, that AI can't reason spatially, makes up numbers and lacks an engineer's judgment, sound a lot like what people said about math a few years ago. I expect the computational half of engineering, meaning derivations, models, CAD, simulation and code, to go the way of math, and soon.
 
-The other half is checked in the physical world. There's a small irony in the Navier–Stokes result here: the proof shows the equations allow a fluid's speed to become infinite in finite time, which no real fluid does. It settles a question about the model. Whether the valve in my reactor leaks is still a question about the world, and answering it means building something and testing it. So as AI gets cheaper and better, I think the bottleneck in engineering moves to the boundary between models and the world, and the rest of this piece is about the workflow I've built around that boundary.
+The other half is checked in the physical world. There's a small irony in the Navier–Stokes result here: the proof shows the equations allow a fluid's speed to become infinite in finite time, which no real fluid does. It settles a question about the model. Whether the valve in my reactor leaks is still a question about the world, and answering it means building something and testing it. As AI gets cheaper and better, I think the bottleneck in engineering moves to that boundary between models and the world, and my workflow is built around it.
 
 ## Discovery and integration
 
-Patel expects that an AI with remote access to a materials lab would be better than humanity at finding a room-temperature superconductor. Suppose it is. The discovery wouldn't produce a single motor, MRI scanner or fusion magnet. Someone would still have to learn how the material fails, how to make it into tape by the kilometer, how to join and cool it, and how to redesign each machine around it.
+An AI with remote access to a materials lab may soon be better than any person at finding a room-temperature superconductor. Suppose it finds one. The discovery wouldn't produce a single motor, MRI scanner or fusion magnet. Someone would still have to learn how the material fails, how to make it into tape by the kilometer, how to join and cool it, and how to redesign each machine around it.
 
 History suggests how long that takes. YBCO, the first superconductor to work above the boiling point of liquid nitrogen, was discovered in 1987. Its tape form, REBCO, became the conductor in the fusion magnet that MIT's Plasma Science and Fusion Center and Commonwealth Fusion Systems ramped to 20 tesla in 2021, 34 years later, after what the team described as a rework of almost every principle of superconducting magnet design.
 
@@ -37,17 +37,17 @@ The lag scales with how much of the surrounding system has to change. Neodymium-
 
 Math and code share one property: the verifier runs in a computer. Most of engineering's verifiers don't.
 
-![Rough time per iteration for the feedback loops in hardware development, on a log scale. Ranges are order-of-magnitude estimates from my own work and common practice. The loops in gray can be checked inside a computer, which is where AI is already strong. Every loop that can validate a physical design is orange and sits to the right of them.](loop-latency.png "wide")
+![Rough time per iteration for the feedback loops in hardware development, on a log scale. Ranges are order-of-magnitude estimates from my own work and common practice. Every loop that can be checked inside a computer, where AI is already strong, runs faster than any loop that can validate a physical design.](loop-latency.png "wide")
 
 The parts that can only be checked in the world will resist automation longest, for a few reasons.
 
-- **Time can't be parallelized.** Fatigue, creep, corrosion and the aging of an implant take months or years, and accelerated tests depend on a model of the very failure being tested.
-- **Every test costs material.** A thousand parallel experiments need a thousand rigs, which is capital rather than compute.
-- **Much of the physics was never written down.** How a silicone cures in a humid week, how a seal wears in, how tissue reacts to an implant: contact, wear, manufacturing variation and biology are the hardest things to simulate, and most of the data on them sits in shop notes and unpublished failure reports.
-- **The verifier has to be built.** Lean already exists for math. In hardware the verifier is a test rig and a calibration, and designing a measurement that can't fool you is engineering work in its own right.
-- **Someone has to sign.** Pressure vessels and implants need a person accountable for them.
+- Time can't be parallelized. Fatigue, creep, corrosion and the aging of an implant take months or years, and accelerated tests depend on a model of the very failure being tested.
+- Every test costs material. A thousand parallel experiments need a thousand rigs, which is capital rather than compute.
+- Much of the physics was never written down. How a silicone cures in a humid week, how a seal wears in, how tissue reacts to an implant: contact, wear, manufacturing variation and biology are the hardest things to simulate, and most of the data on them sits in shop notes and unpublished failure reports.
+- The verifier has to be built. Lean already exists for math. In hardware the verifier is a test rig and a calibration, and designing a measurement that can't fool you is engineering work in its own right.
+- Someone has to sign. Pressure vessels and implants need a person accountable for them.
 
-Materials science has already had a preview of what happens when generation outruns verification: claims of millions of AI-predicted crystals and dozens of robot-synthesized compounds were contested within months by chemists who checked them by hand. The obvious fix is to automate the lab, but a robot that can do a technician's work needs dexterous hands, reliable actuators and compact power, each of which is a hardware problem bound by the same slow loops. Robotics will get there, but it is gated by the processes it is trying to automate.
+Materials science has already had a preview of what happens when generation outruns verification: claims of millions of AI-predicted crystals and dozens of robot-synthesized compounds were contested within months by chemists who checked them by hand. The obvious fix is to automate the lab, but a robot that can do a technician's work needs dexterous hands, reliable actuators and compact power, each of which is a hardware problem bound by the same slow loops. Robotics will get there, but its progress depends on the same slow physical loops it is meant to automate.
 
 ## What this means for engineers
 
@@ -83,7 +83,7 @@ Two habits from precision machine design are built into it. The uncertainty shee
 
 For the reactor, the sheet holds 58 inputs and 107 derived values across dimensions, forces, pump dynamics and the drive coil, and it ends in a summary page of 14 pass or fail checks. If I change one wall thickness, everything downstream moves and the summary tells me what broke.
 
-An agent could build me an interactive app with sliders in the same time, and those interfaces are popular because they make good demos, but they hide the arithmetic. A spreadsheet shows its work, so when a number looks wrong I can follow it back through every cell that fed it, and so can anyone I hand the file to. That matters more as more of the arithmetic is written by an agent.
+An agent could build me an interactive app with sliders in the same time, and those interfaces are popular because they make good demos, but they hide the arithmetic. A spreadsheet shows its work, so when a number looks wrong I can follow it back through every cell that fed it, and so can anyone I hand the file to. The more of the arithmetic an agent writes, the more that matters.
 
 ## Agent-built models
 
@@ -103,7 +103,7 @@ An early version of the reactor model was written in Python, and it ran without 
 
 None of those errors would have crashed anything, and each would have produced a plausible plot. That is why the working agreement both agents now follow includes the line that numerical agreement and passing checks are not physical validation.
 
-Metrology has a useful way to think about this. When you measure a spindle's error with a precision test ball, the reading mixes the spindle's error motion with the ball's own out-of-roundness, and repeating the measurement never separates them. Donaldson's reversal, from 1972, measures a second time with the ball and the probe both turned 180 degrees, so one error changes sign and the other doesn't, and the two can be solved for. Cross-review is a loose version of the same idea for models. A model trained differently has different blind spots, so where two models disagree at least one is wrong, and the disagreement shows me where to look. Agreement is weaker evidence than it seems, though, because models from different labs learn from much of the same text and can share the same mistakes. Unlike the spindle and the ball, their errors are not independent.
+Precision metrology runs into the same problem when it measures a spindle. With a precision test ball, the reading mixes the spindle's error motion with the ball's own out-of-roundness, and repeating the measurement never separates them. Donaldson's reversal, from 1972, measures a second time with the ball and the probe both turned 180 degrees, so one error changes sign and the other doesn't, and the two can be solved for. Cross-review is a loose version of the same idea for models. A model trained differently has different blind spots, so where two models disagree at least one is wrong, and the disagreement shows me where to look. Agreement is weaker evidence than it seems, though. Models from different labs learn from much of the same text, so their errors, unlike the spindle's and the ball's, are not independent.
 
 ## Hardware in the loop
 
@@ -119,11 +119,11 @@ AI for CAD is starting to be real. I've found it useful for standard parts such 
 
 Part of that weakness, I suspect, is bandwidth. Describing a three-dimensional layout in text is hard for anyone, which is why engineers rarely describe geometry to each other in paragraphs. They sketch it, point at it and mark up drawings. A CAD assembly also holds information that never appears in a prompt: relative positions, mates, degrees of freedom, clearances and interfaces.
 
-Here is the interface I'd want. I sit at a desk with a text window and a drawing tablet. I upload reference drawings for the purchased parts, describe the object in a few sentences, and sketch the rough layout. The agent compiles all of that into a parametric model, which appears on the tablet, and I edit it the way I'd mark up a print. I circle a flange and write "stiffer, no more than 20 g," draw a dimension where one should be fixed, or draw a line between two bores to say they stay coaxial.
+In the interface I'd want, I sit at a desk with a text window and a drawing tablet. I upload reference drawings for the purchased parts, describe the object in a few sentences, and sketch the rough layout. The agent compiles all of that into a parametric model, which appears on the tablet, and I edit it the way I'd mark up a print. I circle a flange and write "stiffer, no more than 20 g," draw a dimension where one should be fixed, or draw a line between two bores to say they stay coaxial.
 
 ![A sketch of an intent-driven CAD edit. Marks on the tablet become explicit constraints, and the agent answers with options written as rows in the specification sheet, each showing its consequences before I accept it. The part and the numbers are illustrative.](design-intent.png "wide")
 
-What matters is what happens behind the drawing. Each mark should become an explicit, traceable constraint, rather than a nudge to the geometry. The agent should keep a parametric record of intent, separate my requirements from its own assumptions, and return proposed edits with their consequences for me to accept or reject. It should never quietly change the design basis. A beautiful model that can't be reliably modified, analyzed or traced back to its requirements isn't worth much.
+Behind the drawing, each mark should become an explicit constraint with a record of where it came from. The agent should keep a parametric record of intent, separate my requirements from its own assumptions, and return proposed edits with their consequences for me to accept or reject. It should never change the design basis without asking. A model I can't modify, analyze or trace back to its requirements isn't worth much, however good it looks.
 
 The specification sheet is part of how I'm preparing for that. If every dimension already lives in one traceable place, the sheet is the obvious place for an agent's proposals to land, and handing geometry to an agent becomes a small step. Once a part exists in CAD, simulation becomes a side loop of its own: where the analytical models are too coarse, I run FEA on the geometry and iterate between the two until the part holds up, before anything is built.
 
@@ -131,9 +131,9 @@ The specification sheet is part of how I'm preparing for that. If every dimensio
 
 ![A speculative workflow for mechanical engineering. Solid boxes are part of how I work now. Dashed boxes are where I expect agents to arrive.](agentic-workflow.png "wide")
 
-For most of history, the ability to reason through hard technical problems has been one of the main limits on technology. Universities, professional societies and research labs exist partly to accumulate and pass on that scarce expertise. AI could relax that limit a great deal. Making something physically real still takes energy, material, time, factories, instruments and contact with a world we understand only in part. If intellectual work keeps getting cheaper, the gap between what we know how to build and what we have actually built will grow, and closing that gap looks to me like the biggest engineering opportunity of the next few decades.
+For most of history, the ability to reason through hard technical problems has been one of the main limits on technology. Universities, professional societies and research labs exist partly to accumulate and pass on that scarce expertise. AI could relax that limit a great deal. Making something physically real still takes energy, material, time, factories, instruments and contact with a world we understand only in part. If intellectual work keeps getting cheaper, the gap between what we know how to build and what we have built will grow, and closing that gap looks to me like the biggest engineering opportunity of the next few decades.
 
-Someone still has to decide what is worth building, choose the architecture and sign their name to the result, and traceability matters more in that future. The more work I delegate, the more I need to audit it quickly, which is why I keep the plain spreadsheet and why I don't hand over work I can't check. The essay half of this piece is a hypothesis about where engineering is going. The workflow half is something I can run and improve now, and I expect to learn more about the hypothesis from running the workflow than from thinking about it.
+Someone still has to decide what is worth building and sign their name to the result. The more work I delegate, the more I need to audit it quickly, which is why I keep the plain spreadsheet and don't hand over work I can't check. The argument at the top of this piece is a hypothesis about where engineering is going. The workflow is something I can run and improve now, and I expect running it to teach me more about the hypothesis than thinking about it will.
 
 ## Lessons
 
