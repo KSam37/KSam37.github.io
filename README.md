@@ -5,7 +5,13 @@ plain text and drop images beside them; the build turns that into the site.
 
 ```
 Portfolio Website/
-├── site.yaml              ← home page: name, one-line summary, links, publications
+├── home/                  ← home page wording, one Markdown file per section
+│   ├── intro.md           ← label, credentials and the paragraph under your name
+│   ├── projects.md        ← the short paragraph under the Projects heading
+│   ├── experience.md      ← the Experience list
+│   ├── publications.md    ← the Publications list
+│   └── contact.md         ← the line in the Contact section
+├── site.yaml              ← settings: name, email, links, photo, logos
 ├── files/                 ← résumé PDF and headshot (linked from the site as-is)
 ├── projects/
 │   ├── exoskins/          ← one folder per project; the folder name is the web address
@@ -21,7 +27,7 @@ Portfolio Website/
 ## Preview while you write
 
 Double-click **Preview.cmd**. A browser opens at http://localhost:4000 and refreshes
-every time you save an article, image, or `site.yaml`. The console window lists
+every time you save an article, an image, a file in `home/`, or `site.yaml`. The console window lists
 problems, such as a missing image or an image in the folder that the article never uses.
 
 Requires Node.js (already installed). The first run takes a minute to install.
@@ -124,11 +130,35 @@ They're scaled to the same height automatically. Two or three per row works best
 
 ## The home page
 
-Everything except the project cards comes from `site.yaml`: your name, the one-line
-summary under it, the affiliations row (MIT · Georgia Tech · NASA; add `logo:` with a
-white SVG/PNG in `files/logos/` to swap a name for its logo), credentials (an item can be `text:` plus a shorter `mobile:` version for phones), headshot (`headshot`, plus `headshot_mobile`, a square close crop for the small circle on phones), contact links, `projects_intro` (the short paragraph under the Projects heading), experience (org, role, location, period, an optional `url:` for the lab name, and optional `projects:` folder names to link; sorted newest first by the start date in `period`) and publications. The full résumé is the
-PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. Keep the two-space
-indentation, and put text containing a colon in quotes.
+The home page wording lives in the `home/` folder, one Markdown file per section. Open a
+file, change the words, save, and the preview refreshes. Each file starts with a comment
+explaining its format. Notes inside `<!-- -->` never appear on the site.
+
+- **`intro.md`**: the small label above your name (`eyebrow`), the credential lines, and the
+  link-preview text (`description`) are in the front matter at the top. The paragraph under
+  your name is the text below it. A credential written `long version | short version` shows
+  the short one on phones.
+- **`projects.md`**: the paragraph under the Projects heading. The project cards themselves
+  come from `projects/`.
+- **`experience.md`**: one entry per lab or job. Each starts with `## ` and the name (written
+  `## [Name](https://link)` to make it clickable), followed by `Role:`, `Location:`, `Period:`
+  and, optionally, `Projects:` with project folder names separated by commas. Entries sort
+  themselves newest first by the start of `Period`.
+- **`publications.md`**: one entry per paper, starting with `## [Title](https://link)` and
+  followed by `Authors:`, `Venue:` and an optional `Note:`. Your last name (`short_name` in
+  `site.yaml`) is bolded in the author list automatically.
+- **`contact.md`**: the large line in the Contact section.
+
+The paragraphs in `intro.md` and `projects.md` can use **bold**, *italic* and
+[links](https://example.com). If you write something the build can't read, the Preview
+console says which line.
+
+Everything else on the home page comes from `site.yaml`: your name, title, email, the
+affiliations row (MIT · Georgia Tech · NASA; add `logo:` with a white SVG/PNG in
+`files/logos/` to swap a name for its logo), headshot (`headshot`, plus `headshot_mobile`, a
+square close crop for the small circle on phones) and contact links. The full résumé is the
+PDF (`files/Samuel_Kirschner_Resume.pdf`); replace that file to update it. In `site.yaml`,
+keep the two-space indentation and put text containing a colon in quotes.
 
 ## Publishing
 

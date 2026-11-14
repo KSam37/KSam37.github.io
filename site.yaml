@@ -1,9 +1,10 @@
 # ─────────────────────────────────────────────────────────────────────────────
-#  HOME PAGE CONTENT
-#  The front page text (everything except the project cards) comes from this file.
-#  The full résumé PDF lives in files/.
-#  Edit the text, save, and the preview refreshes. Indentation matters in YAML:
-#  keep the two-space indents, and wrap text containing a colon in "quotes".
+#  SITE SETTINGS
+#  Your name, contact details, photo, links and logos. The home page wording
+#  (summary, projects intro, experience, publications, contact line) lives in
+#  the home/ folder as Markdown files. The full résumé PDF lives in files/.
+#  Indentation matters in YAML: keep the two-space indents, and wrap text
+#  containing a colon in "quotes".
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Samuel Kirschner
@@ -14,10 +15,6 @@ email: samkir@mit.edu
 url: https://samkir.com          # the live site address (used for link previews)
 base: /                          # leave as / unless the site moves into a subfolder
 
-description: >-
-  Samuel Kirschner is an MIT Mechanical Engineering graduate student and NSF
-  Graduate Research Fellow researching medical soft robotics and novel robotic mechanisms.
-
 resume: files/Samuel_Kirschner_Resume.pdf
 headshot: files/headshot.jpg
 headshot_position: 50% 22%       # which part of the photo stays in frame (x% y%)
@@ -27,22 +24,6 @@ links:
   linkedin: https://linkedin.com/in/samuelkirschner
   scholar: https://scholar.google.com/citations?user=mxpmhYYAAAAJ&hl=en
   # github: https://github.com/KSam37
-
-hero:
-  eyebrow: Engineering Portfolio   # small label above your name
-  credentials:                    # small line above your name
-    - text: MIT Mechanical Engineering graduate student
-      mobile: MIT MechE grad student      # shorter version shown on phones
-    - NSF Graduate Research Fellow
-    - Georgia Tech Alumn
-  summary: >-                     # one paragraph under your name
-    I research medical soft robotics and try to solve the challenges of devices that must
-    work in highly constrained environments. My current work focuses on ways to provide
-    energy to implantable and untethered devices. I approach problems through the
-    principles of precision machine design, with a focus on manufacturability at scale.
-    I'm drawn to complicated problems at the boundaries of mechanical engineering, and my
-    goal is to question the conventional limits of robotics to build technology that
-    augments how we interact with the world and with our own biology.
 
 # Shown as a quiet row under the summary. Add a logo (white or single-colour SVG/PNG
 # in files/logos/) to replace the text, e.g.  logo: files/logos/mit.svg
@@ -60,65 +41,3 @@ affiliations:                     # height = display height in px, tuned for equ
 # Shown at the top of any article whose front matter has  wip: true
 wip_notice: Work in progress · still being written
 
-# Short introduction shown under the Projects heading.
-projects_intro: >-
-  A selection of projects from classes, research and personal work. It isn't exhaustive,
-  and it leaves out anything I can't share freely, such as internships and current
-  unpublished research.
-
-contact_line: Let's build something.
-
-# Experience section on the home page. Entries are sorted automatically by the start
-# date in period (newest first), so add new ones anywhere.
-# url: optional link on the lab name. projects: optional list of project folder names, linked under the role.
-experience:
-  - org: Fabrication-Integrated Design Lab
-    url: https://fidl.mit.edu/
-    role: Graduate Researcher
-    location: Cambridge, MA
-    period: Sept. 2025 – Present
-  - org: Therapeutic Technology Design and Development Lab
-    url: https://ttdd.mit.edu/
-    role: Graduate Researcher
-    location: Cambridge, MA
-    period: Sept. 2025 – Present
-    projects: [metamaterial-heart-pump, compartment-pressure-monitor]
-  - org: Physiology of Wearable Robotics Lab
-    url: https://power.me.gatech.edu/
-    role: Undergraduate Researcher
-    location: Atlanta, GA
-    period: Jan. 2024 – May 2025
-    projects: [exoskins]
-  - org: NASA Johnson Space Center
-    role: Engineering Intern
-    location: Houston, TX
-    period: Jun. 2024 – Aug. 2024
-  - org: Geometry of Materials Lab
-    url: https://matsumoto.gatech.edu/
-    role: Undergraduate Researcher
-    location: Atlanta, GA
-    period: Jan. 2022 – May 2025
-    projects: [exoskins]
-  - org: NASA Marshall Space Flight Center
-    role: Engineering Intern
-    location: Huntsville, AL
-    period: Jun. 2022 – Aug. 2022
-  - org: Hu Laboratory for Biolocomotion
-    url: https://hu.gatech.edu/
-    role: Undergraduate Researcher
-    location: Atlanta, GA
-    period: Jan. 2021 – Present
-    projects: [elephant-skin-mechanics]
-  - org: Laboratory for Advanced Materials and Additive Manufacturing
-    url: https://mse.ucf.edu/sohn/research/
-    role: Undergraduate Researcher
-    location: Orlando, FL
-    period: Dec. 2020 – Dec. 2021
-    projects: [metal-additive-manufacturing]
-
-publications:
-  - title: Augmenting knee biomechanics through programmable knitted ExoSkin orthoses
-    authors: K. Singal*, S.P. Kirschner*, A.K. Schulz, E.D. Sanders, G. Sawicki, K.R. Herrin, E.A. Matsumoto
-    venue: arXiv:2509.22971 · 2025
-    note: "*Equal contribution"
-    url: https://arxiv.org/abs/2509.22971

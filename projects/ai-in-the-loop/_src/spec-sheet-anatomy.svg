@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="730" viewBox="0 0 1600 730">
+  <!-- Excerpt of "Magnetic Diaphragm Pump Expansion Reactor Design Specification 15mm.xlsx", values rounded to their uncertainty. -->
+  <defs>
+    <style>
+      .h { font-family: 'Segoe UI'; font-size: 16px; font-weight: 600; fill: #3b3f46; }
+      .s { font-family: 'Segoe UI'; font-size: 17px; font-weight: 700; fill: #15171b; }
+      .c { font-family: 'Segoe UI'; font-size: 17px; fill: #15171b; }
+      .r { font-family: 'Segoe UI'; font-size: 17px; fill: #d0211c; }
+      .f { font-family: Consolas; font-size: 15px; fill: #5a5f68; }
+      .src { font-family: 'Segoe UI'; font-size: 16px; fill: #5a5f68; }
+      .num { text-anchor: end; }
+      .g { stroke: #dfe2e6; stroke-width: 1; }
+      .lg { font-family: 'Segoe UI'; font-size: 16px; fill: #a7aab1; }
+      .lgt { font-family: Consolas; font-size: 13px; letter-spacing: 1.6px; fill: #ecebe7; }
+    </style>
+  </defs>
+  <rect width="1600" height="730" fill="#0b0c0e"/>
+
+  <!-- sheet: header + 12 rows of 40 -->
+  <rect x="60" y="40" width="1480" height="520" rx="10" fill="#fefefe" stroke="#dfe2e6" stroke-width="1"/>
+  <path d="M60 80 H1540 V50 a10 10 0 0 0 -10 -10 H70 a10 10 0 0 0 -10 10 z" fill="#eef0f3"/>
+  <rect x="60" y="80" width="1480" height="40" fill="#f5f6f8"/>
+  <rect x="60" y="280" width="1480" height="40" fill="#f5f6f8"/>
+  <rect x="60" y="440" width="1480" height="40" fill="#f5f6f8"/>
+  <g class="g">
+    <path d="M60 80 H1540 M60 120 H1540 M60 160 H1540 M60 200 H1540 M60 240 H1540 M60 280 H1540 M60 320 H1540 M60 360 H1540 M60 400 H1540 M60 440 H1540 M60 480 H1540 M60 520 H1540"/>
+    <path d="M400 40 V560 M540 40 V560 M650 40 V560 M760 40 V560 M1150 40 V560"/>
+  </g>
+
+  <text class="h" x="84" y="66">Variable</text><text class="h num" x="520" y="66">Value</text><text class="h num" x="630" y="66">±</text>
+  <text class="h" x="672" y="66">Units</text><text class="h" x="784" y="66">Source</text><text class="h" x="1174" y="66">Notes</text>
+
+  <text class="s" x="84" y="106">Packaging</text>
+  <text class="c" x="84" y="146">package OD</text><text class="c num" x="520" y="146">15</text><text class="c num" x="630" y="146">0.05</text><text class="c" x="672" y="146">mm</text><text class="src" x="784" y="146">15 mm build; 9 mm too hard to fabricate</text>
+  <text class="c" x="84" y="186">wall thickness</text><text class="c num" x="520" y="186">1</text><text class="c num" x="630" y="186">0.05</text><text class="c" x="672" y="186">mm</text><text class="src" x="1174" y="186">outer wall, cap roof, base</text>
+  <text class="c" x="84" y="226">package ID (= reservoir ID)</text><text class="r num" x="520" y="226">13</text><text class="c num" x="630" y="226">0.05</text><text class="c" x="672" y="226">mm</text><text class="f" x="784" y="226">=MROUND(D_pkg-2*t_pkg,res_print)</text><text class="src" x="1174" y="226">OD - 2 walls</text>
+  <text class="c" x="84" y="266">reactor length</text><text class="r num" x="520" y="266">24</text><text class="r num" x="630" y="266">0.14</text><text class="c" x="672" y="266">mm</text><text class="f" x="784" y="266">=t_cap+t_vl+t_dl+(R_bl+L_cyl)+t_bl+…</text>
+
+  <text class="s" x="84" y="306">Reaction (water fixed by the reservoir)</text>
+  <text class="c" x="84" y="346">reaction efficiency</text><text class="c num" x="520" y="346">0.9</text><text class="c num" x="630" y="346">0.05</text><text class="src" x="1174" y="346">fraction of loaded Al that reacts</text>
+  <text class="c" x="84" y="386">aluminum mass</text><text class="r num" x="520" y="386">0.95</text><text class="r num" x="630" y="386">0.05</text><text class="c" x="672" y="386">g</text><text class="f" x="784" y="386">=n_water/(2*lam*eta)*26.9815</text><text class="src" x="1174" y="386">Al + 2H2O -&gt; AlOOH + 1.5H2</text>
+  <text class="c" x="84" y="426">hydrogen volume</text><text class="r num" x="520" y="426">1168</text><text class="r num" x="630" y="426">13</text><text class="c" x="672" y="426">mL</text><text class="f" x="784" y="426">=1.5*n_rxn*24465</text><text class="src" x="1174" y="426">25 C, 1 atm</text>
+
+  <text class="s" x="84" y="466">Pump Checks</text>
+  <text class="c" x="84" y="506">margin, rest leak</text><text class="r num" x="520" y="506">0.37</text><text class="r num" x="630" y="506">0.21</text><text class="c" x="672" y="506">kPa</text><text class="f" x="784" y="506">=2*P_crack-0.00978*L_reactor</text>
+  <text x="1174" y="506" style="font-family:'Segoe UI';font-size:15px;font-weight:600;fill:#1a7f37">PASS | no flow at rest, incl. tolerance</text>
+  <text class="c" x="84" y="546">margin, up-stroke to lip</text><text class="r num" x="520" y="546">0.81</text><text class="r num" x="630" y="546">0.11</text><text class="c" x="672" y="546">mm</text><text class="f" x="784" y="546">=h_lip_dia-delta</text>
+  <text x="1174" y="546" style="font-family:'Segoe UI';font-size:15px;font-weight:600;fill:#1a7f37">PASS | hub stays off the cup, incl. tolerance</text>
+
+  <!-- legend -->
+  <g>
+    <rect x="60" y="606" width="16" height="16" rx="3" fill="#15171b" stroke="#ecebe7" stroke-width="1.5"/>
+    <text class="lgt" x="88" y="619">INPUT</text>
+    <text class="lg" x="60" y="650">a value I chose, with the</text><text class="lg" x="60" y="672">reason written beside it</text>
+
+    <rect x="430" y="606" width="16" height="16" rx="3" fill="#d0211c"/>
+    <text class="lgt" x="458" y="619">DERIVED</text>
+    <text class="lg" x="430" y="650">a live formula, in red, that</text><text class="lg" x="430" y="672">updates when an input moves</text>
+
+    <text x="800" y="620" style="font-family:Consolas;font-size:16px;fill:#ff6a2b">fx</text>
+    <text class="lgt" x="828" y="619">SOURCE</text>
+    <text class="lg" x="800" y="650">FORMULATEXT prints each</text><text class="lg" x="800" y="672">formula next to its result</text>
+
+    <rect x="1170" y="606" width="16" height="16" rx="3" fill="#2da44e"/>
+    <text class="lgt" x="1198" y="619">CHECK</text>
+    <text class="lg" x="1170" y="650">passes only when the margin</text><text class="lg" x="1170" y="672">is larger than its uncertainty</text>
+  </g>
+</svg>

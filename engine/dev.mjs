@@ -1,6 +1,6 @@
 // Live preview: builds the site (drafts included), serves it at
 // http://localhost:4000, and rebuilds + refreshes the browser whenever you
-// save an article, an image, or site.yaml.
+// save an article, an image, a home/ file, or site.yaml.
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -54,7 +54,7 @@ const kick = (f) => {
   if (f && /(^|[\\/])(_site|node_modules|\.git)([\\/]|$)/.test(f)) return;
   clearTimeout(timer); timer = setTimeout(rebuild, 250);
 };
-for (const p of ['site.yaml', 'projects', 'files', 'engine/assets']) {
+for (const p of ['site.yaml', 'home', 'projects', 'files', 'engine/assets']) {
   const full = path.join(ROOT, p);
   if (fs.existsSync(full)) fs.watch(full, { recursive: true }, (_e, f) => kick(f));
 }

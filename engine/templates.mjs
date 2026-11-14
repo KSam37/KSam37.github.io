@@ -190,7 +190,7 @@ ${nav({ site, home: true })}
       <h1 class="hero__name" aria-label="${esc(site.name)}">${nameLines.map((l, i) => `<span class="hero__line" aria-hidden="true"><span style="--d:${i + 1}">${esc(l)}</span></span>`).join('')}</h1>
     </div>
     ${list(hero.credentials).length ? `<ul class="hero__creds mono" data-in style="--d:3">${list(hero.credentials).map((c) => `<li>${typeof c === 'object' && c.mobile ? `<span class="cred-long">${esc(c.text)}</span><span class="cred-short">${esc(c.mobile)}</span>` : esc(typeof c === 'object' ? c.text : c)}</li>`).join('')}</ul>` : ''}
-    <p class="hero__summary" data-in style="--d:4">${esc(hero.summary || '')}</p>
+    <p class="hero__summary" data-in style="--d:4">${hero.summaryHtml || esc(hero.summary || '')}</p>
     ${hs ? `<figure class="hero__portrait" data-in style="--d:2">
       <div class="hero__frame">${site.headshot_mobile ? `<picture><source media="(max-width: 860px)" srcset="${b}${esc(site.headshot_mobile)}" width="600" height="600">` : ''}${img(hs, { alt: `Portrait of ${site.name}`, sizes: '(min-width: 900px) 400px, 40vw', eager: true, style: site.headshot_position ? `object-position:${esc(site.headshot_position)}` : '' })}${site.headshot_mobile ? '</picture>' : ''}</div>
     </figure>` : ''}
@@ -206,7 +206,7 @@ ${nav({ site, home: true })}
   <section class="section" id="work">
     <div class="wrap">
       ${shead('Projects')}
-      ${site.projects_intro ? `<p class="section__intro reveal">${esc(site.projects_intro)}</p>` : ''}
+      ${site.projects_intro ? `<p class="section__intro reveal">${site.projects_introHtml || esc(site.projects_intro)}</p>` : ''}
       <div class="cards">${cards}
       </div>
     </div>

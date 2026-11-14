@@ -7,8 +7,13 @@ in sync with any change to the content format.
 
 ## Layout
 
-- `site.yaml`: home page content (name, one-line hero summary, links, experience, publications).
-  `experience:` holds the home-page Experience section (Sam re-added it; the résumé PDF doesn't cover everything).
+- `home/*.md`: all home page wording, so Sam can edit it without help. `intro.md` (front matter: `eyebrow`,
+  `credentials` as `long | short`, `description`; body: hero summary), `projects.md` (projects intro),
+  `experience.md` and `publications.md` (`## [Name](url)` entries with `Label: value` lines), `contact.md`.
+  Parsed by `loadHome()` in `build.mjs`, which maps them onto the same `site` fields the templates use; a
+  missing file falls back to `site.yaml`. Keep the format notes at the top of each file current.
+  Experience is on the home page because Sam re-added it; the résumé PDF doesn't cover everything.
+- `site.yaml`: settings only (name, role, email, url, headshot, links, affiliations, `wip_notice`).
 - `projects/<slug>/article.md` + images beside it. Folders starting with `_` are ignored
   (`_template/`, and `_unused/` inside a project).
 - `files/`: copied verbatim to `/files/` (résumé PDF, headshot source).
@@ -63,7 +68,7 @@ draws a triangular lattice of point masses behind the hero and the contact secti
 not to ring, pressed by one slowly drifting load and one that tracks the cursor, and members warm toward
 the accent only near a load. Touch devices get a single settled frame.
 
-Home page: an "Engineering Portfolio" label (`hero.eyebrow` in `site.yaml`) above the name on one line,
+Home page: an "Engineering Portfolio" label (`eyebrow` in `home/intro.md`) above the name on one line,
 the three titles stacked under it, the summary, the portrait, and the affiliation logos. Then Projects
 (a short `projects_intro`, bordered panels, the first one wide), Experience (a rail that fills on scroll,
 dates under the location on the right), Publications and Contact.

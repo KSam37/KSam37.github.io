@@ -2,8 +2,9 @@
 //   node engine/build.mjs            production build -> _site/
 //   node engine/build.mjs --drafts   include projects marked `draft: true`
 //
-// Reads site.yaml, projects/<slug>/article.md (+ images beside it), files/,
-// and writes a static site into _site/. Images are resized to responsive WebP.
+// Reads site.yaml (settings), home/*.md (home page text), projects/<slug>/article.md
+// (+ images beside it) and files/, and writes a static site into _site/.
+// Images are resized to responsive WebP.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -45,6 +46,90 @@ function parseFrontmatter(src, file) {
   try { data = YAML.parse(m[1]) || {}; }
   catch (e) { throw new Error(`${file}: front matter is not valid YAML\n  ${e.message}`); }
   return { data, body: m[2] };
+}
+
+// ---------------------------------------------------------------- home page text
+// home/intro.md, projects.md, experience.md, publications.md and contact.md hold the
+// home page wording. Each one is optional; a missing file falls back to site.yaml.
+const stripComments = (s) => s.replace(/<!--[\s\S]*?-->/g, '');
+const paragraph = (s) => stripComments(s).trim().split(/\r?\n\s*\r?\n/)[0]?.replace(/\s+/g, ' ').trim() || '';
+const inlineMd = new Marked();
+const inline = (s) => inlineMd.parseInline(s);
+
+// "## [Name](url)" starts an entry; the lines under it are "Label: value" (a leading "- " is fine).
+function parseEntries(body, file, fields, warn) {
+  const entries = [];
+  let cur = null;
+  for (const raw of stripComments(body).split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    const h = line.match(/^##\s+(.*)$/);
+    if (h) {
+      const link = h[1].trim().match(/^\[(.+)\]\((\S+)\)$/);
+      cur = link ? { name: link[1].trim(), url: link[2] } : { name: h[1].trim() };
+      entries.push(cur);
+      continue;
+    }
+    const kv = line.replace(/^[-*]\s+/, '').match(/^([A-Za-z][A-Za-z ]*?):\s*(.*)$/);
+    const key = kv && kv[1].toLowerCase();
+    if (!cur || !kv || !fields.includes(key)) {
+      warn(`home/${file}: didn't understand "${line}" (expected ## Name, then lines like ${fields.map((f) => f[0].toUpperCase() + f.slice(1) + ':').join(' ')})`);
+      continue;
+    }
+    cur[key] = kv[2].trim();
+  }
+  return entries;
+}
+
+function loadHome(site, warn) {
+  const dir = path.join(ROOT, 'home');
+  const get = (name) => {
+    const f = path.join(dir, name);
+    if (!exists(f)) return null;
+    const src = read(f);
+    return /^﻿?---\r?\n/.test(src) ? parseFrontmatter(src, `home/${name}`) : { data: {}, body: src };
+  };
+  site.hero = site.hero || {};
+
+  const intro = get('intro.md');
+  if (intro) {
+    const { data, body } = intro;
+    if (data.eyebrow !== undefined) site.hero.eyebrow = data.eyebrow;
+    if (data.description) site.description = data.description;
+    if (Array.isArray(data.credentials)) {
+      site.hero.credentials = data.credentials.map((c) => {
+        const [text, mobile] = String(c).split('|').map((x) => x.trim());
+        return mobile ? { text, mobile } : text;
+      });
+    }
+    const summary = paragraph(body);
+    if (summary) { site.hero.summary = summary; site.hero.summaryHtml = inline(summary); }
+  }
+
+  const projects = get('projects.md');
+  if (projects) {
+    const intro = paragraph(projects.body);
+    site.projects_intro = intro;
+    site.projects_introHtml = intro && inline(intro);
+  }
+
+  const contact = get('contact.md');
+  if (contact) site.contact_line = paragraph(contact.body);
+
+  const exp = get('experience.md');
+  if (exp) {
+    site.experience = parseEntries(exp.body, 'experience.md', ['role', 'location', 'period', 'projects'], warn).map((e) => ({
+      org: e.name, url: e.url, role: e.role, location: e.location, period: e.period,
+      projects: e.projects ? e.projects.split(',').map((p) => p.trim()).filter(Boolean) : undefined,
+    }));
+  }
+
+  const pubs = get('publications.md');
+  if (pubs) {
+    site.publications = parseEntries(pubs.body, 'publications.md', ['authors', 'venue', 'note'], warn).map((e) => ({
+      title: e.name, url: e.url, authors: e.authors, venue: e.venue, note: e.note,
+    }));
+  }
 }
 
 // ---------------------------------------------------------------- images
@@ -305,6 +390,7 @@ export async function build({ drafts = false, dev = false } = {}) {
   const site = YAML.parse(read(path.join(ROOT, 'site.yaml')));
   site.base = site.base || '/';
   const base = site.base;
+  loadHome(site, warn);
   mkdir(OUT);
 
   // static assets
