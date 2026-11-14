@@ -1,5 +1,5 @@
 ---
-title: "AI in the Loop: Engineering in an Age of Abundant Intelligence"
+title: "AI in the Loop Mechanical Design: Engineering When Intelligence Is Cheap"
 summary: "How I use AI agents in mechanical design: a traceable specification sheet at the center, agent-built physics models around it, a second model checking the first, and hardware with the final say."
 lede: "AI may change not only how engineering is performed, but what becomes possible to engineer. This is the design workflow I have built around that shift, in which agents accelerate analysis while specifications, physical reasoning and experimental evidence remain the foundation for decisions."
 date: 2026-11
@@ -31,7 +31,7 @@ The objective of my AI-in-the-loop design methodology is to explore this relatio
 
 ## The workflow
 
-The workflow I've settled into covers the early part of design, from requirements to a model I trust enough to build from. It is organized around one constraint: an agent can produce numbers faster than I can check them, so the structure has to make checking cheap and leave the final word to hardware.
+The workflow I've settled into covers the early part of design, from requirements to a model I trust enough to build from. It is organized around one constraint: an agent can produce numbers faster than I can check them, so the structure has to make checking cheap and leave the final word to hardware. I developed it on my own over the last few years of experimenting with AI tools, and refined it in Professor Alex Slocum's precision product design class at MIT, 2.70 FUNdaMENTALs of Precision Product Design [3].
 
 Most writing about working with AI comes from people who build software, where the loop is short. My test suite is a part that has to be printed, cured, assembled and measured, so a wrong number can hide for days before it shows up as a leak. I want the agent's speed without giving up the thing a mechanical engineer can't do without, which is knowing where every number came from.
 
@@ -53,7 +53,7 @@ The center of the workflow is a spreadsheet I call the design specification. It 
 
 Inputs are black and carry a source, which can be a datasheet, a requirement, or the reason I chose the value. Derived values are red, and beside each one Excel's `FORMULATEXT` function prints the formula that produced it, so the calculation can be read without clicking into a cell. Most values also carry an uncertainty, drawn from a separate sheet that budgets the error from fabrication, assembly, purchased parts and measurement. The sheet ends in checks, each of which passes only when its margin is larger than its own uncertainty. I also keep the number of decimal places honest about how well a value is known, which needs watching because an agent will happily report a stiffness to six digits.
 
-Two habits from precision machine design are built into it. The uncertainty sheet is an error budget, the same tool a machine designer uses to decide which error sources deserve attention, applied here to a whole device. The source column follows Slocum's FRDPARRC tables, which pair every functional requirement and design parameter with its analysis, references and risks, so that no number enters the design without a reason written next to it [3].
+Two habits from precision machine design are built into it. The uncertainty sheet is an error budget, the same tool a machine designer uses to decide which error sources deserve attention, applied here to a whole device. The source column follows Slocum's FRDPARRC tables, which pair every functional requirement and design parameter with its analysis, references and risks, so that no number enters the design without a reason written next to it [4].
 
 For the reactor, the sheet holds 58 inputs and 107 derived values across dimensions, forces, pump dynamics and the drive coil, and it ends in a summary page of 14 pass or fail checks. If I change one wall thickness, everything downstream moves and the summary tells me what broke.
 
@@ -77,7 +77,7 @@ An early version of the reactor model was written in Python, and it ran without 
 
 None of those errors would have crashed anything, and each would have produced a plausible plot. That is why the working agreement both agents now follow includes the line that numerical agreement and passing checks are not physical validation.
 
-Precision metrology offers a useful comparison. Donaldson reversal separates a spindle's error motion from the form error of its test ball by measuring twice, with the ball and probe rotated 180 degrees, so that one error changes sign and the other does not [4]. Cross-review is a loose analogue for models: where two independently trained models disagree, at least one is wrong, and the disagreement shows where to look. The analogy has a limit, because models from different labs learn from much of the same text and their errors are not fully independent.
+Precision metrology offers a useful comparison. Donaldson reversal separates a spindle's error motion from the form error of its test ball by measuring twice, with the ball and probe rotated 180 degrees, so that one error changes sign and the other does not [5]. Cross-review is a loose analogue for models: where two independently trained models disagree, at least one is wrong, and the disagreement shows where to look. The analogy has a limit, because models from different labs learn from much of the same text and their errors are not fully independent.
 
 ## Hardware in the loop
 
@@ -111,5 +111,6 @@ The ultimate goal is not simply to design existing things faster, but to make it
 
 1. D. Patel, "The avalanche that hit math is coming for AI development," November 2026. [dwarkesh.com/p/rsi](https://www.dwarkesh.com/p/rsi)
 2. A. Azhar, "Unsolved for 90 years, OpenAI says AI cracked Millennium Prize problem in 88 hours," *HPCwire*, September 2026. [hpcwire.com](https://www.hpcwire.com/aiwire/2026/09/16/unsolved-for-90-years-openai-says-ai-cracked-millennium-prize-problem-in-88-hours/)
-3. A. Slocum, "FRDPARRC," MIT 2.007 Design and Manufacturing I, 2009. [ocw.mit.edu](https://ocw.mit.edu/courses/2-007-design-and-manufacturing-i-spring-2009/resources/mit2_007s09_rec05_frdparrc)
-4. R. Grejda, E. Marsh and R. Vallance, "Techniques for calibrating spindles with nanometer error motion," *Precision Engineering* 29, 113 (2005). [doi:10.1016/j.precisioneng.2004.05.003](https://doi.org/10.1016/j.precisioneng.2004.05.003)
+3. A. Slocum, 2.70 FUNdaMENTALs of Precision Product Design, MIT. [web.mit.edu/2.70](https://web.mit.edu/2.70/)
+4. A. Slocum, "FRDPARRC," MIT 2.007 Design and Manufacturing I, 2009. [ocw.mit.edu](https://ocw.mit.edu/courses/2-007-design-and-manufacturing-i-spring-2009/resources/mit2_007s09_rec05_frdparrc)
+5. R. Grejda, E. Marsh and R. Vallance, "Techniques for calibrating spindles with nanometer error motion," *Precision Engineering* 29, 113 (2005). [doi:10.1016/j.precisioneng.2004.05.003](https://doi.org/10.1016/j.precisioneng.2004.05.003)
