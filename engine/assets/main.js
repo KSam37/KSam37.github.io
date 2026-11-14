@@ -89,6 +89,22 @@
       });
     }, { rootMargin: '-15% 0px -70% 0px' });
     heads.forEach((h) => io.observe(h));
+
+    // wide figures break out of the text column and would slide over the sticky contents list,
+    // so the list fades out while one of them is passing it
+    const box = $('.toc'), wides = $$('.fig--wide, .fig--full, .figrow--wide');
+    if (!box || !wides.length) return;
+    let ticking = false;
+    const check = () => {
+      ticking = false;
+      const t = box.getBoundingClientRect();
+      if (!t.width) return;                         // hidden on narrow screens
+      const hit = wides.some((f) => { const r = f.getBoundingClientRect(); return r.left < t.right && r.bottom > t.top - 24 && r.top < t.bottom + 24; });
+      box.classList.toggle('is-away', hit);
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+    addEventListener('resize', check);
+    check();
   }
 
   // ------------------------------------------------------------ wide / full-bleed figures
