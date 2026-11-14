@@ -89,6 +89,5 @@ Mono for labels. `--ink-3` is tuned to pass contrast for small labels.
 Reveal animations use the `translate` property. The intro is triggered by a timer, not an animation
 frame, so it still runs when the tab loads in the background.
 
-`projects/ai-in-the-loop/` is an unpublished draft. Sam is editing it and will say when to publish; until
-then it stays out of `main` (it is committed only on the local `redesign` branch and ignored locally).
-When he does, also regenerate its PDF with `engine/pdf.ps1`.
+`projects/ai-in-the-loop/` was published on 13 November 2026. Its PDF is not committed; regenerate it with
+`engine/pdf.ps1` after Sam edits the article (the name can't contain a colon, so use " - " in place of ": ").
