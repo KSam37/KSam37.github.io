@@ -10,7 +10,6 @@ tools: [Excel, Python, Jupyter, AI coding agents]
 tags: [Design methods]
 cover: nested-loops.png
 hide_cover: true
-order: -1
 ---
 
 <!-- Rewritten November 2026 from Sam's "Engineering in an Age of Abundant Intelligence" draft and the workflow article. Citations are numbered and listed under References. -->
