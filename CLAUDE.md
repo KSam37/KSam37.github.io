@@ -70,7 +70,7 @@ the accent only near a load. Touch devices get a single settled frame.
 
 Home page: an "Engineering Portfolio" label (`eyebrow` in `home/intro.md`) above the name on one line,
 the three titles stacked under it, the summary, the portrait, and the affiliation logos. Then Projects
-(a short `projects_intro`, bordered panels, the first one wide), Experience (a rail that fills on scroll,
+(a short `projects_intro`, bordered panels, all the same half width, newest first by `date`), Experience (a rail that fills on scroll,
 dates under the location on the right), Publications and Contact.
 
 Sam rejected, so do not bring back: a moving band of tags (buzzwords), a live readout of lattice numbers

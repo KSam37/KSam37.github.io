@@ -117,9 +117,9 @@ export function home({ site, projects, dev }) {
       </header>`;
 
   const cards = projects.map((p, i) => `
-      <a class="card${i === 0 ? ' card--feature' : ''} reveal" href="${b}projects/${p.slug}/">
+      <a class="card reveal" href="${b}projects/${p.slug}/">
         <div class="card__media${cardClass(p)}" style="view-transition-name:p-${p.slug}">
-          ${img(p.card || p.cover, { alt: p.title, sizes: i === 0 ? '(min-width: 900px) 720px, 100vw' : '(min-width: 1100px) 560px, (min-width: 700px) 50vw, 100vw', style: p.card ? '' : coverStyle(p) })}
+          ${img(p.card || p.cover, { alt: p.title, sizes: '(min-width: 1100px) 560px, (min-width: 700px) 50vw, 100vw', style: p.card ? '' : coverStyle(p) })}
           <span class="card__go">${icon.arrow}</span>
         </div>
         <div class="card__body">

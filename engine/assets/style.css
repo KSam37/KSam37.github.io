@@ -212,15 +212,6 @@ a.shead__note:hover { color: var(--ink); }
 .card:hover .card__title { color: var(--accent); }
 .card__summary { color: var(--ink-2); font-size: 15.5px; line-height: 1.55; margin-bottom: 18px; max-width: 58ch; }
 .card .tags { margin-top: auto; }
-@media (min-width: 900px) {
-  .card--feature, .cards > .card:last-child:nth-child(even) { grid-column: 1 / -1; display: grid; grid-template-columns: 1.3fr 1fr; }
-  .card--feature .card__media, .cards > .card:last-child:nth-child(even) .card__media { aspect-ratio: auto; min-height: 400px; height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
-  .card--feature .card__body, .cards > .card:last-child:nth-child(even) .card__body { padding: clamp(28px, 3.2vw, 44px); justify-content: center; }
-  .card--feature .card__title { font-size: clamp(28px, 3vw, 42px); }
-  .card--feature .tags, .cards > .card:last-child:nth-child(even) .tags { margin-top: 0; }
-  .cards > .card:last-child:nth-child(even) { grid-template-columns: 1fr 1.3fr; }
-  .cards > .card:last-child:nth-child(even) .card__media { order: 2; border-right: 0; border-left: 1px solid var(--line); }
-}
 @media (max-width: 700px) { .cards { grid-template-columns: 1fr; } }
 
 /* experience: a rail that fills as you scroll, one node per role */
