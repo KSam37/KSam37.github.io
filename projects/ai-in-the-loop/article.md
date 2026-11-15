@@ -33,11 +33,7 @@ The objective of my AI-in-the-loop design methodology is to explore this relatio
 
 This mechanical design workflow is intended to take an initial concept to the stages of a working prototype. The main benefit and challenge of a powerful AI agent is that they can write so much code and perform so many calculations that it becomes a monumental task just to verify the product. The key to a successful framework then, is to make verification as easy and traceable as possible. I've developed this workflow over the last few years of experimenting with AI tools, and refined it in Professor Alex Slocum's precision product design class at MIT [3].
 
-
-
 ![The workflow as loops around the design specification. The model loop is fast and runs constantly, the cross-review loop runs on request, and the hardware loop is the slowest and the only one that validates anything.](nested-loops.png "wide")
-
-
 
 ### Requirements
 
@@ -53,29 +49,23 @@ Inputs are black and carry a source, which can be a datasheet, a requirement, or
 
 ## Physics models
 
-Once the requirements and constraints are in the sheet, the AI and I build the physics models together. I identify the dominant effects and choose the approach, the AI drafts the derivations and calculations, and I check each result against limiting cases and physical intuition before it enters the sheet. Models that would take days to derive by hand take hours, which makes it practical to explore a design space instead of defending the first design that works. Cheap models also change how architectures are chosen: rather than committing early to one concept, several can be modeled against the same constraints and compared on equal footing.
+Once the requirements and constraints are in the sheet, the AI and I build the physics models together. I identify the dominant effects and choose the approach, the AI drafts the derivations and calculations, and I check each result against limiting cases and physical intuition before it enters the sheet. Complex models that would take hours to derive by hand take minutes. Rather than committing early to one concept, several can be modeled against the same constraints and compared on equal footing. Upstream values can be easily changed and have their effects propagate throughout the design, allowing for rapid early iteration.
 
-Excel is enough for most first-order models. When a model outgrows it I move to Python, preferably Jupyter notebooks, which keep the equations, assumptions, code and outputs together in the order they were computed. Calculations that generalize, such as a bolted joint, a shaft fit or a motor sizing, go into a verified toolkit once they have been checked, so each project starts further along than the last.
+Excel is enough for most first-order models but when a model outgrows it I move to Python, preferably Jupyter notebooks, which keeps track of equations, assumptions, code. Calculations that generalize, such as a bolted joint, a shaft fit or a motor sizing, go into a verified toolkit once they have been checked, so each project starts further along than the last.
 
 ## Cross-review
 
-The output of a single AI model is low confidence, however sure it sounds. For anything that matters, a second model from a different lab first works out its own approach without looking at the existing solution, then reviews that solution critically. The two models keep a shared review log, and because review costs time and money, it runs only when I ask. It regularly catches errors that would never crash the code but still produce a plausible plot, such as a quantity computed and never passed downstream. Agreement between models is still not validation.
-
-## Hardware in the loop
-
-Hardware is the outermost loop and the only one that validates anything. Every estimate in the specification is labeled as an estimate, and testing replaces estimates with measurements; a printed coupon of pins, holes and thin walls, for example, turns an assumed print tolerance into a number with scatter. When a measurement enters the sheet, the uncertainty on everything downstream updates and the checks re-evaluate. When a test disagrees with a prediction, the work is to find which assumption failed, correct it in the sheet, and decide what to measure next.
-
-## CAD
-
-Conventional CAD requires the engineer to translate intent into a sequence of explicit modeling operations. AI-native tools could reverse this, letting engineers express intent through language, sketches, dimensions and constraints while AI produces editable, parametric models. Because every dimension already lives in the specification sheet, the sheet is the natural interface for that handoff.
+The output of a single AI model is inherently low confidence without verification. Manual verification, however, can be extremely labor intensive and not without its own errors if the AI has just output 5000 lines of code. Using a second model to peer review the work of the first with its own independent verification can help increase the confidence of the results and speed up verification. At the current level, this regularly catches errors that are subtle enough to go undetected at first glance. 
 
 ## Outlook
 
 ![A speculative division of work between an engineer and AI agents around the design specification. Solid boxes are part of my workflow today; dashed boxes are where I expect agents to arrive.](agentic-workflow.png "wide")
 
-In this division of labor the agents do most of the execution, and the engineer frames each problem, sets its constraints, checks what comes back, and signs for the result. The more work is delegated, the more important it becomes to audit it quickly, which is why the specification sheet stays plain and nothing is handed over that can't be checked.
+In the near future the work of an engineer will look dramatically different from the past. The division of labor will split with teams of agents performing the primary computational execution with the engineer framing each problem, setting constraints, and checking results before moving into fabrication and testing. The more work is delegated, the more important it becomes to audit efficiently, which is where this particular framework becomes helpful.
 
-The ultimate goal is not simply to design existing things faster, but to make it practical to investigate systems that would previously have been too complex, costly or time-consuming to develop.
+Intelligence is becoming cheap, but the physical world is not. As progress in verifiable domains compounds through recursive self-improvement, breakthroughs in materials, energy and electronics will arrive faster than they can be built into products, and each one will still have to be integrated, manufactured and validated against reality. That work is bounded by experiments, materials and time, and it is where engineering judgment grounded in fundamentals will matter most.
+
+This workflow is my attempt to practice that now: let AI carry as much of the computation as it can, keep every result traceable, and leave the final word to hardware. The ultimate goal is not simply to design existing things faster, but to make it practical to investigate systems that would previously have been too complex, costly or time-consuming to develop.
 
 ## References
 
