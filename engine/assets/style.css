@@ -428,11 +428,13 @@ a.shead__note:hover { color: var(--ink); }
   :root { color-scheme: light; --bg: #fff; --bg-2: #fff; --bg-3: #f3f4f6; --ink: #111317; --ink-2: #33373e; --ink-3: #6a6f78; --line: rgba(0, 0, 0, .12); --line-2: rgba(0, 0, 0, .22); }
   html, body { background: #fff !important; color: var(--ink); font-size: 11pt; }
   .nav, .footer, .toc, .crumb, .progress, .lightbox, .proj__end, .card__go { display: none !important; }
-  .print-only { display: block; color: var(--ink-3); margin-top: 10px; }
+  /* the PDF is the article alone: no lede, meta/tags line or name/URL byline */
+  .proj__lede, .proj__meta, .print-only { display: none !important; }
   .js .reveal { opacity: 1 !important; translate: none !important; }
   .wrap, .wrap-wide { max-width: none; padding-left: 0; padding-right: 0; }
-  .proj__head { padding-top: 0; }
-  .proj__body { display: block; }
+  .proj__head { padding-top: 0; padding-bottom: 0; }
+  .proj__body { display: block; padding-top: 4px; }
+  .prose > h2:first-child { margin-top: 0; }
   .prose { max-width: none; }
   .proj__hero-media, .proj__hero-media .proj__hero-img { mix-blend-mode: normal !important; border-radius: 8px; }
   .proj__hero-media { display: block !important; height: auto !important; padding: 0 !important; background: none !important; }
